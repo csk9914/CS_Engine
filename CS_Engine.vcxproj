@@ -127,6 +127,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Component.h" />
     <ClInclude Include="Defines.h" />
     <ClInclude Include="GameEngine.h" />
     <ClInclude Include="GameObject.h" />
@@ -147,6 +148,7 @@
     <ClInclude Include="SHOOTER.h" />
     <ClInclude Include="StateMachine.h" />
     <ClInclude Include="TEXT_RPG.h" />
+    <ClInclude Include="Transform.h" />
     <ClInclude Include="Vector2.h" />
   </ItemGroup>
   <ItemGroup>
