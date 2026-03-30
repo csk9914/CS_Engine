@@ -15,14 +15,14 @@ public:
 
 	// 객체를 제거 목록에 추가
 	void Destroy() { m_isDestroyed = true; }
-	bool IsDestroy() const { return m_isDestroyed; }
+	bool IsDestroy() { return m_isDestroyed; }
 
 	void SetActive(bool active) { m_active = active; }
 	bool GetActive() const { return m_active; }
 
 
 protected:
-	GameObject(LoaderParams* params) : m_active(true), m_isDestroyed(false)
+	GameObject(LoaderParams* params) : m_active(true)
 	{
 		m_x = params->GetX();
 		m_y = params->GetY();
