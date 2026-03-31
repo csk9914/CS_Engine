@@ -30,3 +30,24 @@
 *.exe
 *.out
 *.app
+
+# build directories
+/build/
+/bin/
+/Debug/
+/Release/
+
+# temp & logs
+*.log
+*.tmp
+*.cache
+
+# IDE
+.vscode/
+.idea/
+*.vcxproj*
+*.sln
+
+.vs/
+x64/
+Debug/

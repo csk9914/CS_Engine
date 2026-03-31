@@ -87,6 +87,7 @@
     <ClInclude Include="IUpdate.h">
       <Filter>Interface</Filter>
     </ClInclude>
+<<<<<<< HEAD
     <ClInclude Include="SHOOTER.h">
       <Filter>Game\SHOOTER</Filter>
     </ClInclude>
@@ -109,6 +110,12 @@
       <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="SpriteRenderer.h">
+=======
+    <ClInclude Include="Component.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Transform.h">
+>>>>>>> main
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

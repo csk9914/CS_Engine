@@ -16,12 +16,18 @@ public:
 
 	// 객체를 제거 목록에 추가 (큐에 넣는 방식으로 실제 제거는 나중에 처리)
 	void Destroy() { m_isDestroyed = true; }
-	bool IsDestroy() { return m_isDestroyed; }
+	bool IsDestroy() const { return m_isDestroyed; }
 
 public:
 
+<<<<<<< HEAD
 	template<typename T>
 	T* AddComponent()
+=======
+
+protected:
+	GameObject(LoaderParams* params) : m_active(true), m_isDestroyed(false)
+>>>>>>> main
 	{
 		auto component = std::make_unique<T>();
 		T* ptr = component.get();
