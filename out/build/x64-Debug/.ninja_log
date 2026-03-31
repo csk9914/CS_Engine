@@ -1,0 +1,7 @@
+# ninja log v6
+63	208	7966666709154945	CMakeFiles/TextRPG.dir/CMakeFiles/4.2.3-msvc3/CompilerIdCXX/CMakeCXXCompilerId.cpp.obj	4bffa8c2d3b7a9c9
+30	1098	7966666708836715	CMakeFiles/TextRPG.dir/RenderManager.cpp.obj	a0ecccbfd3ed433f
+55	627	7966666709055054	CMakeFiles/TextRPG.dir/TEXT_RPG.cpp.obj	e62445962730676b
+26	1122	7966666708772550	CMakeFiles/TextRPG.dir/InputHandler.cpp.obj	79cfead8cb840953
+59	903	7966666709055054	CMakeFiles/TextRPG.dir/main.cpp.obj	cc5497b57a4de0eb
+36	1105	7966666708893858	CMakeFiles/TextRPG.dir/Renderer.cpp.obj	53a3dfb06ee9eacb
