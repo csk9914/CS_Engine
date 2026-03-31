@@ -4,7 +4,7 @@
 #include"IRender.h"
 #include <chrono>
 
-class Renderer;
+class RenderManager;
 class IGame;
 class SceneManager;
 
@@ -28,7 +28,7 @@ public:
 	}
 
 	// init
-	bool Init(std::unique_ptr<IGame> scene, int width, int height);
+	bool Init(std::unique_ptr<IGame> scene);
 
 	// running
 	void Run();
@@ -43,13 +43,15 @@ public:
 	// running
 	//bool IsRunning() { return m_isRunning; };
 
+	RenderManager* GetRenderManager() const { return m_renderManager.get(); }
+
 private:
 	float m_deltaTime;
 	std::chrono::steady_clock::time_point m_prevTime;
 
 	bool m_isRunning;
-	std::unique_ptr<Renderer> m_renderer;
-	std::unique_ptr<IGame> m_gameScene;
+	std::unique_ptr<RenderManager> m_renderManager;
+	std::unique_ptr<IGame> m_game;
 
 
 

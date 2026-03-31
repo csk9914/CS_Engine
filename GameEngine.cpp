@@ -4,8 +4,9 @@
 #include "GameScene.h"
 #include "IGame.h"
 #include "InputHandler.h"
-#include "Renderer.h"
+#include "RenderManager.h"
 #include "SceneManager.h"
+#include "Renderer.h"
 
 #include<conio.h>
 
@@ -13,9 +14,6 @@
 #include <iostream>
 #include<memory>
 #include <thread>
-
-
-
 
 
 using namespace std;
@@ -26,15 +24,14 @@ GameEngine::GameEngine() : m_deltaTime(0.0f), m_isRunning(false) {}
 
 GameEngine::~GameEngine() {}
 
-bool GameEngine::Init(std::unique_ptr<IGame> scene, int width, int height)
+bool GameEngine::Init(std::unique_ptr<IGame> game)
 {
 	// 렌더러 생성
-	m_renderer = Renderer::CreateRenderer(width, height, false);
-	if (m_renderer == nullptr) return false;
+	m_renderManager = std::make_unique<RenderManager>(game->GetWidth(), game->GetHeight(), game->GetAppConfig().isCursorVisible);
 
-	// 게임 씬 생성( 게임 구현부)
-	m_gameScene = std::move(scene);
-	if (m_gameScene == nullptr) return false;
+	// 게임 생성( 게임 구현부)
+	m_game = std::move(game);
+	if (m_game == nullptr) return false;
 
 	m_isRunning = true;
 
@@ -44,7 +41,7 @@ bool GameEngine::Init(std::unique_ptr<IGame> scene, int width, int height)
 void GameEngine::Run()
 {
 	// 초기화
-	m_gameScene->Start();
+	m_game->Start();
 
 	m_prevTime = std::chrono::steady_clock::now();
 	while (m_isRunning)
@@ -52,23 +49,29 @@ void GameEngine::Run()
 		// 프레임 시작 시간 기록
 		auto frameStart = std::chrono::steady_clock::now();
 
+		// 게임 시간 관리
 		Tick();
-		InputHandler::Instance()->Update();
-		m_gameScene->Update(m_deltaTime);
-		m_gameScene->Render(*m_renderer);
-		m_renderer->Flip();
 
+		// 입력 처리
+		InputHandler::Instance()->Update();
+		
+		// 게임 업데이트
+		m_game->Update(m_deltaTime);
+
+		// 렌더링
+		m_renderManager->RenderAll();
 
 		// 프레임 지연
 		CapFrame(frameStart);
 	}
 
-	m_gameScene->End();
+	m_game->End();
 }
 
 void GameEngine::Release()
 {
-
+	m_game.reset();
+	m_renderManager.reset();
 }
 
 void GameEngine::Tick()
@@ -81,8 +84,8 @@ void GameEngine::Tick()
 
 void GameEngine::CapFrame(std::chrono::steady_clock::time_point frameStart)
 {
-	// 목표 프레임 시간
-	const std::chrono::duration<double> TARGET_FRAME_TIME(1.0 / FPS);
+	// 목표 프레임 시간	
+	const std::chrono::duration<double> TARGET_FRAME_TIME(1.0 / m_game->GetAppConfig().fps);
 
 	// 프레임 제한(Capping)
 	auto frameEnd = std::chrono::steady_clock::now();

@@ -10,7 +10,7 @@ const int HEIGHT = 25;
 
 int main()
 {
-	if (GameEngine::Instance()->Init(std::unique_ptr<IGame> (new SHOOTER()), WIDTH, HEIGHT))
+	if (GameEngine::Instance()->Init(std::unique_ptr<IGame> (new SHOOTER())))
 	{
 		GameEngine::Instance()->Run();
 	}

@@ -127,6 +127,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="AppConfig.h" />
+    <ClInclude Include="Component.h" />
     <ClInclude Include="Defines.h" />
     <ClInclude Include="GameEngine.h" />
     <ClInclude Include="GameObject.h" />
@@ -142,21 +144,28 @@
     <ClInclude Include="IState.h" />
     <ClInclude Include="IUpdate.h" />
     <ClInclude Include="LoaderParams.h" />
+    <ClInclude Include="RenderManager.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="SHOOTER.h" />
+    <ClInclude Include="SpriteRenderer.h" />
     <ClInclude Include="StateMachine.h" />
     <ClInclude Include="TEXT_RPG.h" />
+    <ClInclude Include="Transform.h" />
     <ClInclude Include="Vector2.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Component.cpp" />
     <ClCompile Include="GameEngine.cpp" />
+    <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="InputHandler.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="RenderManager.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="SHOOTER.cpp" />
+    <ClCompile Include="SpriteRenderer.cpp" />
     <ClCompile Include="TEXT_RPG.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
