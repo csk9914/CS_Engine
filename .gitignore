@@ -47,6 +47,7 @@
 .idea/
 *.vcxproj*
 *.sln
+*.vcxproj.user
 
 .vs/
 x64/
