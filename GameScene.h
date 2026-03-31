@@ -4,6 +4,7 @@
 #include <memory>
 #include <vector>
 class IRenderer;
+
 class GameObject;
 class GameScene : public IState, public IRender
 {

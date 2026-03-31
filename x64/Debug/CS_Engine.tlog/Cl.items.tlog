@@ -1,8 +1,12 @@
+C:\Users\user1\Desktop\chang\C++\CS_Engine\CS_Engine\Component.cpp;C:\Users\user1\Desktop\chang\C++\CS_Engine\CS_Engine\x64\Debug\Component.obj
 C:\Users\user1\Desktop\chang\C++\CS_Engine\CS_Engine\GameEngine.cpp;C:\Users\user1\Desktop\chang\C++\CS_Engine\CS_Engine\x64\Debug\GameEngine.obj
+C:\Users\user1\Desktop\chang\C++\CS_Engine\CS_Engine\GameObject.cpp;C:\Users\user1\Desktop\chang\C++\CS_Engine\CS_Engine\x64\Debug\GameObject.obj
 C:\Users\user1\Desktop\chang\C++\CS_Engine\CS_Engine\GameScene.cpp;C:\Users\user1\Desktop\chang\C++\CS_Engine\CS_Engine\x64\Debug\GameScene.obj
 C:\Users\user1\Desktop\chang\C++\CS_Engine\CS_Engine\InputHandler.cpp;C:\Users\user1\Desktop\chang\C++\CS_Engine\CS_Engine\x64\Debug\InputHandler.obj
 C:\Users\user1\Desktop\chang\C++\CS_Engine\CS_Engine\main.cpp;C:\Users\user1\Desktop\chang\C++\CS_Engine\CS_Engine\x64\Debug\main.obj
+C:\Users\user1\Desktop\chang\C++\CS_Engine\CS_Engine\RenderManager.cpp;C:\Users\user1\Desktop\chang\C++\CS_Engine\CS_Engine\x64\Debug\RenderManager.obj
 C:\Users\user1\Desktop\chang\C++\CS_Engine\CS_Engine\Renderer.cpp;C:\Users\user1\Desktop\chang\C++\CS_Engine\CS_Engine\x64\Debug\Renderer.obj
 C:\Users\user1\Desktop\chang\C++\CS_Engine\CS_Engine\SceneManager.cpp;C:\Users\user1\Desktop\chang\C++\CS_Engine\CS_Engine\x64\Debug\SceneManager.obj
 C:\Users\user1\Desktop\chang\C++\CS_Engine\CS_Engine\SHOOTER.cpp;C:\Users\user1\Desktop\chang\C++\CS_Engine\CS_Engine\x64\Debug\SHOOTER.obj
+C:\Users\user1\Desktop\chang\C++\CS_Engine\CS_Engine\SpriteRenderer.cpp;C:\Users\user1\Desktop\chang\C++\CS_Engine\CS_Engine\x64\Debug\SpriteRenderer.obj
 C:\Users\user1\Desktop\chang\C++\CS_Engine\CS_Engine\TEXT_RPG.cpp;C:\Users\user1\Desktop\chang\C++\CS_Engine\CS_Engine\x64\Debug\TEXT_RPG.obj
