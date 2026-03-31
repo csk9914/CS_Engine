@@ -16,24 +16,12 @@
     <Filter Include="Interface">
       <UniqueIdentifier>{b41931fe-7ff0-4826-9a8b-224643acf781}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game">
-      <UniqueIdentifier>{64e1d7ec-0731-4a03-88d5-55a3215029fe}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\RPG">
-      <UniqueIdentifier>{bcb73547-4a2b-4db6-8dc2-e484f81c8be0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\SHOOTER">
-      <UniqueIdentifier>{cba68276-c1b3-44b5-a4aa-20fc38f83c4d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Component">
-      <UniqueIdentifier>{d6436618-dc81-419e-a09d-a7542c06ea1f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Core">
-      <UniqueIdentifier>{8ed87384-a31f-4bd4-b25a-40a4e7adf468}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Defines.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngine.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="GameObject.h">
@@ -54,7 +42,13 @@
     <ClInclude Include="SceneManager.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="SHOOTER.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
     <ClInclude Include="StateMachine.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="TEXT_RPG.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Vector2.h">
@@ -87,32 +81,11 @@
     <ClInclude Include="IUpdate.h">
       <Filter>Interface</Filter>
     </ClInclude>
-    <ClInclude Include="SHOOTER.h">
-      <Filter>Game\SHOOTER</Filter>
-    </ClInclude>
-    <ClInclude Include="TEXT_RPG.h">
-      <Filter>Game\RPG</Filter>
-    </ClInclude>
-    <ClInclude Include="AppConfig.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="RenderManager.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Transform.h">
-      <Filter>Component</Filter>
-    </ClInclude>
-    <ClInclude Include="Component.h">
-      <Filter>Component</Filter>
-    </ClInclude>
-    <ClInclude Include="GameEngine.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="SpriteRenderer.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="GameEngine.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
     <ClCompile Include="GameScene.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -129,24 +102,9 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="SHOOTER.cpp">
-      <Filter>Game\SHOOTER</Filter>
+      <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="TEXT_RPG.cpp">
-      <Filter>Game\RPG</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObject.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Component.cpp">
-      <Filter>Component</Filter>
-    </ClCompile>
-    <ClCompile Include="GameEngine.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="RenderManager.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="SpriteRenderer.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

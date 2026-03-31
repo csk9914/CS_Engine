@@ -1,6 +1,5 @@
 ﻿#include "GameScene.h"
 #include "GameObject.h"
-#include "Component.h"
 #include "IRenderer.h"
 
 void GameScene::Update(float deltaTime)
@@ -30,7 +29,7 @@ void GameScene::Render(IRenderer& renderer) const
 {
 	for (auto& obj : m_gameObjects)
 	{
-		//obj->Render(renderer);
+		obj->Render(renderer);
 	}
 }
 
