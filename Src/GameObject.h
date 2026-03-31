@@ -20,22 +20,16 @@ public:
 
 public:
 
-<<<<<<< HEAD
+	// AddComponent 템플릿 함수 (HEAD에 있던 내용)
 	template<typename T>
 	T* AddComponent()
-=======
-
-protected:
-	GameObject(LoaderParams* params) : m_active(true), m_isDestroyed(false)
->>>>>>> main
 	{
 		auto component = std::make_unique<T>();
 		T* ptr = component.get();
 
 		ptr->m_owner = this;
-		ptr->Awake(); // 컴포넌트가 추가될 때 Awake() 호출
+		ptr->Awake();
 
-		// 오브젝트가 활성화 상태이고, 컴포넌트가 활성화 가능하다면, 컴포넌트 활성화
 		if (this->m_active && ptr->m_enabled)
 		{
 			ptr->m_active = true;
@@ -43,7 +37,6 @@ protected:
 		}
 
 		m_components.push_back(std::move(component));
-
 		return ptr;
 	}
 

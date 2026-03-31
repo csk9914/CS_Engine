@@ -195,15 +195,6 @@ CS_Engine_Project_IS_TOP_LEVEL:STATIC=ON
 //Value Computed by CMake
 CS_Engine_Project_SOURCE_DIR:STATIC=E:/GitHub/CS_Engine
 
-//Value Computed by CMake
-TextRPG_Project_BINARY_DIR:STATIC=E:/GitHub/CS_Engine/out/build/x64-Debug
-
-//Value Computed by CMake
-TextRPG_Project_IS_TOP_LEVEL:STATIC=ON
-
-//Value Computed by CMake
-TextRPG_Project_SOURCE_DIR:STATIC=E:/GitHub/CS_Engine
-
 
 ########################
 # INTERNAL cache entries

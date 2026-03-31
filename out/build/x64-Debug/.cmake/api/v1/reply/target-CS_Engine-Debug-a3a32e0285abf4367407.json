@@ -28,13 +28,13 @@
 			{
 				"command" : 0,
 				"file" : 0,
-				"line" : 16,
+				"line" : 19,
 				"parent" : 0
 			},
 			{
 				"command" : 1,
 				"file" : 0,
-				"line" : 19,
+				"line" : 22,
 				"parent" : 0
 			}
 		]
@@ -82,8 +82,7 @@
 				28,
 				30,
 				33,
-				37,
-				38
+				37
 			]
 		}
 	],
@@ -149,8 +148,7 @@
 				32,
 				34,
 				35,
-				36,
-				39
+				36
 			]
 		},
 		{
@@ -168,8 +166,7 @@
 				28,
 				30,
 				33,
-				37,
-				38
+				37
 			]
 		}
 	],
@@ -177,216 +174,205 @@
 	[
 		{
 			"backtrace" : 1,
-			"path" : "AppConfig.h",
+			"path" : "Src/AppConfig.h",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
-			"path" : "Component.cpp",
+			"path" : "Src/Component.cpp",
 			"sourceGroupIndex" : 1
 		},
 		{
 			"backtrace" : 1,
-			"path" : "Component.h",
+			"path" : "Src/Component.h",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
-			"path" : "Defines.h",
+			"path" : "Src/Defines.h",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
-			"path" : "GameEngine.cpp",
+			"path" : "Src/GameEngine.cpp",
 			"sourceGroupIndex" : 1
 		},
 		{
 			"backtrace" : 1,
-			"path" : "GameEngine.h",
+			"path" : "Src/GameEngine.h",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
-			"path" : "GameObject.cpp",
+			"path" : "Src/GameObject.cpp",
 			"sourceGroupIndex" : 1
 		},
 		{
 			"backtrace" : 1,
-			"path" : "GameObject.h",
+			"path" : "Src/GameObject.h",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
-			"path" : "GameScene.cpp",
+			"path" : "Src/GameScene.cpp",
 			"sourceGroupIndex" : 1
 		},
 		{
 			"backtrace" : 1,
-			"path" : "GameScene.h",
+			"path" : "Src/GameScene.h",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
-			"path" : "IEnd.h",
+			"path" : "Src/IEnd.h",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
-			"path" : "IGame.h",
+			"path" : "Src/IGame.h",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
-			"path" : "IOnEnter.h",
+			"path" : "Src/IOnEnter.h",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
-			"path" : "IOnExit.h",
+			"path" : "Src/IOnExit.h",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
-			"path" : "IRender.h",
+			"path" : "Src/IRender.h",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
-			"path" : "IRenderer.h",
+			"path" : "Src/IRenderer.h",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
-			"path" : "IStart.h",
+			"path" : "Src/IStart.h",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
-			"path" : "IState.h",
+			"path" : "Src/IState.h",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
-			"path" : "IUpdate.h",
+			"path" : "Src/IUpdate.h",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
-			"path" : "InputHandler.cpp",
+			"path" : "Src/InputHandler.cpp",
 			"sourceGroupIndex" : 1
 		},
 		{
 			"backtrace" : 1,
-			"path" : "InputHandler.h",
+			"path" : "Src/InputHandler.h",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
-			"path" : "LoaderParams.h",
+			"path" : "Src/LoaderParams.h",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
-			"path" : "RenderManager.cpp",
+			"path" : "Src/RenderManager.cpp",
 			"sourceGroupIndex" : 1
 		},
 		{
 			"backtrace" : 1,
-			"path" : "RenderManager.h",
+			"path" : "Src/RenderManager.h",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
-			"path" : "Renderer.cpp",
+			"path" : "Src/Renderer.cpp",
 			"sourceGroupIndex" : 1
 		},
 		{
 			"backtrace" : 1,
-			"path" : "Renderer.h",
+			"path" : "Src/Renderer.h",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
-			"path" : "SHOOTER.cpp",
+			"path" : "Src/SHOOTER.cpp",
 			"sourceGroupIndex" : 1
 		},
 		{
 			"backtrace" : 1,
-			"path" : "SHOOTER.h",
+			"path" : "Src/SHOOTER.h",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
-			"path" : "SceneManager.cpp",
+			"path" : "Src/SceneManager.cpp",
 			"sourceGroupIndex" : 1
 		},
 		{
 			"backtrace" : 1,
-			"path" : "SceneManager.h",
+			"path" : "Src/SceneManager.h",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
-			"path" : "SpriteRenderer.cpp",
+			"path" : "Src/SpriteRenderer.cpp",
 			"sourceGroupIndex" : 1
 		},
 		{
 			"backtrace" : 1,
-			"path" : "SpriteRenderer.h",
+			"path" : "Src/SpriteRenderer.h",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
-			"path" : "StateMachine.h",
+			"path" : "Src/StateMachine.h",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
-			"path" : "TEXT_RPG.cpp",
+			"path" : "Src/TEXT_RPG.cpp",
 			"sourceGroupIndex" : 1
 		},
 		{
 			"backtrace" : 1,
-			"path" : "TEXT_RPG.h",
+			"path" : "Src/TEXT_RPG.h",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
-			"path" : "Transform.h",
+			"path" : "Src/Transform.h",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
-			"path" : "Vector2.h",
+			"path" : "Src/Vector2.h",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
-			"path" : "main.cpp",
+			"path" : "Src/main.cpp",
 			"sourceGroupIndex" : 1
-		},
-		{
-			"backtrace" : 1,
-			"compileGroupIndex" : 0,
-			"path" : "out/build/x64-Debug/CMakeFiles/4.2.3-msvc3/CompilerIdCXX/CMakeCXXCompilerId.cpp",
-			"sourceGroupIndex" : 1
-		},
-		{
-			"backtrace" : 1,
-			"path" : "out/build/x64-Debug/CMakeFiles/ShowIncludes/foo.h",
-			"sourceGroupIndex" : 0
 		}
 	],
 	"type" : "EXECUTABLE"

@@ -49,132 +49,122 @@ cmake_ninja_workdir = E$:\GitHub\CS_Engine\out\build\x64-Debug\
 
 build cmake_object_order_depends_target_CS_Engine: phony || .
 
-build CMakeFiles\CS_Engine.dir\Component.cpp.obj: CXX_COMPILER__CS_Engine_unscanned_Debug E$:\GitHub\CS_Engine\Component.cpp || cmake_object_order_depends_target_CS_Engine
+build CMakeFiles\CS_Engine.dir\Src\Component.cpp.obj: CXX_COMPILER__CS_Engine_unscanned_Debug E$:\GitHub\CS_Engine\Src\Component.cpp || cmake_object_order_depends_target_CS_Engine
   CONFIG = Debug
   FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 -std:c++17
   INCLUDES = -IE:\GitHub\CS_Engine
   OBJECT_DIR = CMakeFiles\CS_Engine.dir
-  OBJECT_FILE_DIR = CMakeFiles\CS_Engine.dir
+  OBJECT_FILE_DIR = CMakeFiles\CS_Engine.dir\Src
   TARGET_COMPILE_PDB = CMakeFiles\CS_Engine.dir\
   TARGET_PDB = CS_Engine.pdb
   TARGET_SUPPORT_DIR = CMakeFiles\CS_Engine.dir
 
-build CMakeFiles\CS_Engine.dir\GameEngine.cpp.obj: CXX_COMPILER__CS_Engine_unscanned_Debug E$:\GitHub\CS_Engine\GameEngine.cpp || cmake_object_order_depends_target_CS_Engine
+build CMakeFiles\CS_Engine.dir\Src\GameEngine.cpp.obj: CXX_COMPILER__CS_Engine_unscanned_Debug E$:\GitHub\CS_Engine\Src\GameEngine.cpp || cmake_object_order_depends_target_CS_Engine
   CONFIG = Debug
   FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 -std:c++17
   INCLUDES = -IE:\GitHub\CS_Engine
   OBJECT_DIR = CMakeFiles\CS_Engine.dir
-  OBJECT_FILE_DIR = CMakeFiles\CS_Engine.dir
+  OBJECT_FILE_DIR = CMakeFiles\CS_Engine.dir\Src
   TARGET_COMPILE_PDB = CMakeFiles\CS_Engine.dir\
   TARGET_PDB = CS_Engine.pdb
   TARGET_SUPPORT_DIR = CMakeFiles\CS_Engine.dir
 
-build CMakeFiles\CS_Engine.dir\GameObject.cpp.obj: CXX_COMPILER__CS_Engine_unscanned_Debug E$:\GitHub\CS_Engine\GameObject.cpp || cmake_object_order_depends_target_CS_Engine
+build CMakeFiles\CS_Engine.dir\Src\GameObject.cpp.obj: CXX_COMPILER__CS_Engine_unscanned_Debug E$:\GitHub\CS_Engine\Src\GameObject.cpp || cmake_object_order_depends_target_CS_Engine
   CONFIG = Debug
   FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 -std:c++17
   INCLUDES = -IE:\GitHub\CS_Engine
   OBJECT_DIR = CMakeFiles\CS_Engine.dir
-  OBJECT_FILE_DIR = CMakeFiles\CS_Engine.dir
+  OBJECT_FILE_DIR = CMakeFiles\CS_Engine.dir\Src
   TARGET_COMPILE_PDB = CMakeFiles\CS_Engine.dir\
   TARGET_PDB = CS_Engine.pdb
   TARGET_SUPPORT_DIR = CMakeFiles\CS_Engine.dir
 
-build CMakeFiles\CS_Engine.dir\GameScene.cpp.obj: CXX_COMPILER__CS_Engine_unscanned_Debug E$:\GitHub\CS_Engine\GameScene.cpp || cmake_object_order_depends_target_CS_Engine
+build CMakeFiles\CS_Engine.dir\Src\GameScene.cpp.obj: CXX_COMPILER__CS_Engine_unscanned_Debug E$:\GitHub\CS_Engine\Src\GameScene.cpp || cmake_object_order_depends_target_CS_Engine
   CONFIG = Debug
   FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 -std:c++17
   INCLUDES = -IE:\GitHub\CS_Engine
   OBJECT_DIR = CMakeFiles\CS_Engine.dir
-  OBJECT_FILE_DIR = CMakeFiles\CS_Engine.dir
+  OBJECT_FILE_DIR = CMakeFiles\CS_Engine.dir\Src
   TARGET_COMPILE_PDB = CMakeFiles\CS_Engine.dir\
   TARGET_PDB = CS_Engine.pdb
   TARGET_SUPPORT_DIR = CMakeFiles\CS_Engine.dir
 
-build CMakeFiles\CS_Engine.dir\InputHandler.cpp.obj: CXX_COMPILER__CS_Engine_unscanned_Debug E$:\GitHub\CS_Engine\InputHandler.cpp || cmake_object_order_depends_target_CS_Engine
+build CMakeFiles\CS_Engine.dir\Src\InputHandler.cpp.obj: CXX_COMPILER__CS_Engine_unscanned_Debug E$:\GitHub\CS_Engine\Src\InputHandler.cpp || cmake_object_order_depends_target_CS_Engine
   CONFIG = Debug
   FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 -std:c++17
   INCLUDES = -IE:\GitHub\CS_Engine
   OBJECT_DIR = CMakeFiles\CS_Engine.dir
-  OBJECT_FILE_DIR = CMakeFiles\CS_Engine.dir
+  OBJECT_FILE_DIR = CMakeFiles\CS_Engine.dir\Src
   TARGET_COMPILE_PDB = CMakeFiles\CS_Engine.dir\
   TARGET_PDB = CS_Engine.pdb
   TARGET_SUPPORT_DIR = CMakeFiles\CS_Engine.dir
 
-build CMakeFiles\CS_Engine.dir\RenderManager.cpp.obj: CXX_COMPILER__CS_Engine_unscanned_Debug E$:\GitHub\CS_Engine\RenderManager.cpp || cmake_object_order_depends_target_CS_Engine
+build CMakeFiles\CS_Engine.dir\Src\RenderManager.cpp.obj: CXX_COMPILER__CS_Engine_unscanned_Debug E$:\GitHub\CS_Engine\Src\RenderManager.cpp || cmake_object_order_depends_target_CS_Engine
   CONFIG = Debug
   FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 -std:c++17
   INCLUDES = -IE:\GitHub\CS_Engine
   OBJECT_DIR = CMakeFiles\CS_Engine.dir
-  OBJECT_FILE_DIR = CMakeFiles\CS_Engine.dir
+  OBJECT_FILE_DIR = CMakeFiles\CS_Engine.dir\Src
   TARGET_COMPILE_PDB = CMakeFiles\CS_Engine.dir\
   TARGET_PDB = CS_Engine.pdb
   TARGET_SUPPORT_DIR = CMakeFiles\CS_Engine.dir
 
-build CMakeFiles\CS_Engine.dir\Renderer.cpp.obj: CXX_COMPILER__CS_Engine_unscanned_Debug E$:\GitHub\CS_Engine\Renderer.cpp || cmake_object_order_depends_target_CS_Engine
+build CMakeFiles\CS_Engine.dir\Src\Renderer.cpp.obj: CXX_COMPILER__CS_Engine_unscanned_Debug E$:\GitHub\CS_Engine\Src\Renderer.cpp || cmake_object_order_depends_target_CS_Engine
   CONFIG = Debug
   FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 -std:c++17
   INCLUDES = -IE:\GitHub\CS_Engine
   OBJECT_DIR = CMakeFiles\CS_Engine.dir
-  OBJECT_FILE_DIR = CMakeFiles\CS_Engine.dir
+  OBJECT_FILE_DIR = CMakeFiles\CS_Engine.dir\Src
   TARGET_COMPILE_PDB = CMakeFiles\CS_Engine.dir\
   TARGET_PDB = CS_Engine.pdb
   TARGET_SUPPORT_DIR = CMakeFiles\CS_Engine.dir
 
-build CMakeFiles\CS_Engine.dir\SHOOTER.cpp.obj: CXX_COMPILER__CS_Engine_unscanned_Debug E$:\GitHub\CS_Engine\SHOOTER.cpp || cmake_object_order_depends_target_CS_Engine
+build CMakeFiles\CS_Engine.dir\Src\SHOOTER.cpp.obj: CXX_COMPILER__CS_Engine_unscanned_Debug E$:\GitHub\CS_Engine\Src\SHOOTER.cpp || cmake_object_order_depends_target_CS_Engine
   CONFIG = Debug
   FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 -std:c++17
   INCLUDES = -IE:\GitHub\CS_Engine
   OBJECT_DIR = CMakeFiles\CS_Engine.dir
-  OBJECT_FILE_DIR = CMakeFiles\CS_Engine.dir
+  OBJECT_FILE_DIR = CMakeFiles\CS_Engine.dir\Src
   TARGET_COMPILE_PDB = CMakeFiles\CS_Engine.dir\
   TARGET_PDB = CS_Engine.pdb
   TARGET_SUPPORT_DIR = CMakeFiles\CS_Engine.dir
 
-build CMakeFiles\CS_Engine.dir\SceneManager.cpp.obj: CXX_COMPILER__CS_Engine_unscanned_Debug E$:\GitHub\CS_Engine\SceneManager.cpp || cmake_object_order_depends_target_CS_Engine
+build CMakeFiles\CS_Engine.dir\Src\SceneManager.cpp.obj: CXX_COMPILER__CS_Engine_unscanned_Debug E$:\GitHub\CS_Engine\Src\SceneManager.cpp || cmake_object_order_depends_target_CS_Engine
   CONFIG = Debug
   FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 -std:c++17
   INCLUDES = -IE:\GitHub\CS_Engine
   OBJECT_DIR = CMakeFiles\CS_Engine.dir
-  OBJECT_FILE_DIR = CMakeFiles\CS_Engine.dir
+  OBJECT_FILE_DIR = CMakeFiles\CS_Engine.dir\Src
   TARGET_COMPILE_PDB = CMakeFiles\CS_Engine.dir\
   TARGET_PDB = CS_Engine.pdb
   TARGET_SUPPORT_DIR = CMakeFiles\CS_Engine.dir
 
-build CMakeFiles\CS_Engine.dir\SpriteRenderer.cpp.obj: CXX_COMPILER__CS_Engine_unscanned_Debug E$:\GitHub\CS_Engine\SpriteRenderer.cpp || cmake_object_order_depends_target_CS_Engine
+build CMakeFiles\CS_Engine.dir\Src\SpriteRenderer.cpp.obj: CXX_COMPILER__CS_Engine_unscanned_Debug E$:\GitHub\CS_Engine\Src\SpriteRenderer.cpp || cmake_object_order_depends_target_CS_Engine
   CONFIG = Debug
   FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 -std:c++17
   INCLUDES = -IE:\GitHub\CS_Engine
   OBJECT_DIR = CMakeFiles\CS_Engine.dir
-  OBJECT_FILE_DIR = CMakeFiles\CS_Engine.dir
+  OBJECT_FILE_DIR = CMakeFiles\CS_Engine.dir\Src
   TARGET_COMPILE_PDB = CMakeFiles\CS_Engine.dir\
   TARGET_PDB = CS_Engine.pdb
   TARGET_SUPPORT_DIR = CMakeFiles\CS_Engine.dir
 
-build CMakeFiles\CS_Engine.dir\TEXT_RPG.cpp.obj: CXX_COMPILER__CS_Engine_unscanned_Debug E$:\GitHub\CS_Engine\TEXT_RPG.cpp || cmake_object_order_depends_target_CS_Engine
+build CMakeFiles\CS_Engine.dir\Src\TEXT_RPG.cpp.obj: CXX_COMPILER__CS_Engine_unscanned_Debug E$:\GitHub\CS_Engine\Src\TEXT_RPG.cpp || cmake_object_order_depends_target_CS_Engine
   CONFIG = Debug
   FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 -std:c++17
   INCLUDES = -IE:\GitHub\CS_Engine
   OBJECT_DIR = CMakeFiles\CS_Engine.dir
-  OBJECT_FILE_DIR = CMakeFiles\CS_Engine.dir
+  OBJECT_FILE_DIR = CMakeFiles\CS_Engine.dir\Src
   TARGET_COMPILE_PDB = CMakeFiles\CS_Engine.dir\
   TARGET_PDB = CS_Engine.pdb
   TARGET_SUPPORT_DIR = CMakeFiles\CS_Engine.dir
 
-build CMakeFiles\CS_Engine.dir\main.cpp.obj: CXX_COMPILER__CS_Engine_unscanned_Debug E$:\GitHub\CS_Engine\main.cpp || cmake_object_order_depends_target_CS_Engine
+build CMakeFiles\CS_Engine.dir\Src\main.cpp.obj: CXX_COMPILER__CS_Engine_unscanned_Debug E$:\GitHub\CS_Engine\Src\main.cpp || cmake_object_order_depends_target_CS_Engine
   CONFIG = Debug
   FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 -std:c++17
   INCLUDES = -IE:\GitHub\CS_Engine
   OBJECT_DIR = CMakeFiles\CS_Engine.dir
-  OBJECT_FILE_DIR = CMakeFiles\CS_Engine.dir
-  TARGET_COMPILE_PDB = CMakeFiles\CS_Engine.dir\
-  TARGET_PDB = CS_Engine.pdb
-  TARGET_SUPPORT_DIR = CMakeFiles\CS_Engine.dir
-
-build CMakeFiles\CS_Engine.dir\CMakeFiles\4.2.3-msvc3\CompilerIdCXX\CMakeCXXCompilerId.cpp.obj: CXX_COMPILER__CS_Engine_unscanned_Debug E$:\GitHub\CS_Engine\out\build\x64-Debug\CMakeFiles\4.2.3-msvc3\CompilerIdCXX\CMakeCXXCompilerId.cpp || cmake_object_order_depends_target_CS_Engine
-  CONFIG = Debug
-  FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 -std:c++17
-  INCLUDES = -IE:\GitHub\CS_Engine
-  OBJECT_DIR = CMakeFiles\CS_Engine.dir
-  OBJECT_FILE_DIR = CMakeFiles\CS_Engine.dir\CMakeFiles\4.2.3-msvc3\CompilerIdCXX
+  OBJECT_FILE_DIR = CMakeFiles\CS_Engine.dir\Src
   TARGET_COMPILE_PDB = CMakeFiles\CS_Engine.dir\
   TARGET_PDB = CS_Engine.pdb
   TARGET_SUPPORT_DIR = CMakeFiles\CS_Engine.dir
@@ -187,7 +177,7 @@ build CMakeFiles\CS_Engine.dir\CMakeFiles\4.2.3-msvc3\CompilerIdCXX\CMakeCXXComp
 #############################################
 # Link the executable CS_Engine.exe
 
-build CS_Engine.exe: CXX_EXECUTABLE_LINKER__CS_Engine_Debug CMakeFiles\CS_Engine.dir\Component.cpp.obj CMakeFiles\CS_Engine.dir\GameEngine.cpp.obj CMakeFiles\CS_Engine.dir\GameObject.cpp.obj CMakeFiles\CS_Engine.dir\GameScene.cpp.obj CMakeFiles\CS_Engine.dir\InputHandler.cpp.obj CMakeFiles\CS_Engine.dir\RenderManager.cpp.obj CMakeFiles\CS_Engine.dir\Renderer.cpp.obj CMakeFiles\CS_Engine.dir\SHOOTER.cpp.obj CMakeFiles\CS_Engine.dir\SceneManager.cpp.obj CMakeFiles\CS_Engine.dir\SpriteRenderer.cpp.obj CMakeFiles\CS_Engine.dir\TEXT_RPG.cpp.obj CMakeFiles\CS_Engine.dir\main.cpp.obj CMakeFiles\CS_Engine.dir\CMakeFiles\4.2.3-msvc3\CompilerIdCXX\CMakeCXXCompilerId.cpp.obj
+build CS_Engine.exe: CXX_EXECUTABLE_LINKER__CS_Engine_Debug CMakeFiles\CS_Engine.dir\Src\Component.cpp.obj CMakeFiles\CS_Engine.dir\Src\GameEngine.cpp.obj CMakeFiles\CS_Engine.dir\Src\GameObject.cpp.obj CMakeFiles\CS_Engine.dir\Src\GameScene.cpp.obj CMakeFiles\CS_Engine.dir\Src\InputHandler.cpp.obj CMakeFiles\CS_Engine.dir\Src\RenderManager.cpp.obj CMakeFiles\CS_Engine.dir\Src\Renderer.cpp.obj CMakeFiles\CS_Engine.dir\Src\SHOOTER.cpp.obj CMakeFiles\CS_Engine.dir\Src\SceneManager.cpp.obj CMakeFiles\CS_Engine.dir\Src\SpriteRenderer.cpp.obj CMakeFiles\CS_Engine.dir\Src\TEXT_RPG.cpp.obj CMakeFiles\CS_Engine.dir\Src\main.cpp.obj
   CONFIG = Debug
   FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1
   LINK_FLAGS = /machine:x64 /debug /INCREMENTAL /subsystem:console
