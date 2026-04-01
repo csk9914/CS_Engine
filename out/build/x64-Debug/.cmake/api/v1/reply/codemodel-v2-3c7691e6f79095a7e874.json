@@ -40,7 +40,7 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "CS_Engine::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-CS_Engine-Debug-a3a32e0285abf4367407.json",
+					"jsonFile" : "target-CS_Engine-Debug-1c6b898ae8cd995ab22d.json",
 					"name" : "CS_Engine",
 					"projectIndex" : 0
 				}
@@ -50,8 +50,8 @@
 	"kind" : "codemodel",
 	"paths" : 
 	{
-		"build" : "E:/GitHub/CS_Engine/out/build/x64-Debug",
-		"source" : "E:/GitHub/CS_Engine"
+		"build" : "C:/Users/user1/Desktop/chang/C++/CS_Engine/out/build/x64-Debug",
+		"source" : "C:/Users/user1/Desktop/chang/C++/CS_Engine"
 	},
 	"version" : 
 	{
