@@ -29,7 +29,7 @@ public:
 
 public:
 	void Update() ;
-
+	void EndFrame();
 	// 키보드
 	bool IsKeyOneDown(int key);
 	bool IsKeyDown(int key);
@@ -43,7 +43,10 @@ public:
 	void SetHWND(HWND hWnd) { m_hWnd = hWnd; }
 
 	// WndProc에서 호출 (WM_MOUSEWHEEL)
-	void SetWheelDelta(float delta) { m_mouseWheel = delta; }
+	void SetWheelDelta(float delta) 
+	{ 
+		m_mouseWheel = delta; 
+	}
 
 private:
 	std::unordered_map<int, bool> m_checkOneDown;

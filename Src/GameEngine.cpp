@@ -75,8 +75,14 @@ void GameEngine::Run()
 		// 입력 처리
 		InputHandler::Instance()->Update();
 
+		// 임시
+		m_renderManager->Update();
+
 		// 게임 업데이트
 		m_game->Update(m_deltaTime);
+
+		// end 초기화
+		InputHandler::Instance()->EndFrame();
 
 		// 렌더링
 		m_renderManager->RenderAll();
@@ -99,7 +105,7 @@ void GameEngine::Release()
 
 GameScene* GameEngine::GetCurrentScene()
 {
-	return m_game->GetCurrentScene();
+	return m_game ? m_game->GetCurrentScene() : nullptr;
 }
 
 void GameEngine::Tick()

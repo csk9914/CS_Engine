@@ -93,6 +93,17 @@ build CMakeFiles\CS_Engine.dir\Src\DX11Renderer.cpp.obj: CXX_COMPILER__CS_Engine
   TARGET_PDB = CS_Engine.pdb
   TARGET_SUPPORT_DIR = CMakeFiles\CS_Engine.dir
 
+build CMakeFiles\CS_Engine.dir\Src\EditorUI.cpp.obj: CXX_COMPILER__CS_Engine_unscanned_Debug C$:\Users\user1\Desktop\chang\C++\CS_Engine\Src\EditorUI.cpp || cmake_object_order_depends_target_CS_Engine
+  CONFIG = Debug
+  DEFINES = -DUNICODE -D_UNICODE
+  FLAGS = /DWIN32 /D_WINDOWS /EHsc /Zi /Ob0 /Od /RTC1 -std:c++17 -MDd
+  INCLUDES = -IC:\Users\user1\Desktop\chang\C++\CS_Engine\Src -IC:\Users\user1\Desktop\chang\C++\CS_Engine\Src\imgui -IC:\Users\user1\Desktop\chang\C++\CS_Engine\Src\imgui\backends
+  OBJECT_DIR = CMakeFiles\CS_Engine.dir
+  OBJECT_FILE_DIR = CMakeFiles\CS_Engine.dir\Src
+  TARGET_COMPILE_PDB = CMakeFiles\CS_Engine.dir\
+  TARGET_PDB = CS_Engine.pdb
+  TARGET_SUPPORT_DIR = CMakeFiles\CS_Engine.dir
+
 build CMakeFiles\CS_Engine.dir\Src\GameEngine.cpp.obj: CXX_COMPILER__CS_Engine_unscanned_Debug C$:\Users\user1\Desktop\chang\C++\CS_Engine\Src\GameEngine.cpp || cmake_object_order_depends_target_CS_Engine
   CONFIG = Debug
   DEFINES = -DUNICODE -D_UNICODE
@@ -116,6 +127,17 @@ build CMakeFiles\CS_Engine.dir\Src\GameObject.cpp.obj: CXX_COMPILER__CS_Engine_u
   TARGET_SUPPORT_DIR = CMakeFiles\CS_Engine.dir
 
 build CMakeFiles\CS_Engine.dir\Src\GameScene.cpp.obj: CXX_COMPILER__CS_Engine_unscanned_Debug C$:\Users\user1\Desktop\chang\C++\CS_Engine\Src\GameScene.cpp || cmake_object_order_depends_target_CS_Engine
+  CONFIG = Debug
+  DEFINES = -DUNICODE -D_UNICODE
+  FLAGS = /DWIN32 /D_WINDOWS /EHsc /Zi /Ob0 /Od /RTC1 -std:c++17 -MDd
+  INCLUDES = -IC:\Users\user1\Desktop\chang\C++\CS_Engine\Src -IC:\Users\user1\Desktop\chang\C++\CS_Engine\Src\imgui -IC:\Users\user1\Desktop\chang\C++\CS_Engine\Src\imgui\backends
+  OBJECT_DIR = CMakeFiles\CS_Engine.dir
+  OBJECT_FILE_DIR = CMakeFiles\CS_Engine.dir\Src
+  TARGET_COMPILE_PDB = CMakeFiles\CS_Engine.dir\
+  TARGET_PDB = CS_Engine.pdb
+  TARGET_SUPPORT_DIR = CMakeFiles\CS_Engine.dir
+
+build CMakeFiles\CS_Engine.dir\Src\Gizmo.cpp.obj: CXX_COMPILER__CS_Engine_unscanned_Debug C$:\Users\user1\Desktop\chang\C++\CS_Engine\Src\Gizmo.cpp || cmake_object_order_depends_target_CS_Engine
   CONFIG = Debug
   DEFINES = -DUNICODE -D_UNICODE
   FLAGS = /DWIN32 /D_WINDOWS /EHsc /Zi /Ob0 /Od /RTC1 -std:c++17 -MDd
@@ -203,6 +225,17 @@ build CMakeFiles\CS_Engine.dir\Src\SpriteRenderer.cpp.obj: CXX_COMPILER__CS_Engi
   TARGET_PDB = CS_Engine.pdb
   TARGET_SUPPORT_DIR = CMakeFiles\CS_Engine.dir
 
+build CMakeFiles\CS_Engine.dir\Src\main.cpp.obj: CXX_COMPILER__CS_Engine_unscanned_Debug C$:\Users\user1\Desktop\chang\C++\CS_Engine\Src\main.cpp || cmake_object_order_depends_target_CS_Engine
+  CONFIG = Debug
+  DEFINES = -DUNICODE -D_UNICODE
+  FLAGS = /DWIN32 /D_WINDOWS /EHsc /Zi /Ob0 /Od /RTC1 -std:c++17 -MDd
+  INCLUDES = -IC:\Users\user1\Desktop\chang\C++\CS_Engine\Src -IC:\Users\user1\Desktop\chang\C++\CS_Engine\Src\imgui -IC:\Users\user1\Desktop\chang\C++\CS_Engine\Src\imgui\backends
+  OBJECT_DIR = CMakeFiles\CS_Engine.dir
+  OBJECT_FILE_DIR = CMakeFiles\CS_Engine.dir\Src
+  TARGET_COMPILE_PDB = CMakeFiles\CS_Engine.dir\
+  TARGET_PDB = CS_Engine.pdb
+  TARGET_SUPPORT_DIR = CMakeFiles\CS_Engine.dir
+
 build CMakeFiles\CS_Engine.dir\Src\imgui\backends\imgui_impl_dx11.cpp.obj: CXX_COMPILER__CS_Engine_unscanned_Debug C$:\Users\user1\Desktop\chang\C++\CS_Engine\Src\imgui\backends\imgui_impl_dx11.cpp || cmake_object_order_depends_target_CS_Engine
   CONFIG = Debug
   DEFINES = -DUNICODE -D_UNICODE
@@ -258,6 +291,17 @@ build CMakeFiles\CS_Engine.dir\Src\imgui\imgui_draw.cpp.obj: CXX_COMPILER__CS_En
   TARGET_PDB = CS_Engine.pdb
   TARGET_SUPPORT_DIR = CMakeFiles\CS_Engine.dir
 
+build CMakeFiles\CS_Engine.dir\Src\imgui\imgui_stdlib.cpp.obj: CXX_COMPILER__CS_Engine_unscanned_Debug C$:\Users\user1\Desktop\chang\C++\CS_Engine\Src\imgui\imgui_stdlib.cpp || cmake_object_order_depends_target_CS_Engine
+  CONFIG = Debug
+  DEFINES = -DUNICODE -D_UNICODE
+  FLAGS = /DWIN32 /D_WINDOWS /EHsc /Zi /Ob0 /Od /RTC1 -std:c++17 -MDd
+  INCLUDES = -IC:\Users\user1\Desktop\chang\C++\CS_Engine\Src -IC:\Users\user1\Desktop\chang\C++\CS_Engine\Src\imgui -IC:\Users\user1\Desktop\chang\C++\CS_Engine\Src\imgui\backends
+  OBJECT_DIR = CMakeFiles\CS_Engine.dir
+  OBJECT_FILE_DIR = CMakeFiles\CS_Engine.dir\Src\imgui
+  TARGET_COMPILE_PDB = CMakeFiles\CS_Engine.dir\
+  TARGET_PDB = CS_Engine.pdb
+  TARGET_SUPPORT_DIR = CMakeFiles\CS_Engine.dir
+
 build CMakeFiles\CS_Engine.dir\Src\imgui\imgui_tables.cpp.obj: CXX_COMPILER__CS_Engine_unscanned_Debug C$:\Users\user1\Desktop\chang\C++\CS_Engine\Src\imgui\imgui_tables.cpp || cmake_object_order_depends_target_CS_Engine
   CONFIG = Debug
   DEFINES = -DUNICODE -D_UNICODE
@@ -280,17 +324,6 @@ build CMakeFiles\CS_Engine.dir\Src\imgui\imgui_widgets.cpp.obj: CXX_COMPILER__CS
   TARGET_PDB = CS_Engine.pdb
   TARGET_SUPPORT_DIR = CMakeFiles\CS_Engine.dir
 
-build CMakeFiles\CS_Engine.dir\Src\main.cpp.obj: CXX_COMPILER__CS_Engine_unscanned_Debug C$:\Users\user1\Desktop\chang\C++\CS_Engine\Src\main.cpp || cmake_object_order_depends_target_CS_Engine
-  CONFIG = Debug
-  DEFINES = -DUNICODE -D_UNICODE
-  FLAGS = /DWIN32 /D_WINDOWS /EHsc /Zi /Ob0 /Od /RTC1 -std:c++17 -MDd
-  INCLUDES = -IC:\Users\user1\Desktop\chang\C++\CS_Engine\Src -IC:\Users\user1\Desktop\chang\C++\CS_Engine\Src\imgui -IC:\Users\user1\Desktop\chang\C++\CS_Engine\Src\imgui\backends
-  OBJECT_DIR = CMakeFiles\CS_Engine.dir
-  OBJECT_FILE_DIR = CMakeFiles\CS_Engine.dir\Src
-  TARGET_COMPILE_PDB = CMakeFiles\CS_Engine.dir\
-  TARGET_PDB = CS_Engine.pdb
-  TARGET_SUPPORT_DIR = CMakeFiles\CS_Engine.dir
-
 
 # =============================================================================
 # Link build statements for EXECUTABLE target CS_Engine
@@ -299,7 +332,7 @@ build CMakeFiles\CS_Engine.dir\Src\main.cpp.obj: CXX_COMPILER__CS_Engine_unscann
 #############################################
 # Link the executable CS_Engine.exe
 
-build CS_Engine.exe: CXX_EXECUTABLE_LINKER__CS_Engine_Debug CMakeFiles\CS_Engine.dir\Src\CSWindow.cpp.obj CMakeFiles\CS_Engine.dir\Src\Camera.cpp.obj CMakeFiles\CS_Engine.dir\Src\Component.cpp.obj CMakeFiles\CS_Engine.dir\Src\DX11Renderer.cpp.obj CMakeFiles\CS_Engine.dir\Src\GameEngine.cpp.obj CMakeFiles\CS_Engine.dir\Src\GameObject.cpp.obj CMakeFiles\CS_Engine.dir\Src\GameScene.cpp.obj CMakeFiles\CS_Engine.dir\Src\InputHandler.cpp.obj CMakeFiles\CS_Engine.dir\Src\MeshRenderer.cpp.obj CMakeFiles\CS_Engine.dir\Src\RenderManager.cpp.obj CMakeFiles\CS_Engine.dir\Src\Renderer.cpp.obj CMakeFiles\CS_Engine.dir\Src\SHOOTER.cpp.obj CMakeFiles\CS_Engine.dir\Src\SceneManager.cpp.obj CMakeFiles\CS_Engine.dir\Src\SpriteRenderer.cpp.obj CMakeFiles\CS_Engine.dir\Src\imgui\backends\imgui_impl_dx11.cpp.obj CMakeFiles\CS_Engine.dir\Src\imgui\backends\imgui_impl_win32.cpp.obj CMakeFiles\CS_Engine.dir\Src\imgui\imgui.cpp.obj CMakeFiles\CS_Engine.dir\Src\imgui\imgui_demo.cpp.obj CMakeFiles\CS_Engine.dir\Src\imgui\imgui_draw.cpp.obj CMakeFiles\CS_Engine.dir\Src\imgui\imgui_tables.cpp.obj CMakeFiles\CS_Engine.dir\Src\imgui\imgui_widgets.cpp.obj CMakeFiles\CS_Engine.dir\Src\main.cpp.obj
+build CS_Engine.exe: CXX_EXECUTABLE_LINKER__CS_Engine_Debug CMakeFiles\CS_Engine.dir\Src\CSWindow.cpp.obj CMakeFiles\CS_Engine.dir\Src\Camera.cpp.obj CMakeFiles\CS_Engine.dir\Src\Component.cpp.obj CMakeFiles\CS_Engine.dir\Src\DX11Renderer.cpp.obj CMakeFiles\CS_Engine.dir\Src\EditorUI.cpp.obj CMakeFiles\CS_Engine.dir\Src\GameEngine.cpp.obj CMakeFiles\CS_Engine.dir\Src\GameObject.cpp.obj CMakeFiles\CS_Engine.dir\Src\GameScene.cpp.obj CMakeFiles\CS_Engine.dir\Src\Gizmo.cpp.obj CMakeFiles\CS_Engine.dir\Src\InputHandler.cpp.obj CMakeFiles\CS_Engine.dir\Src\MeshRenderer.cpp.obj CMakeFiles\CS_Engine.dir\Src\RenderManager.cpp.obj CMakeFiles\CS_Engine.dir\Src\Renderer.cpp.obj CMakeFiles\CS_Engine.dir\Src\SHOOTER.cpp.obj CMakeFiles\CS_Engine.dir\Src\SceneManager.cpp.obj CMakeFiles\CS_Engine.dir\Src\SpriteRenderer.cpp.obj CMakeFiles\CS_Engine.dir\Src\main.cpp.obj CMakeFiles\CS_Engine.dir\Src\imgui\backends\imgui_impl_dx11.cpp.obj CMakeFiles\CS_Engine.dir\Src\imgui\backends\imgui_impl_win32.cpp.obj CMakeFiles\CS_Engine.dir\Src\imgui\imgui.cpp.obj CMakeFiles\CS_Engine.dir\Src\imgui\imgui_demo.cpp.obj CMakeFiles\CS_Engine.dir\Src\imgui\imgui_draw.cpp.obj CMakeFiles\CS_Engine.dir\Src\imgui\imgui_stdlib.cpp.obj CMakeFiles\CS_Engine.dir\Src\imgui\imgui_tables.cpp.obj CMakeFiles\CS_Engine.dir\Src\imgui\imgui_widgets.cpp.obj
   CONFIG = Debug
   FLAGS = /DWIN32 /D_WINDOWS /EHsc /Zi /Ob0 /Od /RTC1 -MDd
   LINK_FLAGS = /machine:x64 /debug /INCREMENTAL /subsystem:windows

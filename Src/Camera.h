@@ -31,10 +31,10 @@ public:
 	float m_moveSpeed = 10.f;
 	float m_rotateSpeed = 30.f;
 	float m_panSpeed = 10.f;
-	float m_zoomSpeed = 300.f;
+	float m_zoomSpeed = 100.f;
 
 private:
-	DirectX::XMMATRIX m_view = {};
-	DirectX::XMMATRIX m_proj = {};
+	DirectX::XMMATRIX m_view = DirectX::XMMatrixIdentity();
+	DirectX::XMMATRIX m_proj = DirectX::XMMatrixIdentity();
 
 };

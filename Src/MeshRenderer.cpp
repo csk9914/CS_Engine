@@ -64,12 +64,15 @@ void MeshRenderer::Render()
 
     // ── Camera 컴포넌트에서 View/Proj 가져오기 ───────────────────────
    // (없으면 기본값 사용)
-    XMMATRIX view = XMMatrixLookAtLH(XMVectorSet(0, 2, -5, 0), XMVectorSet(0, 0, 0, 0), XMVectorSet(0, 1, 0, 0));
+    XMMATRIX view = XMMatrixLookAtLH(
+        XMVectorSet(0, 2, -5, 0), 
+        XMVectorSet(0, 0, 0, 0), 
+        XMVectorSet(0, 1, 0, 0));
+
     XMMATRIX proj = XMMatrixPerspectiveFovLH(XMConvertToRadians(60.f),
         (float)renderer->GetWidth() / (float)renderer->GetHeight(),0.1f, 1000.f);
 
     Camera* cam = GameEngine::Instance()->GetMainCamera();
-
     if (cam)
     {
         view = cam->GetViewMatrix();
