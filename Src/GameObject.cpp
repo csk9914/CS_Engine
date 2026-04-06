@@ -1,10 +1,12 @@
 ﻿#include "GameObject.h"
 
-GameObject::GameObject() : m_active(true), m_isDestroyed(false)
+
+
+
+GameObject::GameObject(const std::string& name) : m_name(name), m_active(true), m_isDestroyed(false)
 {
 	m_transform = AddComponent<Transform>();
 }
-
 
 // 객체가 파괴될 때 자원 정리
 void GameObject::OnDestroy()
@@ -68,4 +70,9 @@ void GameObject::SetActive(bool active)
 			}
 		}
 	}
+}
+
+void GameObject::SetName(std::string& name)
+{
+	m_name = name;
 }

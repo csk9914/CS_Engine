@@ -1,16 +1,19 @@
 ﻿#include "RenderManager.h"
 #include "SpriteRenderer.h"
 
-#include "Renderer.h"
+#include "DX11Renderer.h"
+#include "MeshRenderer.h"
+#include "EditorUI.h"
+#include "GameEngine.h"
 
-RenderManager::RenderManager(int width, int height, bool visible)
+RenderManager::RenderManager(HWND hWnd, int width, int height)
 {
-	m_renderer = Renderer::CreateRenderer(width, height, visible);
+	m_renderer = DX11Renderer::Create(hWnd, width, height);
 
-	if (m_renderer == nullptr)
-	{
-		return;
-	}
+	// 4. EditorUI (ImGui)
+	m_editorUI = std::make_unique<EditorUI>();
+	m_editorUI->Init(hWnd, m_renderer->GetDevice(), m_renderer->GetContext());
+
 }
 
 void RenderManager::RegisterSprite(SpriteRenderer* sprite)
@@ -27,19 +30,46 @@ void RenderManager::UnregisterSprite(SpriteRenderer* sprite)
 	m_sprites.erase(std::remove(m_sprites.begin(), m_sprites.end(), sprite), m_sprites.end());
 }
 
+void RenderManager::RegisterMesh(MeshRenderer* mesh)
+{
+	m_meshes.push_back(mesh);
+}
+
+void RenderManager::UnregisterMesh(MeshRenderer* mesh)
+{
+	m_meshes.erase(
+		std::remove(m_meshes.begin(), m_meshes.end(), mesh),
+		m_meshes.end());
+}
+
 void RenderManager::RenderAll()
 {
 	if (!m_renderer) return;
 
-	// 순서대로 정렬(레이어 낮은 순서부터)
+	// 1. 프레임 시작 (화면 클리어)
+	m_renderer->BeginFrame(0.05f, 0.05f, 0.1f);
+
+	// 2. MeshRenderer 전부 그리기 (나중에 orderInLayer 정렬 추가 가능)
+	for (MeshRenderer* mesh : m_meshes)
+		if (mesh) mesh->Render();
 
 	// 모든 스프라이트 그리기
 	for (const auto& sprite : m_sprites)
 	{
-		if (sprite)
-			sprite->Render();
+		if (sprite) sprite->Render();
 	}
+
+	// ── ImGui (씬 위에 덮어서 그림) ─────────────────────────────
+	m_editorUI->BeginFrame();
+	m_editorUI->Draw(GameEngine::Instance()->GetCurrentScene()); // IGame에서 씬 가져옴
+	m_editorUI->EndFrame();
 
 	// 버퍼 전환
 	m_renderer->Flip();
+}
+
+void RenderManager::Release()
+{
+	if (m_editorUI)
+		m_editorUI->Shutdown();
 }

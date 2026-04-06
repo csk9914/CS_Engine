@@ -10,7 +10,7 @@
 					"jsonFile" : "directory-.-Debug-f6f22219c74102c3da70.json",
 					"minimumCMakeVersion" : 
 					{
-						"string" : "3.10"
+						"string" : "3.20"
 					},
 					"projectIndex" : 0,
 					"source" : ".",
@@ -28,7 +28,7 @@
 					[
 						0
 					],
-					"name" : "CS_Engine_Project",
+					"name" : "CS_Engine",
 					"targetIndexes" : 
 					[
 						0
@@ -40,7 +40,7 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "CS_Engine::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-CS_Engine-Debug-1c6b898ae8cd995ab22d.json",
+					"jsonFile" : "target-CS_Engine-Debug-e8df0fa89d4df378dfd2.json",
 					"name" : "CS_Engine",
 					"projectIndex" : 0
 				}

@@ -1,25 +1,24 @@
 ﻿#include"GameEngine.h"
-#include "TEXT_RPG.h"
 #include "SHOOTER.h"
 
+#include <Windows.h>
 #include<iostream>
 #include <memory>
 
 
-
-
-
-int main()
+int WINAPI WinMain(
+	_In_     HINSTANCE hInstance,
+	_In_opt_ HINSTANCE hPrevInstance,
+	_In_     LPSTR     lpCmdLine,
+	_In_     int       nCmdShow)
 {
-	if (GameEngine::Instance()->Init(std::unique_ptr<IGame> (new SHOOTER())))
+	if (GameEngine::Instance()->Init(std::make_unique<SHOOTER>()))
 	{
 		GameEngine::Instance()->Run();
 	}
-	else
-	{
-		// 초기화 실패
-		std::cout << "초기화 실패";
-	}
 
 	GameEngine::Instance()->Release();
+	return 0;
 }
+
+

@@ -1,12 +1,16 @@
 ﻿#include "Defines.h"
 #include "GameEngine.h"
+#include "CSWindow.h"
+
 #include "GameObject.h"
 #include "GameScene.h"
 #include "IGame.h"
 #include "InputHandler.h"
 #include "RenderManager.h"
 #include "SceneManager.h"
-#include "Renderer.h"
+#include "DX11Renderer.h"
+#include "EditorUI.h"
+#include "SHOOTER.h"
 
 #include<conio.h>
 
@@ -20,21 +24,34 @@ using namespace std;
 
 std::unique_ptr<GameEngine> GameEngine::m_instance = nullptr;
 
-GameEngine::GameEngine() : m_deltaTime(0.0f), m_isRunning(false) {}
+GameEngine::GameEngine() {}
 
 GameEngine::~GameEngine() {}
 
 bool GameEngine::Init(std::unique_ptr<IGame> game)
 {
-	// 렌더러 생성
-	m_renderManager = std::make_unique<RenderManager>(game->GetWidth(), game->GetHeight(), game->GetAppConfig().isCursorVisible);
-
-	// 게임 생성( 게임 구현부)
+	if (!game) return false;
 	m_game = std::move(game);
-	if (m_game == nullptr) return false;
+
+	// 윈도우 생성
+	m_window = std::make_unique<CSWindow>();
+
+	std::wstring title(m_game->GetAppConfig().title.begin(), m_game->GetAppConfig().title.end());
+
+	if (!m_window->Init(title, m_game->GetWidth(), m_game->GetHeight(), GetModuleHandle(nullptr))) return false;
+
+
+	// 윈도우 핸들 전달
+	InputHandler::Instance()->SetHWND(m_window->GetHWND());
+
+	//  DX11 RenderManager 생성 
+	m_renderManager = std::make_unique<RenderManager>(m_window->GetHWND(), m_window->GetWidth(), m_window->GetHeight());
+	if (!m_renderManager->GetRenderer()) return false;
+
+
+
 
 	m_isRunning = true;
-
 	return true;
 }
 
@@ -42,24 +59,28 @@ void GameEngine::Run()
 {
 	// 초기화
 	m_game->Start();
-
 	m_prevTime = std::chrono::steady_clock::now();
+
 	while (m_isRunning)
 	{
 		// 프레임 시작 시간 기록
 		auto frameStart = std::chrono::steady_clock::now();
+
+		// 메시지 펌프 (WM_QUIT → 루프 종료)
+		if (!m_window->PumpMessages()) { m_isRunning = false; break; }
 
 		// 게임 시간 관리
 		Tick();
 
 		// 입력 처리
 		InputHandler::Instance()->Update();
-		
+
 		// 게임 업데이트
 		m_game->Update(m_deltaTime);
 
 		// 렌더링
 		m_renderManager->RenderAll();
+
 
 		// 프레임 지연
 		CapFrame(frameStart);
@@ -71,7 +92,14 @@ void GameEngine::Run()
 void GameEngine::Release()
 {
 	m_game.reset();
+	m_renderManager->Release();
 	m_renderManager.reset();
+	m_window.reset();
+}
+
+GameScene* GameEngine::GetCurrentScene()
+{
+	return m_game->GetCurrentScene();
 }
 
 void GameEngine::Tick()

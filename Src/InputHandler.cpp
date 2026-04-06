@@ -10,7 +10,18 @@ InputHandler::InputHandler()
 
 void InputHandler::Update()
 {
-	// 마우스
+	// 마우스 위치 & 델타
+	m_prevPos = m_mousePos;
+	GetCursorPos(&m_mousePos);
+
+	if (m_hWnd) ScreenToClient(m_hWnd, &m_mousePos);
+
+	m_mouseDelta.x = m_mousePos.x - m_prevPos.x;
+	m_mouseDelta.y = m_mousePos.y - m_prevPos.y;
+
+	// 휠은 WM_MOUSEWHEEL에서 SetWheelDelta로 누적되므로
+	// 매 프레임 끝에 0으로 초기화
+	m_mouseWheel = 0.0f;
 }
 
 bool InputHandler::IsKeyDown(int key)

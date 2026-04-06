@@ -1,33 +1,43 @@
 ﻿#pragma once
 #include "Component.h"
-#include "Vector2.h"
+#include "Vector3.h"
+#include <DirectXMath.h>
 
 class Transform : public Component
 {
 public:
-	Transform() : m_position(0, 0), m_rotation(0, 0), m_scale(1.f, 1.f) {}
+	Transform() : m_position(0, 0, 0), m_rotation(0, 0, 0), m_scale(1.f, 1.f, 1.f) {}
 	virtual ~Transform() {}
 
 public:
-	//virtual void Awake() override {}
-	//virtual void Start() override {}
-	//virtual void Update(float dt) override  {}
-	//virtual void LateUpdate(float dt) override {}
-	//virtual void OnEnable() override  {}
-	//virtual void OnDisable() override  {}
-	//virtual void OnDestroy() override  {}
+	const Vector3& GetPosition() const { return m_position; }
+	const Vector3& GetRotation() const { return m_rotation; }
+	const Vector3& GetScale() const { return m_scale; }
 
-public:
-	const Vector2& GetPosition() const { return m_position; }
-	const Vector2& GetRotation() const { return m_rotation; }
-	const Vector2& GetScale() const { return m_scale; }
-	void SetPosition(const Vector2& position) { m_position = position; }
-	void SetRotation(const Vector2& rotation) { m_rotation = rotation; }
-	void SetScale(const Vector2& scale) { m_scale = scale; }
+
+	void SetPosition(const Vector3& position) { m_position = position; }
+	void SetRotation(const Vector3& rotation) { m_rotation = rotation; }
+	void SetScale(const Vector3& scale) { m_scale = scale; }
+
+	// 행렬 변환
+	DirectX::XMMATRIX GetWorldMatrix() const
+	{
+		using namespace DirectX;
+
+		XMMATRIX S = XMMatrixScaling(m_scale.x, m_scale.y, m_scale.z);
+
+		XMMATRIX R = XMMatrixRotationX(XMConvertToRadians(m_rotation.x))
+			* XMMatrixRotationY(XMConvertToRadians(m_rotation.y))
+			* XMMatrixRotationZ(XMConvertToRadians(m_rotation.z));
+
+		XMMATRIX T = XMMatrixTranslation(m_position.x, m_position.y, m_position.z);
+
+		return S * R * T;
+	}
 
 private:
-	Vector2 m_position;
-	Vector2 m_rotation;
-	Vector2 m_scale;
+	Vector3 m_position;
+	Vector3 m_rotation;
+	Vector3 m_scale;
 
 };

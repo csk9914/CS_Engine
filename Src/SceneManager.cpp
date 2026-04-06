@@ -7,6 +7,6 @@ void SceneManager::Render(IRenderer& renderer) const
 {
 	if (GetCurState())
 	{
-		GetCurState()->Render(renderer);
+		//GetCurState()->Render();
 	}
 }

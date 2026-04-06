@@ -2,7 +2,7 @@
 #include "GameEngine.h"
 #include "RenderManager.h"
 #include "GameObject.h"
-#include "Renderer.h"
+#include "DX11Renderer.h"
 
 SpriteRenderer::~SpriteRenderer()
 {
@@ -23,7 +23,7 @@ void SpriteRenderer::Render()
 	RenderManager* renderManager = GameEngine::Instance()->GetRenderManager();
 	if (renderManager)
 	{
-		renderManager->GetRenderer()->RenderText(x, y, m_sprite);
+		//renderManager->GetRenderer()->Update(x, y, m_sprite);
 	}
 
 }
