@@ -1,5 +1,4 @@
 #include "EditorUI.h"
-#include "GameScene.h"
 #include "GameObject.h"
 #include "Transform.h"
 #include "Camera.h"
@@ -8,6 +7,8 @@
 #include "GameView.h"
 #include "SceneView.h"
 #include "Gizmo.h"
+
+#include "GameScene.h"
 
 #include "imgui.h"
 #include "imgui_impl_win32.h"
@@ -120,6 +121,7 @@ void EditorUI::EndFrame()
 	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 }
 
+
 // ── DockSpace ─────────────────────────────────────────────────────────
 void EditorUI::DrawMainDockSpace()
 {
@@ -195,15 +197,46 @@ void EditorUI::DrawHierarchy(GameScene* scene)
 		if (ImGui::BeginPopupContextItem())
 		{
 			m_selected = obj;
-			if (ImGui::MenuItem("Delete"))   obj->Destroy();
-			if (ImGui::MenuItem(obj->GetActive() ? "Deactivate" : "Activate"))
-				obj->SetActive(!obj->GetActive());
+			if (ImGui::MenuItem("Delete"))
+			{
+				obj->Destroy();
+				m_selected = nullptr;
+			}
+
 			ImGui::EndPopup();
 		}
 
-		if (!obj->GetActive()) ImGui::PopStyleColor();
+	}
+	// "HierarchyContext"라는 ID를 가진 팝업창을 생성합니다.
+	if (ImGui::BeginPopupContextWindow("HierarchyContext", ImGuiMouseButton_Right))
+	{
+		if (ImGui::MenuItem("Create Empty"))
+		{
+			// Scene에서 새로운 빈 객체 생성
+			GameObject* newObj = scene->CreateGameObject("New GameObject");
+			m_selected = newObj; // 생성 즉시 인스펙터에 노출
+		}
+
+		ImGui::Separator(); // 구분선
+
+		if (ImGui::BeginMenu("3D Object"))
+		{
+			if (ImGui::MenuItem("Cube"))
+			{
+				GameObject* cube = scene->CreatePrimitive(GameScene::PrimitiveType::Cube);
+				m_selected = cube;
+			}
+			if (ImGui::MenuItem("Sphere"))
+			{
+				// Sphere 구현 시 추가
+			}
+			ImGui::EndMenu();
+		}
+
+		ImGui::EndPopup();
 	}
 
+	// 빈 공간 클릭 시 선택 해제 로직
 	if (ImGui::IsWindowHovered() && ImGui::IsMouseClicked(0) && !ImGui::IsAnyItemHovered())
 		m_selected = nullptr;
 

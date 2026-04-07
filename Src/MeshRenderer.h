@@ -43,13 +43,12 @@ public:
     DirectX::XMFLOAT4 GetColor() const { return m_color; }
 
 private:
-    bool InitCube();   // 큐브 버텍스/인덱스 버퍼 생성
     bool InitShader(); // 셰이더 컴파일 + InputLayout
     bool InitCBuffers();
 
 private:
-    Microsoft::WRL::ComPtr < ID3D11Buffer> m_vertexBuffer;
-    Microsoft::WRL::ComPtr<ID3D11Buffer> m_indexBuffer;
+
+
     Microsoft::WRL::ComPtr<ID3D11Buffer> m_cbMatrix;
     Microsoft::WRL::ComPtr<ID3D11Buffer> m_cbColor;
 
@@ -58,7 +57,7 @@ private:
 
     Microsoft::WRL::ComPtr<ID3D11InputLayout>  m_inputLayout;
 
-    UINT m_indexCount = 0;
+
     DirectX::XMFLOAT4 m_color = { 1.f, 1.f, 1.f, 1.f };
 
     bool m_initialized = false;

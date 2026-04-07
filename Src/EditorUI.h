@@ -36,8 +36,11 @@ public:
     // SceneView 위치/크기 (Ray cast & Gizmo 에임용)
     ImVec2 GetSceneViewPos()  const { return m_sceneViewPos;  }
     ImVec2 GetSceneViewSize() const { return m_sceneViewSize; }
+
     void   SetSceneViewPos (ImVec2 p) { m_sceneViewPos  = p; }
     void   SetSceneViewSize(ImVec2 s) { m_sceneViewSize = s; }
+
+
 
 private:
     void DrawMainDockSpace();

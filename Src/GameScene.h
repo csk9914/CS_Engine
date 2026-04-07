@@ -20,8 +20,15 @@ public:
 	virtual std::string GetStateID() const override { return "GameScene"; }
 
 	// 씬에 게임오브젝트 추가
-	GameObject* AddGameObject(const std::string& name = "GameObject");
+	GameObject* CreateGameObject(const std::string& name = "GameObject");
 
+	// 2. 유니티의 CreatePrimitive 방식 (기본 도형)
+	enum class PrimitiveType { Cube, Sphere, Capsule, Plane };
+
+	GameObject* CreatePrimitive(PrimitiveType type);
+
+	// 3. (심화) 기존 객체 복제 (Instantiate)
+	// 
 	// 오브젝트 접근
 	const std::vector<std::unique_ptr<GameObject>>& GetGameObjects() const
 	{

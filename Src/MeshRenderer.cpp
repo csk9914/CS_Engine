@@ -6,30 +6,9 @@
 #include "Transform.h"
 #include "Camera.h"
 
+#include "Mesh.h"
+#include "MeshFilter.h"
 using namespace DirectX;
-
-// 큐브 버텍스 (위치만)
-struct Vertex { float x, y, z; };
-
-static const Vertex CUBE_VERTS[] =
-{
-    // 앞면
-    {-0.5f,  0.5f, -0.5f}, { 0.5f,  0.5f, -0.5f},
-    { 0.5f, -0.5f, -0.5f}, {-0.5f, -0.5f, -0.5f},
-    // 뒷면
-    { 0.5f,  0.5f,  0.5f}, {-0.5f,  0.5f,  0.5f},
-    {-0.5f, -0.5f,  0.5f}, { 0.5f, -0.5f,  0.5f},
-};
-
-static const UINT CUBE_INDICES[] =
-{
-    0,1,2, 0,2,3, // 앞
-    4,5,6, 4,6,7, // 뒤
-    5,0,3, 5,3,6, // 왼쪽
-    1,4,7, 1,7,2, // 오른쪽
-    5,4,1, 5,1,0, // 위
-    3,2,7, 3,7,6, // 아래
-};
 
 MeshRenderer::MeshRenderer(){}
 
@@ -37,7 +16,7 @@ MeshRenderer::~MeshRenderer(){}
 
 void MeshRenderer::Awake()
 {
-    m_initialized = InitCube() && InitShader() && InitCBuffers();
+    m_initialized =  InitShader() && InitCBuffers();
 }
 
 void MeshRenderer::OnEnable()
@@ -59,6 +38,13 @@ void MeshRenderer::Render()
 {
     if (!m_initialized) return;
 
+    // 1. MeshFilter 컴포넌트 가져오기
+    auto* filter = GetOwner()->GetComponent<MeshFilter>();
+    if (!filter || !filter->GetMesh()) 
+        return; // 그릴 메쉬가 없으면 리턴
+    Mesh* mesh = filter->GetMesh();
+
+
     Camera* cam = GameEngine::Instance()->GetRenderCamera();
     if (!cam) {return;}
 
@@ -66,7 +52,6 @@ void MeshRenderer::Render()
     auto* ctx = renderer->GetContext();
 
     // ── Camera 컴포넌트에서 View/Proj 가져오기 ───────────────────────
-   // (없으면 기본값 사용)
     XMMATRIX view = cam->GetViewMatrix();
     XMMATRIX proj = cam->GetProjectionMatrix();
        
@@ -87,9 +72,8 @@ void MeshRenderer::Render()
     ctx->Unmap(m_cbColor.Get(), 0);
 
     // 파이프라인 바인딩
-    UINT stride = sizeof(Vertex), offset = 0;
-    ctx->IASetVertexBuffers(0, 1, m_vertexBuffer.GetAddressOf(), &stride, &offset);
-    ctx->IASetIndexBuffer(m_indexBuffer.Get(), DXGI_FORMAT_R32_UINT, 0);
+    mesh->Bind(ctx);
+
     ctx->IASetInputLayout(m_inputLayout.Get());
     ctx->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
@@ -98,34 +82,10 @@ void MeshRenderer::Render()
     ctx->VSSetConstantBuffers(0, 1, m_cbMatrix.GetAddressOf());
     ctx->PSSetConstantBuffers(1, 1, m_cbColor.GetAddressOf());
 
-    // 드로우
-    ctx->DrawIndexed(m_indexCount, 0, 0);
+    // DrawIndexed 호출 시 메쉬가 가진 인덱스 개수 사용
+    ctx->DrawIndexed(mesh->GetIndexCount(), 0, 0);
 }
 
-bool MeshRenderer::InitCube()
-{
-    auto* device = GameEngine::Instance()->GetRenderManager()->GetRenderer()->GetDevice();
-
-    // 버텍스 버퍼
-    D3D11_BUFFER_DESC bd = {};
-    bd.Usage = D3D11_USAGE_DEFAULT;
-    bd.ByteWidth = sizeof(CUBE_VERTS);
-    bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-
-    D3D11_SUBRESOURCE_DATA sd = {};
-    sd.pSysMem = CUBE_VERTS;
-    if (FAILED(device->CreateBuffer(&bd, &sd, &m_vertexBuffer))) return false;
-
-    // 인덱스 버퍼
-    bd.ByteWidth = sizeof(CUBE_INDICES);
-    bd.BindFlags = D3D11_BIND_INDEX_BUFFER;
-    sd.pSysMem = CUBE_INDICES;
-    if (FAILED(device->CreateBuffer(&bd, &sd, &m_indexBuffer))) return false;
-
-    m_indexCount = ARRAYSIZE(CUBE_INDICES);
-
-	return true;
-}
 
 bool MeshRenderer::InitShader()
 {

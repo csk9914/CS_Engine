@@ -4,6 +4,8 @@
 #include "MeshRenderer.h"
 #include "Camera.h"
 #include "GameEngine.h"
+#include "GeometryFactory.h"
+#include "MeshFilter.h"
 
 SHOOTER::SHOOTER()
 {
@@ -18,7 +20,7 @@ void SHOOTER::Start()
 {
     // ── 게임 카메라 (MainCamera) ──────────────────────────────────────
     // OnEnable에서 SetMainCamera(this)가 자동 호출됨
-    GameObject* camObj = m_scene.AddGameObject("MainCamera");
+    GameObject* camObj = m_scene.CreateGameObject("MainCamera");
     camObj->GetTransform()->SetPosition({0.f, 3.f, -8.f});
     camObj->GetTransform()->SetRotation({15.f, 0.f, 0.f});
     GameEngine::Instance()->SetGameCamera(camObj->AddComponent<Camera>()); 
@@ -28,12 +30,25 @@ void SHOOTER::Start()
     auto makeCube = [&](const std::string& name, Vector3 pos,
                         float r, float g, float b)
     {
-        GameObject* obj = m_scene.AddGameObject(name);
+        GameObject* obj = m_scene.CreateGameObject(name);
         obj->GetTransform()->SetPosition(pos);
+
+        // 큐브 데이터
+        MeshData cubeData = GeometryFactory::CreateCube(1.0f);
+
+        // 메쉬 생성 ( resource 매니저에서 관리)
+        Mesh* mesh = new Mesh();
+        mesh->Create(cubeData);
+
+        MeshFilter* mf = obj->AddComponent<MeshFilter>();
+        mf->SetMesh(mesh);
+
         MeshRenderer* mr = obj->AddComponent<MeshRenderer>();
         mr->SetColor(r, g, b);
+
         return obj;
     };
+
 
     makeCube("Cube_Red",   {-3.f, 0.f, 0.f}, 0.9f, 0.3f, 0.3f);
     makeCube("Cube_Green", { 0.f, 0.f, 0.f}, 0.3f, 0.9f, 0.3f);
