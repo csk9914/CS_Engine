@@ -48,7 +48,6 @@ bool GameEngine::Init(std::unique_ptr<IGame> game)
 	m_renderManager = std::make_unique<RenderManager>(m_window->GetHWND(), m_window->GetWidth(), m_window->GetHeight());
 	if (!m_renderManager->GetRenderer()) return false;
 
-
 	m_isRunning = true;
 	return true;
 }
