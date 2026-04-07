@@ -11,6 +11,7 @@
 #include "DX11Renderer.h"
 #include "EditorUI.h"
 #include "SHOOTER.h"
+#include "ResourceManager.h"
 
 #include<conio.h>
 
@@ -47,6 +48,9 @@ bool GameEngine::Init(std::unique_ptr<IGame> game)
 	//  DX11 RenderManager 생성 
 	m_renderManager = std::make_unique<RenderManager>(m_window->GetHWND(), m_window->GetWidth(), m_window->GetHeight());
 	if (!m_renderManager->GetRenderer()) return false;
+
+	// 리소스 매니저 초기화 ( 기본 도형 메쉬 생성)
+	ResourceManager::Instance()->InitDefaultResources();
 
 	m_isRunning = true;
 	return true;

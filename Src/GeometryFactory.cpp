@@ -6,6 +6,22 @@ MeshData GeometryFactory::CreateRectangle(float width, float height)
 	return MeshData();
 }
 
+MeshData GeometryFactory::CreatePlane(float size)
+{
+	MeshData data;
+	float s = size * 0.5f;
+
+	data.vertices = {
+		// 윗면
+		{{-s, 0, s}, {0, 1, 0}, {0, 0}}, {{s, 0, s}, {0, 1, 0}, {1, 0}},
+		{{-s, 0, -s}, {0, 1, 0}, {0, 1}}, {{s, 0, -s}, {0, 1, 0}, {1, 1}}
+	};
+
+	// 인덱스 (시계 방향)
+	data.indices = { 0, 1, 2, 2, 1, 3 };
+	return data;
+}
+
 MeshData GeometryFactory::CreateCube(float size)
 {
 	MeshData data;

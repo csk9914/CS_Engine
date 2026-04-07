@@ -67,7 +67,7 @@ bool EditorUI::Init(HWND hWnd, ID3D11Device* device, ID3D11DeviceContext* contex
 	m_windows.push_back(std::make_unique<SceneView>());
 	m_windows.push_back(std::make_unique<GameView>());
 
-	for (auto& w : m_windows) 
+	for (auto& w : m_windows)
 		w->Init();
 
 	m_initialized = true;
@@ -176,69 +176,72 @@ void EditorUI::DrawMenuBar()
 void EditorUI::DrawHierarchy(GameScene* scene)
 {
 	ImGui::Begin("Hierarchy");
-	if (!scene) { ImGui::TextDisabled("No scene"); ImGui::End(); return; }
+	if (!scene) { ImGui::End(); return; }
 
 	const auto& objs = scene->GetGameObjects();
+	GameObject* pendingDelete = nullptr;
+
+	// 1. 오브젝트 리스트 루프
 	for (int i = 0; i < (int)objs.size(); i++)
 	{
 		GameObject* obj = objs[i].get();
-		if (!obj) continue;
+		if (!obj || obj->IsDestroy()) continue;
 
-		bool selected = (m_selected == obj);
-		if (!obj->GetActive())
-			ImGui::PushStyleColor(ImGuiCol_Text, { 0.5f,0.5f,0.5f,1.f });
-
-		std::string label = obj->GetName();
-		if (label.empty()) label = "GameObject_" + std::to_string(i);
-
-		if (ImGui::Selectable(label.c_str(), selected))
+		std::string label = obj->GetName() + "##" + std::to_string(i);
+		if (ImGui::Selectable(label.c_str(), m_selected == obj))
+		{
 			m_selected = obj;
+		}
 
+		// [A] 아이템 개별 우클릭 (Delete)
+		// 괄호를 비워두면 방금 그린 Selectable에 자동으로 붙습니다.
 		if (ImGui::BeginPopupContextItem())
 		{
 			m_selected = obj;
-			if (ImGui::MenuItem("Delete"))
+			if (ImGui::MenuItem("Delete Object"))
 			{
-				obj->Destroy();
-				m_selected = nullptr;
+				pendingDelete = obj;
 			}
-
 			ImGui::EndPopup();
 		}
-
 	}
-	// "HierarchyContext"라는 ID를 가진 팝업창을 생성합니다.
-	if (ImGui::BeginPopupContextWindow("HierarchyContext", ImGuiMouseButton_Right))
+
+	// 2. [핵심] 빈 공간 우클릭 처리 (우리가 방금 성공시킨 그 방식!)
+	if (ImGui::IsWindowHovered() && ImGui::IsMouseClicked(ImGuiMouseButton_Right) && !ImGui::IsAnyItemHovered())
+	{
+		ImGui::OpenPopup("HierarchyEmptyPopup");
+	}
+
+	if (ImGui::BeginPopup("HierarchyEmptyPopup"))
 	{
 		if (ImGui::MenuItem("Create Empty"))
-		{
-			// Scene에서 새로운 빈 객체 생성
-			GameObject* newObj = scene->CreateGameObject("New GameObject");
-			m_selected = newObj; // 생성 즉시 인스펙터에 노출
-		}
-
-		ImGui::Separator(); // 구분선
+			m_selected = scene->CreateGameObject("New GameObject");
 
 		if (ImGui::BeginMenu("3D Object"))
 		{
 			if (ImGui::MenuItem("Cube"))
-			{
-				GameObject* cube = scene->CreatePrimitive(GameScene::PrimitiveType::Cube);
-				m_selected = cube;
-			}
-			if (ImGui::MenuItem("Sphere"))
-			{
-				// Sphere 구현 시 추가
-			}
+				m_selected = scene->CreatePrimitive(GameScene::PrimitiveType::Cube);
 			ImGui::EndMenu();
 		}
-
 		ImGui::EndPopup();
 	}
 
-	// 빈 공간 클릭 시 선택 해제 로직
-	if (ImGui::IsWindowHovered() && ImGui::IsMouseClicked(0) && !ImGui::IsAnyItemHovered())
-		m_selected = nullptr;
+	// 3. 안전한 삭제 (루프 밖)
+	if (pendingDelete)
+	{
+		if (m_selected == pendingDelete) m_selected = nullptr;
+		pendingDelete->Destroy();
+	}
+
+	// 4. 선택 해제 로직 (보호막)
+	if (ImGui::IsWindowHovered() && ImGui::IsMouseClicked(ImGuiMouseButton_Left))
+	{
+		// 아이템 위가 아니고 + "HierarchyEmptyPopup"이 열려있지 않을 때만 해제
+		if (!ImGui::IsAnyItemHovered() && !ImGui::IsPopupOpen("HierarchyEmptyPopup"))
+		{
+			m_selected = nullptr;
+		}
+	}
 
 	ImGui::End();
 }

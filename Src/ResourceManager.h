@@ -2,17 +2,14 @@
 #include <map>
 #include <string>
 #include <memory>
-
-// 자원들의 부모 클래스 (나중에 Mesh, Texture가 이를 상속받음)
-class Resource
-{
-public:
-    virtual ~Resource() {}
-    std::string name;
-};
+#include "Mesh.h"
+#include "GeometryFactory.h"
 
 class ResourceManager
 {
+private:
+    ResourceManager() = default;
+
 public:
     static ResourceManager* Instance()
     {
@@ -20,20 +17,40 @@ public:
         return &instance;
     }
 
-    // 자원 가져오기 (없으면 로드하거나 nullptr 반환)
-    template <typename T>
-    std::shared_ptr<T> Get(const std::string& name) 
-    {
-        if (m_resources.find(name) != m_resources.end())
-            return std::static_pointer_cast<T>(m_resources[name]);
+    // 메쉬 추가 ( 미리 등록해서 사용)
+    void AddMesh(const std::string& name, Mesh* mesh) {
+        if (m_meshDict.find(name) == m_meshDict.end()) {
+            m_meshDict[name] = std::unique_ptr<Mesh>(mesh);
+        }
+    }
+
+    // 메쉬 가져오기 (공유 자원)
+    Mesh* GetMesh(const std::string& name) {
+        if (m_meshDict.find(name) != m_meshDict.end())
+            return m_meshDict[name].get();
         return nullptr;
     }
 
-    // 자원 수동 등록 (직접 생성한 자원 등)
-    //void Add(const std::string& name, std::shared_ptr<Resource> res);
+    // [중요] 기본 도형들을 미리 구워두는 함수
+    void InitDefaultResources() {
+        // 큐브 구워서 "DefaultCube"라는 이름으로 창고에 넣기
+        MeshData cubeData = GeometryFactory::CreateCube(1.0f);
+        Mesh* cubeMesh = new Mesh();
+        cubeMesh->Create(cubeData);
+        AddMesh("CSCube", cubeMesh);
+
+        // 평면
+        MeshData planeData = GeometryFactory::CreatePlane(10.0f);
+        Mesh* planeMesh = new Mesh();
+        planeMesh->Create(planeData);
+        AddMesh("CSPlane", planeMesh);
+
+        
+        // 나중에 평면, 구 등도 여기서 미리 구워둠
+
+
+    }
 
 private:
-    ResourceManager() {}
-    // 모든 자원을 통합 관리하는 저장소
-    std::map<std::string, std::shared_ptr<Resource>> m_resources;
+    std::map<std::string, std::shared_ptr<Mesh>> m_meshDict;
 };

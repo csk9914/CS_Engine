@@ -21,123 +21,126 @@ using namespace DirectX;
 
 RenderManager::RenderManager(HWND hWnd, int width, int height)
 {
-    m_renderer = DX11Renderer::Create(hWnd, width, height);
+	m_renderer = DX11Renderer::Create(hWnd, width, height);
 
-    m_pipeline = std::make_unique<RenderPipeline>(m_renderer.get());
+	m_pipeline = std::make_unique<RenderPipeline>(m_renderer.get());
 
-    m_editorUI = std::make_unique<EditorUI>();
-    m_editorUI->Init(hWnd, m_renderer->GetDevice(), m_renderer->GetContext());
+	m_editorUI = std::make_unique<EditorUI>();
+	m_editorUI->Init(hWnd, m_renderer->GetDevice(), m_renderer->GetContext());
 }
 
 RenderManager::~RenderManager() {}
 
-void RenderManager::RegisterSprite(SpriteRenderer* s)  { m_sprites.push_back(s); }
+void RenderManager::RegisterSprite(SpriteRenderer* s) { m_sprites.push_back(s); }
 void RenderManager::UnregisterSprite(SpriteRenderer* s)
 {
-    m_sprites.erase(std::remove(m_sprites.begin(), m_sprites.end(), s), m_sprites.end());
+	m_sprites.erase(std::remove(m_sprites.begin(), m_sprites.end(), s), m_sprites.end());
 }
-void RenderManager::RegisterMesh(MeshRenderer* m)   { m_meshes.push_back(m); }
+void RenderManager::RegisterMesh(MeshRenderer* m) { m_meshes.push_back(m); }
 void RenderManager::UnregisterMesh(MeshRenderer* m)
 {
-    m_meshes.erase(std::remove(m_meshes.begin(), m_meshes.end(), m), m_meshes.end());
+	m_meshes.erase(std::remove(m_meshes.begin(), m_meshes.end(), m), m_meshes.end());
 }
 
 void RenderManager::RenderAll(float deltaTime)
 {
-    if (!m_renderer || !m_pipeline) return;
+	if (!m_renderer || !m_pipeline) return;
 
-    // ── 1. 각 뷰가 Pipeline에 렌더 요청 Push ────────────────────────
-    m_editorUI->Update(deltaTime, m_pipeline.get(), m_renderer.get());
+	// 각 뷰가 Pipeline에 렌더 요청 Push 
+	m_editorUI->Update(deltaTime, m_pipeline.get(), m_renderer.get());
 
-    // ── 2. Pipeline 실행 → SceneRTV, GameRTV에 그리기 ───────────────
-    m_pipeline->Execute(m_meshes);
+	//  Pipeline 실행 → SceneRTV, GameRTV에 그리기 
+	m_pipeline->Execute(m_meshes);
 
-    // ── 3. 메인 백버퍼 클리어 ────────────────────────────────────────
-    m_renderer->BeginFrame(0.1f, 0.1f, 0.1f);
+	// Raycast는 ImGui 렌더 사이에 호출해야
+	// ImGuizmo::IsOver() / IsUsing() 값이 정확함
+	Raycast();
 
-    // ── 4. Ray cast (ImGui NewFrame 전에 해야 WantCaptureMouse 정확) ─
-    Raycast();
 
-    // ── 5. ImGui 렌더 (SceneView/GameView RTT를 Image로 출력) ────────
-    m_editorUI->BeginFrame();
-    m_editorUI->Draw(
-        GameEngine::Instance()->GetCurrentScene(),
-        m_renderer->GetSceneSRV(),
-        m_renderer->GetGameSRV());
-    m_editorUI->EndFrame();
+	// 메인 백버퍼 클리어 
+	m_renderer->BeginFrame(0.1f, 0.1f, 0.1f);
 
-    // ── 6. Present ───────────────────────────────────────────────────
-    m_renderer->Flip();
+	// ImGui 렌더 (SceneView/GameView RTT를 Image로 출력) 
+	m_editorUI->BeginFrame();
+
+	m_editorUI->Draw(GameEngine::Instance()->GetCurrentScene(), m_renderer->GetSceneSRV(), m_renderer->GetGameSRV());
+
+	m_editorUI->EndFrame();
+
+	// Present
+	m_renderer->Flip();
 }
 
 void RenderManager::Release()
 {
-    if (m_editorUI) m_editorUI->Shutdown();
+	if (m_editorUI) m_editorUI->Shutdown();
 }
 
 void RenderManager::Raycast()
 {
-    InputHandler* input = InputHandler::Instance();
-    if (!input->IsKeyOneDown(VK_LBUTTON)) return;
+	InputHandler* input = InputHandler::Instance();
 
-    // Gizmo 조작 중이면 선택 변경 무시
-    if (m_editorUI->GetSelected() && (ImGuizmo::IsOver() || ImGuizmo::IsUsing()))
-        return;
+	// IsUsing() = 드래그 중, IsOver() = 마우스가 핸들 위에 있음
+	if (ImGuizmo::IsUsing() || ImGuizmo::IsOver()) return;
 
-    ImVec2 sPos  = m_editorUI->GetSceneViewPos();
-    ImVec2 sSize = m_editorUI->GetSceneViewSize();
-    POINT  mp    = input->GetMousePos();
+	// 좌클릭 순간(프레임에 한 번)만 처리
+	if (!input->IsKeyOneDown(VK_LBUTTON)) return;
 
-    // SceneView 영역 밖이면 무시
-    if (mp.x < sPos.x || mp.x > sPos.x + sSize.x ||
-        mp.y < sPos.y || mp.y > sPos.y + sSize.y) return;
+	// ImGui가 이 클릭을 가져갔으면 무시 (패널 클릭 등)
+	//if (ImGui::GetIO().WantCaptureMouse) return;
 
-    float relX = (float)mp.x - sPos.x;
-    float relY = (float)mp.y - sPos.y;
+	ImVec2 sceneViewPos = m_editorUI->GetSceneViewPos();
+	ImVec2 sceneViewSize = m_editorUI->GetSceneViewSize();
+	POINT mousePos = input->GetMousePos();
 
-    Camera* cam = GameEngine::Instance()->GetEditorCamera();
-    if (!cam) return;
+	// SceneView 영역 밖이면 무시
+	if (mousePos.x < sceneViewPos.x || mousePos.x > sceneViewPos.x + sceneViewSize.x ||
+		mousePos.y < sceneViewPos.y || mousePos.y > sceneViewPos.y + sceneViewSize.y) return;
 
-    Ray ray = cam->ScreenPointToRay({relX, relY}, {sSize.x, sSize.y});
-    XMVECTOR rayOrigin = XMLoadFloat3((XMFLOAT3*)&ray.origin);
-    XMVECTOR rayDir    = XMLoadFloat3((XMFLOAT3*)&ray.direction);
+	float relX = (float)mousePos.x - sceneViewPos.x;
+	float relY = (float)mousePos.y - sceneViewPos.y;
 
-    float       minT   = FLT_MAX;
-    GameObject* picked = nullptr;
-    float       half   = 0.5f;
+	Camera* cam = GameEngine::Instance()->GetEditorCamera();
+	if (!cam) return;
 
-    for (MeshRenderer* mr : m_meshes)
-    {
-        if (!mr) continue;
-        GameObject* obj = mr->GetOwner();
-        if (!obj || !obj->GetActive()) continue;
+	Ray ray = cam->ScreenPointToRay({ relX, relY }, { sceneViewSize.x, sceneViewSize.y });
+	XMVECTOR rayOrigin = XMLoadFloat3(reinterpret_cast<XMFLOAT3*>(&ray.origin));
+	XMVECTOR rayDir = XMLoadFloat3(reinterpret_cast<XMFLOAT3*>(&ray.direction));
 
-        Vector3 pos   = obj->GetTransform()->GetPosition();
-        Vector3 scale = obj->GetTransform()->GetScale();
+	GameObject* picked = nullptr;
+	float minT = FLT_MAX;
+	float half = 0.5f;
 
-        XMVECTOR bMin = XMVectorSet(pos.x - half * scale.x,
-                                    pos.y - half * scale.y,
-                                    pos.z - half * scale.z, 0.f);
-        XMVECTOR bMax = XMVectorSet(pos.x + half * scale.x,
-                                    pos.y + half * scale.y,
-                                    pos.z + half * scale.z, 0.f);
+	for (MeshRenderer* meshRender : m_meshes)
+	{
+		if (!meshRender) continue;
+		GameObject* obj = meshRender->GetOwner();
+		if (!obj || !obj->GetActive()) continue;
 
-        XMVECTOR invD = XMVectorReciprocal(rayDir);
-        XMVECTOR t0   = XMVectorMultiply(XMVectorSubtract(bMin, rayOrigin), invD);
-        XMVECTOR t1   = XMVectorMultiply(XMVectorSubtract(bMax, rayOrigin), invD);
+		Vector3 pos = obj->GetTransform()->GetPosition();
+		Vector3 scale = obj->GetTransform()->GetScale();
 
-        XMVECTOR tMin = XMVectorMin(t0, t1);
-        XMVECTOR tMax = XMVectorMax(t0, t1);
+		XMVECTOR bMin = XMVectorSet(pos.x - half * scale.x, pos.y - half * scale.y, pos.z - half * scale.z, 0.f);
+		XMVECTOR bMax = XMVectorSet(pos.x + half * scale.x, pos.y + half * scale.y, pos.z + half * scale.z, 0.f);
 
-        float tE = std::max({XMVectorGetX(tMin), XMVectorGetY(tMin), XMVectorGetZ(tMin)});
-        float tX = std::min({XMVectorGetX(tMax), XMVectorGetY(tMax), XMVectorGetZ(tMax)});
+		XMVECTOR invD = XMVectorReciprocal(rayDir);
+		XMVECTOR t0 = XMVectorMultiply(XMVectorSubtract(bMin, rayOrigin), invD);
+		XMVECTOR t1 = XMVectorMultiply(XMVectorSubtract(bMax, rayOrigin), invD);
 
-        if (tE <= tX && tX > 0.f && tE < minT)
-        {
-            minT   = tE;
-            picked = obj;
-        }
-    }
+		XMVECTOR tMin = XMVectorMin(t0, t1);
+		XMVECTOR tMax = XMVectorMax(t0, t1);
 
-    m_editorUI->SetSelected(picked); // nullptr이면 선택 해제
+		float tE = std::max({ XMVectorGetX(tMin), XMVectorGetY(tMin), XMVectorGetZ(tMin) });
+		float tX = std::min({ XMVectorGetX(tMax), XMVectorGetY(tMax), XMVectorGetZ(tMax) });
+
+		if (tE <= tX && tX > 0.f && tE < minT)
+		{
+			minT = tE;
+			picked = obj;
+		}
+	}
+
+	// picked != nullptr → 선택 변경
+    // picked == nullptr → 선택 해제 (아무것도 없는 곳 클릭)
+	m_editorUI->SetSelected(picked); // nullptr이면 선택 해제
 }
