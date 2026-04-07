@@ -36,10 +36,27 @@ public:
 	bool CompileShader(const wchar_t* filePath, const char* entry,
 		const char* target, ID3DBlob** ppBlob);
 
+	// scene
+	bool CreateSceneTexture(int width, int height);
+	
+	// game
+	bool CreateGameTexture(int width, int height);
+
+	void UpdateCameraConstantBuffer(void* data, UINT size);
+
 public:
 	// DX11 자원 접근 
 	ID3D11Device* GetDevice()  const { return m_device.Get(); }
 	ID3D11DeviceContext* GetContext() const { return m_context.Get(); }
+	ID3D11DepthStencilView* GetDSV() const { return m_dsv.Get(); }
+
+	// scene
+	ID3D11RenderTargetView* GetSceneRTV() const { return m_sceneRTV.Get(); }
+	ID3D11ShaderResourceView* GetSceneSRV() const { return m_sceneSRV.Get(); }
+
+	// gmae
+	ID3D11RenderTargetView* GetGameRTV() { return m_gameRTV.Get(); }
+	ID3D11ShaderResourceView* GetGameSRV() { return m_gameSRV.Get(); }
 
 	int GetWidth()  const { return m_width; }
 	int GetHeight() const { return m_height; }
@@ -51,8 +68,21 @@ private:
 	Microsoft::WRL::ComPtr<ID3D11RenderTargetView> m_rtv;
 	Microsoft::WRL::ComPtr<ID3D11DepthStencilView> m_dsv;
 
+	// Scene view
+	Microsoft::WRL::ComPtr<ID3D11RenderTargetView> m_sceneRTV;
+	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> m_sceneSRV; // ImGui용
+	Microsoft::WRL::ComPtr<ID3D11Texture2D> m_sceneTex;
+
+	// game view
+	Microsoft::WRL::ComPtr<ID3D11Texture2D> m_gameTex;
+	Microsoft::WRL::ComPtr<ID3D11RenderTargetView> m_gameRTV;
+	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> m_gameSRV;
+
 	D3D11_VIEWPORT m_viewport = {};
 
 	int m_width = 0;
 	int m_height = 0;
+
+	// 상수 버퍼 핸들을 멤버로 들고 있어야 합니다.
+	ID3D11Buffer* m_cameraCB;
 };

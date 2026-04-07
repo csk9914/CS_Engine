@@ -71,6 +71,20 @@ bool DX11Renderer::Init(HWND hWnd, int width, int height)
     m_viewport = { 0.f, 0.f, (float)width, (float)height, 0.f, 1.f };
     m_context->RSSetViewports(1, &m_viewport);
 
+    // [추가] 씬 전용 텍스처(도화지) 생성
+    if (!CreateSceneTexture(width, height))
+    {
+        OutputDebugStringA("[ERROR] Failed to Create Scene Texture\n");
+        return false;
+    }
+
+    // [추가] 씬 전용 텍스처(도화지) 생성
+    if (!CreateGameTexture(width, height))
+    {
+        OutputDebugStringA("[ERROR] Failed to Create Scene Texture\n");
+        return false;
+    }
+
     return true;
 }
 
@@ -129,6 +143,72 @@ bool DX11Renderer::CompileShader(const wchar_t* filePath, const char* entry, con
     }
 
     return true;
+}
+
+bool DX11Renderer::CreateSceneTexture(int width, int height)
+{
+    D3D11_TEXTURE2D_DESC td = {};
+    td.Width = width;
+    td.Height = height;
+    td.MipLevels = 1;
+    td.ArraySize = 1;
+    td.Format = DXGI_FORMAT_R8G8B8A8_UNORM;     // 일반적인 색상 포맷
+    td.SampleDesc.Count = 1;
+    td.Usage = D3D11_USAGE_DEFAULT;
+    td.BindFlags = D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE; // 렌더링도 하고, 셰이더(ImGui)에도 쓰고
+
+    // 2. 텍스처 생성
+    HRESULT hr = m_device->CreateTexture2D(&td, nullptr, &m_sceneTex);
+    if (FAILED(hr)) return false;
+
+    // 3. RTV (그리기용) 생성
+    hr = m_device->CreateRenderTargetView(m_sceneTex.Get(), nullptr, &m_sceneRTV);
+    if (FAILED(hr)) return false;
+
+    // 4. SRV (ImGui 전달용) 생성
+    hr = m_device->CreateShaderResourceView(m_sceneTex.Get(), nullptr, &m_sceneSRV);
+
+    return SUCCEEDED(hr);
+}
+
+bool DX11Renderer::CreateGameTexture(int width, int height)
+{
+    D3D11_TEXTURE2D_DESC td = {};
+    td.Width = width;
+    td.Height = height;
+    td.MipLevels = 1;
+    td.ArraySize = 1;
+    td.Format = DXGI_FORMAT_R8G8B8A8_UNORM;     // 일반적인 색상 포맷
+    td.SampleDesc.Count = 1;
+    td.Usage = D3D11_USAGE_DEFAULT;
+    td.BindFlags = D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE; // 렌더링도 하고, 셰이더(ImGui)에도 쓰고
+
+    // 2. 텍스처 생성
+    HRESULT hr = m_device->CreateTexture2D(&td, nullptr, &m_gameTex);
+    if (FAILED(hr)) return false;
+
+    // 3. RTV (그리기용) 생성
+    hr = m_device->CreateRenderTargetView(m_gameTex.Get(), nullptr, &m_gameRTV);
+    if (FAILED(hr)) return false;
+
+    // 4. SRV (ImGui 전달용) 생성
+    hr = m_device->CreateShaderResourceView(m_gameTex.Get(), nullptr, &m_gameSRV);
+
+    return SUCCEEDED(hr);
+
+}
+
+void DX11Renderer::UpdateCameraConstantBuffer(void* data, UINT size)
+{
+    D3D11_MAPPED_SUBRESOURCE mappedResource;
+    if (SUCCEEDED(m_context->Map(m_cameraCB, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource)))
+    {
+        memcpy(mappedResource.pData, data, size);
+        m_context->Unmap(m_cameraCB, 0);
+    }
+
+    // 버퍼를 VS(Vertex Shader)의 0번 슬롯(또는 정해진 슬롯)에 바인딩
+    m_context->VSSetConstantBuffers(0, 1, &m_cameraCB);
 }
 
 

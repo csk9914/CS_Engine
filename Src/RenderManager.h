@@ -9,7 +9,7 @@ class EditorUI;
 class SpriteRenderer;
 class MeshRenderer;
 class DX11Renderer;
-class Gizmo;
+class RenderPipeline;
 
 class RenderManager
 {
@@ -25,7 +25,8 @@ public:
 	void UnregisterMesh(MeshRenderer* mesh);
 
 	void Update();
-	void RenderAll();
+
+	void RenderAll(float deltaTime);
 	void Release();
 
 public:
@@ -34,13 +35,15 @@ public:
 
 private:
 	// 뷰포트 좌클릭 → 오브젝트 Ray cast 선택
-	void TryPickObject();
+	void Raycast();
 
 private:
 	std::unique_ptr<DX11Renderer> m_renderer;
 	std::vector<SpriteRenderer*> m_sprites;
-	std::vector<MeshRenderer*> m_meshes;
+
+	std::unique_ptr<RenderPipeline> m_pipeline; // 공장 추가
+	std::vector<MeshRenderer*> m_meshes;		// 리스트 관리만 수행
 
 	std::unique_ptr<EditorUI> m_editorUI;
-	std::unique_ptr<Gizmo>        m_gizmo;
+
 };

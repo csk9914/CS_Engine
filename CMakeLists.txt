@@ -47,12 +47,12 @@ target_link_libraries(CS_Engine PRIVATE
     dxguid.lib
 )
 
-# ── 셰이더 파일을 빌드 출력 디렉터리로 복사 ──────────────────────────
+# 빌드가 끝난 후 Shaders 폴더를 실행 파일 위치로 복사
 add_custom_command(TARGET CS_Engine POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_directory
         "${CMAKE_SOURCE_DIR}/Src/Shaders"
         "$<TARGET_FILE_DIR:CS_Engine>/Shaders"
-    COMMENT "Copying shaders..."
+    COMMENT "Copying shaders to build directory..."
 )
 
 # ── VS 필터(폴더) 설정 ────────────────────────────────────────────────
@@ -63,3 +63,12 @@ source_group("ImGui" FILES ${IMGUI_SOURCES})
 
 # 유니코드 전처리기 정의 추가
 add_compile_definitions(UNICODE _UNICODE)
+
+# 실행 파일 생성 후 아래 줄 추가
+set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT CS_Engine)
+
+# 실행 파일(CS_Engine) 생성 코드 아래에 추가하세요.
+set_target_properties(CS_Engine PROPERTIES
+    # 디버깅 시 작업 디렉터리를 소스 폴더(Src)나 프로젝트 루트로 설정
+    VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/Src"
+)

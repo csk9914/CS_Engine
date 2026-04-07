@@ -23,7 +23,7 @@ void InputHandler::Update()
 void InputHandler::EndFrame()
 {
 	// 휠은 WM_MOUSEWHEEL에서 SetWheelDelta로 누적되므로
-// 매 프레임 끝에 0으로 초기화
+	// 매 프레임 끝에 0으로 초기화
 	m_mouseWheel = 0.0f;
 }
 

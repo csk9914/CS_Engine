@@ -9,6 +9,7 @@
 #include "GameEngine.h"
 #include "RenderManager.h"
 #include "DX11Renderer.h"
+#include "EditorUI.h"
 
 using namespace DirectX;
 
@@ -16,75 +17,17 @@ Camera::Camera() {}
 
 void Camera::Update(float deltaTime)
 {
-    InputHandler* input = InputHandler::Instance();
-    DX11Renderer* renderer = GameEngine::Instance()->GetRenderManager()->GetRenderer();
-    Transform* tr = GetOwner()->GetTransform();
-
-    Vector3 pos = tr->GetPosition();
-    Vector3 rot = tr->GetRotation(); // degree
-
-    // 방향 벡터 계산
-    XMMATRIX rotMat = XMMatrixRotationX(XMConvertToRadians(rot.x)) * XMMatrixRotationY(XMConvertToRadians(rot.y));
-
-    XMVECTOR forward = XMVector3TransformNormal(XMVectorSet(0, 0, 1, 0), rotMat);
-    XMVECTOR right = XMVector3TransformNormal(XMVectorSet(1, 0, 0, 0), rotMat);
-    XMVECTOR up = XMVectorSet(0, 1, 0, 0);
-
-    auto toV3 = [](XMVECTOR v) -> Vector3
-        {
-            return { XMVectorGetX(v), XMVectorGetY(v), XMVectorGetZ(v) };
-        };
-
-    // 줌
-    float wheel = input->GetMouseWheel();
-    if (wheel != 0.f)
-        pos += toV3(forward) * wheel * m_zoomSpeed * deltaTime;
-
-    // 가운데 클릭 패닝
-    if (input->IsKeyDown(VK_MBUTTON))
-    {
-        POINT delta = input->GetMouseDelta();
-        pos -= toV3(right) * (float)delta.x * m_panSpeed * deltaTime;
-        pos += toV3(up) * (float)delta.y * m_panSpeed * deltaTime;
-
-    }
-
-    // 우클릭 회전 + 이동
-    if (input->IsKeyDown(VK_RBUTTON))
-    {
-        POINT delta = input->GetMouseDelta();
-        rot.y += (float)delta.x * m_rotateSpeed * deltaTime;
-        rot.x += (float)delta.y * m_rotateSpeed * deltaTime;
-        rot.x = std::clamp(rot.x, -89.f, 89.f);
-
-        Vector3 move = {};
-        if (input->IsKeyDown('W')) move += toV3(forward);
-        if (input->IsKeyDown('S')) move -= toV3(forward);
-        if (input->IsKeyDown('A')) move -= toV3(right);
-        if (input->IsKeyDown('D')) move += toV3(right);
-        if (input->IsKeyDown('E')) move += toV3(up);
-        if (input->IsKeyDown('Q')) move -= toV3(up);
-
-        pos += move * m_moveSpeed * deltaTime;
-    }
-
-    tr->SetPosition(pos);
-    tr->SetRotation(rot);
-
-    // 행렬 갱신
-    float aspect = (float)renderer->GetWidth() / (float)renderer->GetHeight();
-    UpdateMatrix(aspect);
 }
 
 void Camera::OnEnable()
 {
-    GameEngine::Instance()->SetMainCamera(this);
+    //GameEngine::Instance()->SetEditorCamera(this);
 }
 
 void Camera::OnDisable()
 {
-    if (GameEngine::Instance()->GetMainCamera() == this)
-        GameEngine::Instance()->SetMainCamera(nullptr);
+    //if (GameEngine::Instance()->GetEditorCamera() == this)
+    //    GameEngine::Instance()->SetEditorCamera(nullptr);
 }
 
 void Camera::UpdateMatrix(float aspect)
@@ -103,4 +46,49 @@ void Camera::UpdateMatrix(float aspect)
     m_view = XMMatrixLookAtLH(eye, target, up);
     m_proj = XMMatrixPerspectiveFovLH(XMConvertToRadians(m_fov), aspect, m_nearZ, m_farZ);
 
+}
+
+void Camera::BindToGPU()
+{
+    // 1. 현재 엔진의 렌더러와 컨텍스트를 가져옵니다.
+    auto renderer = GameEngine::Instance()->GetRenderManager()->GetRenderer();
+    auto context = renderer->GetContext();
+
+    // 2. 쉐이더로 보낼 데이터를 담을 구조체 (보통 프로젝트의 상수 버퍼 구조체와 일치해야 함)
+    // 쉐이더(.hlsl)의 cbuffer MatrixBuffer와 순서가 같아야 합니다.
+    struct MatrixBuffer
+    {
+        XMMATRIX view;
+        XMMATRIX projection;
+    };
+
+    MatrixBuffer cb;
+    // DirectX 11 HLSL은 기본적으로 Column-Major이므로 Transpose(전치) 해줍니다.
+    cb.view = XMMatrixTranspose(m_view);
+    cb.projection = XMMatrixTranspose(m_proj);
+
+    // 3. Renderer가 미리 만들어둔 카메라 전용 상수 버퍼(Constant Buffer)를 업데이트합니다.
+    // (만약 Renderer에 UpdateCameraBuffer 같은 함수를 따로 만드셨다면 그걸 호출해도 됩니다.)
+    renderer->UpdateCameraConstantBuffer(&cb, sizeof(MatrixBuffer));
+}
+
+Ray Camera::ScreenPointToRay(Vector2 screenPos, Vector2 viewSize)
+{
+    // 1. NDC 변환 (이미 구현하신 로직을 여기로 이동)
+    float ndcX = (2.f * screenPos.x / viewSize.x) - 1.f;
+    float ndcY = -(2.f * screenPos.y / viewSize.y) + 1.f;
+
+    // 2. 역행렬을 이용한 레이 계산
+    XMMATRIX invView = XMMatrixInverse(nullptr, m_view);
+
+    float tanHalfFovX = 1.f / XMVectorGetX(m_proj.r[0]);
+    float tanHalfFovY = 1.f / XMVectorGetY(m_proj.r[1]);
+
+    XMVECTOR rayView = XMVectorSet(ndcX * tanHalfFovX, ndcY * tanHalfFovY, 1.f, 0.f);
+
+    Ray ray;
+    XMStoreFloat3((XMFLOAT3*)&ray.direction, XMVector3Normalize(XMVector3TransformNormal(rayView, invView)));
+    XMStoreFloat3((XMFLOAT3*)&ray.origin, invView.r[3]);
+
+    return ray;
 }

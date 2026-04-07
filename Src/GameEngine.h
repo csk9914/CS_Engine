@@ -43,9 +43,16 @@ public:
 
 	RenderManager* GetRenderManager() const { return m_renderManager.get(); }
 
+	void SetRenderCamera(Camera* cam) { m_renderCamera = cam; }
+	Camera* GetRenderCamera() { return m_renderCamera; }
+
 	// MeshRenderer에서 카메라 행렬을 가져가기 위한 접근자
-	Camera* GetMainCamera() const { return m_mainCamera; }
-	void SetMainCamera(Camera* cam) { m_mainCamera = cam; }
+	Camera* GetEditorCamera() const { return m_editorCamera; }
+	void SetEditorCamera(Camera* cam) { m_editorCamera = cam; }
+
+	// 실제 게임용 카메라는 나중에 m_gameMainCamera 등으로 따로 만듭니다.
+	void SetGameCamera(Camera* cam) { m_gameCamera = cam; }
+	Camera* GetGameCamera() const { return m_gameCamera; }
 
 	GameScene* GetCurrentScene();
 
@@ -66,5 +73,7 @@ private:
 	std::unique_ptr<IGame> m_game;
 
 
-	Camera* m_mainCamera = nullptr; // 소유권은 GameObject에 있음
+	Camera* m_renderCamera = nullptr; // 현재 렌더링 중인 카메라
+	Camera* m_editorCamera = nullptr; // 소유권은 GameObject에 있음
+	Camera* m_gameCamera = nullptr;
 };

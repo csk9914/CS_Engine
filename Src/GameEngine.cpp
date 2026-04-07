@@ -49,8 +49,6 @@ bool GameEngine::Init(std::unique_ptr<IGame> game)
 	if (!m_renderManager->GetRenderer()) return false;
 
 
-
-
 	m_isRunning = true;
 	return true;
 }
@@ -75,18 +73,14 @@ void GameEngine::Run()
 		// 입력 처리
 		InputHandler::Instance()->Update();
 
-		// 임시
-		m_renderManager->Update();
-
 		// 게임 업데이트
 		m_game->Update(m_deltaTime);
 
+		// 렌더링
+		m_renderManager->RenderAll(m_deltaTime);
+
 		// end 초기화
 		InputHandler::Instance()->EndFrame();
-
-		// 렌더링
-		m_renderManager->RenderAll();
-
 
 		// 프레임 지연
 		CapFrame(frameStart);

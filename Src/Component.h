@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 class GameObject;
+
 class Component
 {
 	friend class GameObject;
