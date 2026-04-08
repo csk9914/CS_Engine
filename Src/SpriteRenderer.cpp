@@ -12,7 +12,7 @@ SpriteRenderer::~SpriteRenderer()
 
 void SpriteRenderer::Render()
 {
-	Transform* transform = GetOwner()->GetTransform();
+	Transform* transform = GetGameObject()->GetTransform();
 	if (!transform) return;
 
 

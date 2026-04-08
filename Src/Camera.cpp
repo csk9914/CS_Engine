@@ -13,7 +13,7 @@
 
 using namespace DirectX;
 
-Camera::Camera() {}
+Camera::Camera(const std::string& name) : Component(name) {}
 
 void Camera::Update(float deltaTime)
 {
@@ -32,7 +32,7 @@ void Camera::OnDisable()
 
 void Camera::UpdateMatrix(float aspect)
 {
-    Transform* tr = GetOwner()->GetTransform();
+    Transform* tr = GetGameObject()->GetTransform();
     Vector3 pos = tr->GetPosition();
     Vector3 rot = tr->GetRotation();
 
@@ -91,4 +91,14 @@ Ray Camera::ScreenPointToRay(Vector2 screenPos, Vector2 viewSize)
     XMStoreFloat3((XMFLOAT3*)&ray.origin, invView.r[3]);
 
     return ray;
+}
+
+void Camera::OnEditorGUI()
+{
+    ImGui::DragFloat("FOV", &m_fov, 0.5f, 10.f, 170.f);
+    ImGui::DragFloat("Near", &m_nearZ, 0.01f, 0.01f, 10.f);
+    ImGui::DragFloat("Far", &m_farZ, 1.f, 10.f, 10000.f);
+    ImGui::DragFloat("Move Speed", &m_moveSpeed, 0.5f, 0.1f, 100.f);
+    ImGui::DragFloat("Rot Speed", &m_rotateSpeed, 0.5f, 1.f, 180.f);
+    ImGui::DragFloat("Zoom Speed", &m_zoomSpeed, 0.5f, 1.f, 100.f);
 }

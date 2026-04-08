@@ -16,6 +16,10 @@
 #include "imgui_impl_dx11.h"
 #include "imgui/imgui_stdlib.h"
 
+#include "BoxCollider.h"
+#include "SphereCollider.h"
+#include "CapsuleCollider.h"
+
 EditorUI::EditorUI()
 {
 }
@@ -122,6 +126,54 @@ void EditorUI::EndFrame()
 	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 }
 
+
+void EditorUI::DrawAddComponentButton()
+{
+	ImGui::Spacing();
+	ImGui::Separator();
+	ImGui::Spacing();
+
+	// 버튼을 가로로 꽉 채우기
+	if (ImGui::Button("Add Component", ImVec2(-1.f, 30.f)))
+	{
+		ImGui::OpenPopup("AddComponentPopup");
+	}
+
+	// 버튼 바로 아래에 팝업창 생성
+	if (ImGui::BeginPopup("AddComponentPopup"))
+	{
+		ImGui::TextDisabled("Components");
+		ImGui::Separator();
+
+		// [주의] 이미 가지고 있는 컴포넌트는 추가하지 못하게 막거나 체크하는 로직을 넣으면 더 좋습니다.
+
+		if (ImGui::Selectable("Camera"))
+		{
+			if (!m_selected->GetComponent<Camera>()) // 중복 방지 예시
+				m_selected->AddComponent<Camera>();
+		}
+
+		if (ImGui::Selectable("Mesh Renderer"))
+		{
+			if (!m_selected->GetComponent<MeshRenderer>())
+				m_selected->AddComponent<MeshRenderer>();
+		}
+
+		if (ImGui::BeginMenu("Physics")) // 서브 메뉴 구성 가능
+		{
+			if (ImGui::Selectable("Box Collider"))
+				m_selected->AddComponent<BoxCollider>();
+			if (ImGui::Selectable("Sphere Collider"))
+				m_selected->AddComponent<SphereCollider>();
+			if (ImGui::Selectable("Capsule Collider"))
+				m_selected->AddComponent<CapsuleCollider>();
+
+			ImGui::EndMenu();
+		}
+
+		ImGui::EndPopup();
+	}
+}
 
 // ── DockSpace ─────────────────────────────────────────────────────────
 void EditorUI::DrawMainDockSpace()
@@ -275,48 +327,47 @@ void EditorUI::DrawInspector()
 		m_selected->SetName(name);
 	ImGui::Separator();
 
-	// Transform
+	// 1. Transform은 가장 중요하므로 명시적으로 먼저 그림
 	if (ImGui::CollapsingHeader("Transform", ImGuiTreeNodeFlags_DefaultOpen))
 	{
-		Transform* tr = m_selected->GetTransform();
-		if (tr)
+		m_selected->GetTransform()->OnEditorGUI();
+	}
+
+	// 2. 나머지 모든 컴포넌트 자동 렌더링
+	auto& components = m_selected->GetComponents();
+	// 삭제할 컴포넌트를 임시로 담아둘 포인터 (루프 도중 삭제 방지)
+	Component* pendingDelete = nullptr;
+
+	for (auto& comp : components)
+	{
+		if (dynamic_cast<Transform*>(comp.get())) continue;
+
+		ImGui::PushID(comp.get());
+
+		bool open = ImGui::CollapsingHeader(comp->GetName().c_str(), ImGuiTreeNodeFlags_DefaultOpen);
+
+		// 헤더를 우클릭했을 때 팝업 출력
+		if (ImGui::BeginPopupContextItem("ComponentEditPopup"))
 		{
-			Vector3 pos = tr->GetPosition();
-			Vector3 rot = tr->GetRotation();
-			Vector3 scl = tr->GetScale();
-			ImGui::Text("Position"); ImGui::SetNextItemWidth(-1.f);
-
-			if (ImGui::DragFloat3("##pos", &pos.x, 0.1f)) tr->SetPosition(pos);
-			ImGui::Text("Rotation"); ImGui::SetNextItemWidth(-1.f);
-
-			if (ImGui::DragFloat3("##rot", &rot.x, 1.f))  tr->SetRotation(rot);
-
-			ImGui::Text("Scale");    ImGui::SetNextItemWidth(-1.f);
-			if (ImGui::DragFloat3("##scl", &scl.x, 0.1f, 0.001f, 1000.f)) tr->SetScale(scl);
+			if (ImGui::MenuItem("Remove Component"))
+			{
+				pendingDelete = comp.get();
+			}
+			ImGui::EndPopup();
 		}
+
+		if (open) comp->OnEditorGUI();
+
+		ImGui::PopID();
 	}
 
-	// Camera
-	Camera* cam = m_selected->GetComponent<Camera>();
-	if (cam && ImGui::CollapsingHeader("Camera", ImGuiTreeNodeFlags_DefaultOpen))
+	// 루프가 끝난 뒤 안전하게 삭제 처리
+	if (pendingDelete)
 	{
-		ImGui::DragFloat("FOV", &cam->m_fov, 0.5f, 10.f, 170.f);
-		ImGui::DragFloat("Near", &cam->m_nearZ, 0.01f, 0.01f, 10.f);
-		ImGui::DragFloat("Far", &cam->m_farZ, 1.f, 10.f, 10000.f);
-		ImGui::DragFloat("Move Speed", &cam->m_moveSpeed, 0.5f, 0.1f, 100.f);
-		ImGui::DragFloat("Rot Speed", &cam->m_rotateSpeed, 0.5f, 1.f, 180.f);
-		ImGui::DragFloat("Zoom Speed", &cam->m_zoomSpeed, 0.5f, 1.f, 100.f);
+		m_selected->RemoveComponent(pendingDelete);
 	}
 
-	// MeshRenderer
-	MeshRenderer* mr = m_selected->GetComponent<MeshRenderer>();
-	if (mr && ImGui::CollapsingHeader("MeshRenderer", ImGuiTreeNodeFlags_DefaultOpen))
-	{
-		float col[4] = { mr->GetColor().x, mr->GetColor().y,
-						 mr->GetColor().z, mr->GetColor().w };
-		if (ImGui::ColorEdit4("Color", col))
-			mr->SetColor(col[0], col[1], col[2], col[3]);
-	}
 
+	DrawAddComponentButton();
 	ImGui::End();
 }

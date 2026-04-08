@@ -3,12 +3,12 @@
 #include "Transform.h"
 #include "CollisionManager.h"
 
-Collider::Collider(ColliderType type) : m_colliderType(type)
+Collider::Collider(ColliderType type, const std::string& name) : m_colliderType(type), Component(name)
 {
     CollisionManager::Instance()->AddCollider(this);
 }
 
 Vector3 Collider::GetCenter()
 {
-    return GetOwner()->GetTransform()->GetPosition() + m_offset;
+    return GetGameObject()->GetTransform()->GetPosition() + m_offset;
 }

@@ -12,8 +12,8 @@ bool CollisionHelper::SphereVsSphere(Collider* a, Collider* b)
         SphereCollider* colB = static_cast<SphereCollider*>(b);
 
         // 부모의 스케일 중 가장 큰 값을 반지름에 곱해줍니다.
-        float ranA = colA->GetRadius() * colA->GetOwner()->GetTransform()->GetScale().MaxElement();
-        float ranB = colB->GetRadius() * colB->GetOwner()->GetTransform()->GetScale().MaxElement();
+        float ranA = colA->GetRadius() * colA->GetGameObject()->GetTransform()->GetScale().MaxElement();
+        float ranB = colB->GetRadius() * colB->GetGameObject()->GetTransform()->GetScale().MaxElement();
 
         // 중심점 간의 거리 계산
         float disSq = Vector3::DistanceSquared(colA->GetCenter(), colB->GetCenter());
@@ -79,7 +79,7 @@ bool CollisionHelper::SphereVsBox(Collider* a, Collider* b)
         float closestZ = std::max(boxMin.z, std::min(sphereCenter.z, boxMax.z));
 
         float distSq = Vector3::DistanceSquared(sphereCenter, { closestX, closestY, closestZ });
-        float radius = sphere->GetRadius() * sphere->GetOwner()->GetTransform()->GetScale().MaxElement();
+        float radius = sphere->GetRadius() * sphere->GetGameObject()->GetTransform()->GetScale().MaxElement();
 
         return distSq <= (radius * radius);
     }
@@ -109,7 +109,7 @@ bool CollisionHelper::CapsuleVsSphere(Collider* a, Collider* b)
 
     // 4. 점 P와 구 중심 C 사이의 거리 비교
     float distSq = Vector3::DistanceSquared(P, C);
-    float radiusSum = capsule->GetRadius() + (sphere->GetRadius() * sphere->GetOwner()->GetTransform()->GetScale().MaxElement());
+    float radiusSum = capsule->GetRadius() + (sphere->GetRadius() * sphere->GetGameObject()->GetTransform()->GetScale().MaxElement());
 
     return distSq <= (radiusSum * radiusSum);
 }

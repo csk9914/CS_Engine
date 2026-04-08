@@ -52,7 +52,7 @@ void GameView::OnGUI()
     ID3D11ShaderResourceView* gameSRV = renderer->GetGameSRV();
 
     Camera* gameCam = GameEngine::Instance()->GetGameCamera();
-    if (gameCam->GetOwner()->GetActive())
+    if (gameCam->GetGameObject()->GetActive())
     {
         if (gameSRV)
         {

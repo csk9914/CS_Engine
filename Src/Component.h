@@ -1,13 +1,14 @@
 ﻿#pragma once
+#include "Object.h"
 
 class GameObject;
 
-class Component
+class Component : public Object
 {
 	friend class GameObject;
 
 protected:
-	Component() : m_active(true), m_enabled(true), m_started(false), m_owner(nullptr) {}
+	Component(const std::string& name = "Component", bool useIndexing = false) : Object(name, useIndexing), m_enabled(true), m_started(false), m_gameObject(nullptr) {}
 
 public:
 	virtual ~Component() {}
@@ -22,15 +23,18 @@ public:
 	virtual void OnDestroy() {}
 
 public:
+	virtual void OnEditorGUI() {}
+
+
+public:
 	void SetEnabled(bool enabled);
 
 public:
-	GameObject* GetOwner() { return m_owner; }
-	const GameObject* GetOwner() const { return m_owner; }
+	GameObject* GetGameObject() { return m_gameObject; }
+	const GameObject* GetGameObject() const { return m_gameObject; }
 
 private:
-	bool m_active;
 	bool m_enabled;
 	bool m_started;
-	GameObject* m_owner;
+	GameObject* m_gameObject;
 };

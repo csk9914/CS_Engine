@@ -4,7 +4,7 @@
 class CapsuleCollider : public Collider
 {
 public:
-	CapsuleCollider() : Collider(ColliderType::Capsule) {}
+	CapsuleCollider(const std::string& name = "CapsuleCollider") : Collider(ColliderType::Capsule, name) {}
 
 	// 데이터 설정
 	void SetRadius(float radius) { m_radius = radius; }

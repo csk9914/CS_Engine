@@ -7,16 +7,16 @@ inline void Component::SetEnabled(bool enabled)
 
 	m_enabled = enabled;
 
-	if (m_owner && m_owner->GetActive())
+	if (m_gameObject && m_gameObject->GetActive())
 	{
 		if (m_enabled)
 		{
-			m_active = true;
+			SetActive(true);
 			OnEnable();
 		}
 		else
 		{
-			m_active = false;
+			SetActive(false);
 			OnDisable();
 		}
 	}

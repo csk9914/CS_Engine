@@ -13,7 +13,7 @@ enum class ColliderType
 class Collider : public Component
 {
 public:
-	Collider(ColliderType type);
+	Collider(ColliderType type, const std::string& name = "Collider");
 	virtual ~Collider() = default;
 
 	ColliderType GetColliderType() const { return m_colliderType; }

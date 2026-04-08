@@ -4,7 +4,7 @@
 class SphereCollider : public Collider
 {
 public:
-    SphereCollider() : Collider(ColliderType::Sphere) {}
+    SphereCollider(const std::string& name = "SphereCollider") : Collider(ColliderType::Sphere, name) {}
 
     void SetRadius(float radius) { m_radius = radius; }
     float GetRadius() const { return m_radius; }

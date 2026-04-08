@@ -5,6 +5,8 @@
 class MeshFilter : public Component
 {
 public:
+    MeshFilter(const std::string name = "MeshFilter") : Component(name) {}
+
     void SetMesh(Mesh* mesh) { m_mesh = mesh; }
     Mesh* GetMesh() { return m_mesh; }
 

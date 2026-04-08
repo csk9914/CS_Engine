@@ -8,9 +8,12 @@
 
 #include "Mesh.h"
 #include "MeshFilter.h"
+
+#include "imgui/imgui.h"
+
 using namespace DirectX;
 
-MeshRenderer::MeshRenderer(){}
+MeshRenderer::MeshRenderer(const std::string& name) : Component(name){}
 
 MeshRenderer::~MeshRenderer(){}
 
@@ -39,7 +42,7 @@ void MeshRenderer::Render()
     if (!m_initialized) return;
 
     // 1. MeshFilter 컴포넌트 가져오기
-    auto* filter = GetOwner()->GetComponent<MeshFilter>();
+    auto* filter = GetGameObject()->GetComponent<MeshFilter>();
     if (!filter || !filter->GetMesh()) 
         return; // 그릴 메쉬가 없으면 리턴
     Mesh* mesh = filter->GetMesh();
@@ -57,7 +60,7 @@ void MeshRenderer::Render()
        
     // ── Constant Buffer 업데이트 ────────────────────────────────────
     CBMatrix cbm;
-    cbm.World = XMMatrixTranspose(GetOwner()->GetTransform()->GetWorldMatrix());
+    cbm.World = XMMatrixTranspose(GetGameObject()->GetTransform()->GetWorldMatrix());
     cbm.View = XMMatrixTranspose(view);
     cbm.Projection = XMMatrixTranspose(proj);
 
@@ -85,7 +88,6 @@ void MeshRenderer::Render()
     // DrawIndexed 호출 시 메쉬가 가진 인덱스 개수 사용
     ctx->DrawIndexed(mesh->GetIndexCount(), 0, 0);
 }
-
 
 bool MeshRenderer::InitShader()
 {
@@ -132,4 +134,12 @@ bool MeshRenderer::InitCBuffers()
     if (FAILED(device->CreateBuffer(&bd, nullptr, &m_cbColor))) return false;
 	
     return true;
+}
+
+
+void MeshRenderer::OnEditorGUI()
+{
+    float col[4] = { m_color.x, m_color.y,m_color.z, m_color.w };
+
+    if (ImGui::ColorEdit4("Color", col)) SetColor(col[0], col[1], col[2], col[3]);
 }

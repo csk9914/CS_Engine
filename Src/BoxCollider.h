@@ -5,7 +5,7 @@
 class BoxCollider : public Collider
 {
 public:
-    BoxCollider() : Collider(ColliderType::Box) {}
+    BoxCollider(const std::string& name = "BoxCollider") : Collider(ColliderType::Box, name) {}
 
     void SetSize(const Vector3& size) { m_size = size; }
     Vector3 GetSize() const { return m_size; }

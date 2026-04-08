@@ -39,7 +39,7 @@ public:
 	void SetSceneViewPos(ImVec2 p) { m_sceneViewPos = p; }
 	void SetSceneViewSize(ImVec2 s) { m_sceneViewSize = s; }
 
-
+	void DrawAddComponentButton();
 
 private:
 	void DrawMainDockSpace();

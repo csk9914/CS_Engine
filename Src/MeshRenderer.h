@@ -25,7 +25,7 @@ struct CBColor
 class MeshRenderer : public Component
 {
 public:
-    MeshRenderer();
+    MeshRenderer(const std::string& name = "MeshRenderer");
     virtual ~MeshRenderer();
 
     // Component 생명주기
@@ -46,13 +46,13 @@ public:
 
     DirectX::XMFLOAT4 GetColor() const { return m_color; }
 
+    virtual void OnEditorGUI() override;
+
 private:
     bool InitShader(); // 셰이더 컴파일 + InputLayout
     bool InitCBuffers();
 
 private:
-
-
     Microsoft::WRL::ComPtr<ID3D11Buffer> m_cbMatrix;
     Microsoft::WRL::ComPtr<ID3D11Buffer> m_cbColor;
 

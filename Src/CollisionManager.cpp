@@ -51,8 +51,12 @@ void CollisionManager::Update()
 {
     for (size_t i = 0; i < m_colliders.size(); ++i)
     {
+        if (!m_colliders[i]->GetActive()) continue;
+
         for (size_t j = i + 1; j < m_colliders.size(); ++j)
         {
+            if (!m_colliders[j]->GetActive()) continue;
+
             Collider* colA = m_colliders[i];
             Collider* colB = m_colliders[j];
 
@@ -65,8 +69,8 @@ void CollisionManager::Update()
             if (func != nullptr && func(colA, colB))
             {
                 // 콘솔창에 이름 출력!
-                std::cout << "BOOM! " << colA->GetOwner()->GetName()
-                    << " hit " << colB->GetOwner()->GetName() << std::endl;
+                std::cout << "BOOM! " << colA->GetGameObject()->GetName()
+                    << " hit " << colB->GetGameObject()->GetName() << std::endl;
             }
         }
     }

@@ -114,7 +114,7 @@ void RenderManager::Raycast()
 	for (MeshRenderer* meshRender : m_meshes)
 	{
 		if (!meshRender) continue;
-		GameObject* obj = meshRender->GetOwner();
+		GameObject* obj = meshRender->GetGameObject();
 		if (!obj || !obj->GetActive()) continue;
 
 		Vector3 pos = obj->GetTransform()->GetPosition();

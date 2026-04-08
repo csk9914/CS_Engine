@@ -13,7 +13,7 @@ struct Ray
 class Camera : public Component
 {
 public:
-	Camera();
+	Camera(const std::string& name = "Camera");
 	virtual ~Camera() {}
 
 	virtual void Update(float DeltaTime) override;
@@ -33,10 +33,13 @@ public:
 	// GPU의 상수 버퍼에 카메라 행렬(View, Proj)을 전달하는 함수
 	void BindToGPU();
 
+	virtual void OnEditorGUI() override;
+
 public:
 	// 행렬 접근
 	DirectX::XMMATRIX GetViewMatrix() const { return m_view; }
 	DirectX::XMMATRIX GetProjectionMatrix() const { return m_proj; }
+
 
 public:
 	// Inspector에서 수정 가능하도록 public

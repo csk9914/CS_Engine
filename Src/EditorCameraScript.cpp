@@ -14,7 +14,7 @@ using namespace DirectX;
 
 void EditorCameraScript::Start()
 {
-    m_obj = GetOwner();
+    m_obj = GetGameObject();
     m_transform = m_obj->GetTransform();
     m_cam = m_obj->GetComponent<Camera>();
 }
@@ -91,7 +91,7 @@ void EditorCameraScript::Update(float deltaTime)
 
 
     // 중요: 이동 후 카메라 행렬 갱신
-    if (auto cam = GetOwner()->GetComponent<Camera>())
+    if (auto cam = GetGameObject()->GetComponent<Camera>())
     {
         // SceneView 크기에 맞춘 Aspect Ratio 적용
         auto editorUI = GameEngine::Instance()->GetRenderManager()->GetEditorUI();

@@ -6,9 +6,10 @@
 #include <memory>
 #include <string>
 
+#include "Object.h"
 #include "PrimitiveType.h"
 
-class GameObject
+class GameObject : public Object
 {
 public:
 	GameObject(const std::string& name = "GameObject");
@@ -22,6 +23,7 @@ public:
 	bool IsDestroy() const { return m_isDestroyed; }
 
 public:
+	void Update(float deltaTime);
 
 	// AddComponent 템플릿 함수 (HEAD에 있던 내용)
 	template<typename T>
@@ -30,12 +32,12 @@ public:
 		auto component = std::make_unique<T>();
 		T* ptr = component.get();
 
-		ptr->m_owner = this;
+		ptr->m_gameObject = this;
 		ptr->Awake();
 
-		if (this->m_active && ptr->m_enabled)
+		if (this->GetActive() && ptr->m_enabled)
 		{
-			ptr->m_active = true;
+			ptr->SetActive(true);
 			ptr->OnEnable();
 		}
 
@@ -56,27 +58,55 @@ public:
 		return nullptr;
 	}
 
-	void Update(float deltaTime);
+	// 모든 컴포넌트 리스트를 반환 (인스펙터 루프용)
+	const std::vector<std::unique_ptr<Component>>& GetComponents() const { return m_components; }
+	std::vector<std::unique_ptr<Component>>& GetComponents() { return m_components; }
+
+	// 특정 타입의 컴포넌트들을 모두 찾아야 할 때 (유니티의 GetComponents<T>와 유사)
+	template<typename T>
+	std::vector<T*> GetComponents()
+	{
+		std::vector<T*> results;
+		for (auto& comp : m_components)
+		{
+			if (T* t = dynamic_cast<T*>(comp.get()))
+				results.push_back(t);
+		}
+		return results;
+	}
+
+	// 1. 특정 컴포넌트 인스턴스 제거 (인스펙터 등에서 주소값으로 제거할 때)
+	void RemoveComponent(Component* component);
+
+	// 2. 특정 타입의 컴포넌트 제거 (유니티 스타일: RemoveComponent<MeshRenderer>())
+	template<typename T>
+	void RemoveComponent()
+	{
+		for (auto it = m_components.begin(); it != m_components.end(); ++it)
+		{
+			if (dynamic_cast<T*>(it->get()))
+			{
+				(*it)->OnDestroy(); // 자원 정리 호출
+				m_components.erase(it);
+				return; // 하나만 지우고 종료
+			}
+		}
+	}
 
 	static GameObject* CreateGameObject(const std::string& name = "GameObject");
 	static GameObject* CreatePrimitive(PrimitiveType type);
 
 public:
-	// 활성화
-	bool GetActive() const { return m_active; }
-	virtual void SetActive(bool active);
+
+	virtual void SetActive(bool active) override;
 
 	// Transform
 	Transform* GetTransform() const { return m_transform; }
 	Transform* GetTransform()  { return m_transform; }
 
-	// name
-	const std::string& GetName() const { return m_name; }
-	void SetName(std::string& name);
-
 private:
-	std::string m_name;
-	bool m_active = true;
+
+
 	bool m_isDestroyed = false;
 
 	Transform* m_transform = nullptr;
