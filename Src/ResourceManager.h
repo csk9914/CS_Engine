@@ -1,9 +1,11 @@
 #pragma once
-#include <map>
+#include <unordered_map>
 #include <string>
 #include <memory>
 #include "Mesh.h"
-#include "GeometryFactory.h"
+#include "GeometryGenerator.h"
+#include "PrimitiveType.h"
+
 
 class ResourceManager
 {
@@ -17,11 +19,18 @@ public:
         return &instance;
     }
 
+    // [중요] 기본 도형들을 미리 구워두는 함수
+    void InitDefaultResources();
+
+
     // 메쉬 추가 ( 미리 등록해서 사용)
     void AddMesh(const std::string& name, Mesh* mesh) {
-        if (m_meshDict.find(name) == m_meshDict.end()) {
+        if (m_meshDict.find(name) == m_meshDict.end())
+        {
             m_meshDict[name] = std::unique_ptr<Mesh>(mesh);
         }
+        else
+            delete mesh;
     }
 
     // 메쉬 가져오기 (공유 자원)
@@ -31,26 +40,17 @@ public:
         return nullptr;
     }
 
-    // [중요] 기본 도형들을 미리 구워두는 함수
-    void InitDefaultResources() {
-        // 큐브 구워서 "DefaultCube"라는 이름으로 창고에 넣기
-        MeshData cubeData = GeometryFactory::CreateCube(1.0f);
-        Mesh* cubeMesh = new Mesh();
-        cubeMesh->Create(cubeData);
-        AddMesh("CSCube", cubeMesh);
+    Mesh* GetMesh(PrimitiveType type)
+    {
+        return GetMesh(m_primitiveNames[type]);
+    }
 
-        // 평면
-        MeshData planeData = GeometryFactory::CreatePlane(10.0f);
-        Mesh* planeMesh = new Mesh();
-        planeMesh->Create(planeData);
-        AddMesh("CSPlane", planeMesh);
-
-        
-        // 나중에 평면, 구 등도 여기서 미리 구워둠
-
-
+    std::string GetPrimitiveNames(PrimitiveType key)
+    {
+        return m_primitiveNames[key];
     }
 
 private:
-    std::map<std::string, std::shared_ptr<Mesh>> m_meshDict;
+    std::unordered_map<std::string, std::unique_ptr<Mesh>> m_meshDict;
+    std::unordered_map<PrimitiveType, std::string> m_primitiveNames;
 };

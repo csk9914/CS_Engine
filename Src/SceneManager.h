@@ -1,14 +1,16 @@
-﻿#pragma once
-#include "StateMachine.h"
-#include "IRender.h"
+#pragma once
+#include <memory>
+#include "Scene.h"
 
-class IRenderer;
-class GameScene;
-class SceneManager : public StateMachine<GameScene>, public IRender
+class GameObject;
+
+class SceneManager
 {
 public:
-	virtual void Render(IRenderer& renderer) const override;
+	static void LoadScene(std::unique_ptr<Scene> newScene);
 
-private:
-	// 게임 오브젝트 등등
+	// 유니티의 SceneManager.GetActiveScene()과 동일
+	static Scene* GetActiveScene();
+
+	static GameObject* Instantiate(const std::string& name = "GameObject");
 };

@@ -8,7 +8,8 @@
 #include "SceneView.h"
 #include "Gizmo.h"
 
-#include "GameScene.h"
+#include "Scene.h"
+#include "GeometryGenerator.h"
 
 #include "imgui.h"
 #include "imgui_impl_win32.h"
@@ -98,7 +99,7 @@ void EditorUI::BeginFrame()
 	m_gizmo->BeginFrame();
 }
 
-void EditorUI::Draw(GameScene* scene,
+void EditorUI::Draw(Scene* scene,
 	ID3D11ShaderResourceView* sceneSRV,
 	ID3D11ShaderResourceView* gameSRV)
 {
@@ -173,7 +174,7 @@ void EditorUI::DrawMenuBar()
 }
 
 // ── Hierarchy ─────────────────────────────────────────────────────────
-void EditorUI::DrawHierarchy(GameScene* scene)
+void EditorUI::DrawHierarchy(Scene* scene)
 {
 	ImGui::Begin("Hierarchy");
 	if (!scene) { ImGui::End(); return; }
@@ -219,10 +220,16 @@ void EditorUI::DrawHierarchy(GameScene* scene)
 
 		if (ImGui::BeginMenu("3D Object"))
 		{
+			if (ImGui::MenuItem("Plane"))
+				m_selected = CreatePrimitive(PrimitiveType::Plane);
 			if (ImGui::MenuItem("Cube"))
-				m_selected = scene->CreatePrimitive(GameScene::PrimitiveType::Cube);
+				m_selected = CreatePrimitive(PrimitiveType::Cube);
+			if (ImGui::MenuItem("Sphere"))
+				m_selected = CreatePrimitive(PrimitiveType::Sphere);
 			ImGui::EndMenu();
 		}
+
+
 		ImGui::EndPopup();
 	}
 

@@ -13,6 +13,10 @@
 class Mesh
 {
 public:
+	Mesh() {}
+	Mesh(const MeshData& data);
+
+public:
 	// 어떤 데이터가 들어오든 GPU 버퍼로 변환
 	bool Create(const MeshData& data);
 

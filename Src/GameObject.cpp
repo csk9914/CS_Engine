@@ -1,7 +1,12 @@
 ﻿#include "GameObject.h"
+#include "SceneManager.h"
+#include "PrimitiveType.h"
+#include "ResourceManager.h"
 
-
-
+#include "MeshData.h"
+#include "Mesh.h"
+#include "MeshFilter.h"
+#include "MeshRenderer.h"
 
 GameObject::GameObject(const std::string& name) : m_name(name), m_active(true), m_isDestroyed(false)
 {
@@ -38,6 +43,25 @@ void GameObject::Update(float deltaTime)
 		}
 	}
 }
+
+GameObject* GameObject::CreateGameObject(const std::string& name)
+{
+	return SceneManager::Instantiate(name);
+}
+
+GameObject* GameObject::CreatePrimitive(PrimitiveType type)
+{
+	GameObject* obj = SceneManager::Instantiate(ResourceManager::Instance()->GetPrimitiveNames(type));
+	
+	obj->AddComponent<MeshFilter>()
+		->SetMesh(ResourceManager::Instance()->GetMesh(type));
+
+	obj->AddComponent<MeshRenderer>();
+
+	return obj;
+}
+
+
 
 void GameObject::SetActive(bool active)
 {

@@ -9,10 +9,10 @@
 class IRenderer;
 class GameObject;
 
-class GameScene : public IState
+class Scene : public IState
 {
 public:
-	virtual ~GameScene();
+	virtual ~Scene();
 
 	virtual void Update(float deltaTime) override;
 	virtual void OnEnter() override;
@@ -22,10 +22,6 @@ public:
 	// 씬에 게임오브젝트 추가
 	GameObject* CreateGameObject(const std::string& name = "GameObject");
 
-	// 2. 유니티의 CreatePrimitive 방식 (기본 도형)
-	enum class PrimitiveType { Cube, Sphere, Capsule, Plane };
-
-	GameObject* CreatePrimitive(PrimitiveType type);
 
 	// 3. (심화) 기존 객체 복제 (Instantiate)
 	// 

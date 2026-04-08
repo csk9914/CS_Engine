@@ -3,11 +3,11 @@
 #include "CSWindow.h"
 
 #include "GameObject.h"
-#include "GameScene.h"
-#include "IGame.h"
+#include "Scene.h"
+#include "GameApp.h"
 #include "InputHandler.h"
 #include "RenderManager.h"
-#include "SceneManager.h"
+#include "SceneMachine.h"
 #include "DX11Renderer.h"
 #include "EditorUI.h"
 #include "SHOOTER.h"
@@ -29,17 +29,18 @@ GameEngine::GameEngine() {}
 
 GameEngine::~GameEngine() {}
 
-bool GameEngine::Init(std::unique_ptr<IGame> game)
+bool GameEngine::Init(std::unique_ptr<GameApp> gameApp)
 {
-	if (!game) return false;
-	m_game = std::move(game);
+	if (!gameApp) return false;
+	m_gameApp = std::move(gameApp);
+
 
 	// 윈도우 생성
 	m_window = std::make_unique<CSWindow>();
 
-	std::wstring title(m_game->GetAppConfig().title.begin(), m_game->GetAppConfig().title.end());
+	std::wstring title(m_gameApp->GetAppConfig().title.begin(), m_gameApp->GetAppConfig().title.end());
 
-	if (!m_window->Init(title, m_game->GetWidth(), m_game->GetHeight(), GetModuleHandle(nullptr))) return false;
+	if (!m_window->Init(title, m_gameApp->GetWidth(), m_gameApp->GetHeight(), GetModuleHandle(nullptr))) return false;
 
 
 	// 윈도우 핸들 전달
@@ -59,7 +60,8 @@ bool GameEngine::Init(std::unique_ptr<IGame> game)
 void GameEngine::Run()
 {
 	// 초기화
-	m_game->Start();
+	m_gameApp->Init();
+
 	m_prevTime = std::chrono::steady_clock::now();
 
 	while (m_isRunning)
@@ -77,7 +79,7 @@ void GameEngine::Run()
 		InputHandler::Instance()->Update();
 
 		// 게임 업데이트
-		m_game->Update(m_deltaTime);
+		m_gameApp->Update(m_deltaTime);
 
 		// 렌더링
 		m_renderManager->RenderAll(m_deltaTime);
@@ -89,20 +91,20 @@ void GameEngine::Run()
 		CapFrame(frameStart);
 	}
 
-	m_game->End();
+	m_gameApp->End();
 }
 
 void GameEngine::Release()
 {
-	m_game.reset();
+	m_gameApp.reset();
 	m_renderManager->Release();
 	m_renderManager.reset();
 	m_window.reset();
 }
 
-GameScene* GameEngine::GetCurrentScene()
+Scene* GameEngine::GetCurrentScene()
 {
-	return m_game ? m_game->GetCurrentScene() : nullptr;
+	return m_gameApp ? m_gameApp->GetCurrentScene() : nullptr;
 }
 
 void GameEngine::Tick()
@@ -116,7 +118,7 @@ void GameEngine::Tick()
 void GameEngine::CapFrame(std::chrono::steady_clock::time_point frameStart)
 {
 	// 목표 프레임 시간	
-	const std::chrono::duration<double> TARGET_FRAME_TIME(1.0 / m_game->GetAppConfig().fps);
+	const std::chrono::duration<double> TARGET_FRAME_TIME(1.0 / m_gameApp->GetAppConfig().fps);
 
 	// 프레임 제한(Capping)
 	auto frameEnd = std::chrono::steady_clock::now();

@@ -3,5 +3,5 @@ class IStart
 {
 public:
 	virtual ~ IStart() {}
-	virtual void Start() = 0;
+	virtual void Init() = 0;
 };

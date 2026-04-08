@@ -4,12 +4,12 @@
 #include"IRender.h"
 #include <chrono>
 
-class GameScene;
+class Scene;
 class CSWindow;
 class RenderManager;
 class EditorUI;
 class Camera;
-class IGame;
+class GameApp;
 
 
 class GameEngine
@@ -32,7 +32,7 @@ public:
 	}
 
 	// init
-	bool Init(std::unique_ptr<IGame> scene);
+	bool Init(std::unique_ptr<GameApp> scene);
 
 	// running
 	void Run();
@@ -54,7 +54,9 @@ public:
 	void SetGameCamera(Camera* cam) { m_gameCamera = cam; }
 	Camera* GetGameCamera() const { return m_gameCamera; }
 
-	GameScene* GetCurrentScene();
+	GameApp* GetGameApp() const { return m_gameApp.get(); }
+
+	Scene* GetCurrentScene();
 
 private:
 	void Tick();
@@ -69,8 +71,7 @@ private:
 
 	std::unique_ptr<CSWindow> m_window;
 	std::unique_ptr<RenderManager> m_renderManager;
-	//std::unique_ptr<EditorUI>      m_editorUI;
-	std::unique_ptr<IGame> m_game;
+	std::unique_ptr<GameApp> m_gameApp;
 
 
 	Camera* m_renderCamera = nullptr; // 현재 렌더링 중인 카메라

@@ -6,6 +6,8 @@
 #include <memory>
 #include <string>
 
+#include "PrimitiveType.h"
+
 class GameObject
 {
 public:
@@ -56,6 +58,9 @@ public:
 
 	void Update(float deltaTime);
 
+	static GameObject* CreateGameObject(const std::string& name = "GameObject");
+	static GameObject* CreatePrimitive(PrimitiveType type);
+
 public:
 	// 활성화
 	bool GetActive() const { return m_active; }
@@ -79,3 +84,14 @@ private:
 
 
 };
+
+// 클래스 외부(전역 공간)에 선언
+inline GameObject* CreateGameObject(const std::string& name = "GameObject")
+{
+	return GameObject::CreateGameObject(name);
+}
+
+inline GameObject* CreatePrimitive(PrimitiveType type)
+{
+	return GameObject::CreatePrimitive(type);
+}

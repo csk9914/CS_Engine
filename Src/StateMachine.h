@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include"IUpdate.h"
 #include <memory>
+#include "Scene.h"
 
 template<typename T>
 class StateMachine : public IUpdate
@@ -32,7 +33,8 @@ public:
 		if (m_curState)
 			m_curState->Update(deltaTime);
 	}
-protected:
+
+public:
 	 T* GetCurState() const { return m_curState.get(); }
 
 private:

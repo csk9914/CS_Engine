@@ -7,7 +7,7 @@
 #include "imgui/imgui.h"
 #include "EditorWindow.h"
 
-class GameScene;
+class Scene;
 class GameObject;
 class Gizmo;
 
@@ -21,7 +21,7 @@ public:
 	void Update(float dt, class RenderPipeline* pipeline, class DX11Renderer* renderer);
 
 	void BeginFrame();
-	void Draw(GameScene* scene, ID3D11ShaderResourceView* sceneSRV, ID3D11ShaderResourceView* gameSRV);
+	void Draw(Scene* scene, ID3D11ShaderResourceView* sceneSRV, ID3D11ShaderResourceView* gameSRV);
 	void EndFrame();
 	void Shutdown();
 
@@ -43,7 +43,7 @@ public:
 
 private:
 	void DrawMainDockSpace();
-	void DrawHierarchy(GameScene* scene);
+	void DrawHierarchy(Scene* scene);
 	void DrawInspector();
 	void DrawMenuBar();
 

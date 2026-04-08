@@ -3,6 +3,11 @@
 #include "GameEngine.h"
 #include "RenderManager.h"
 
+Mesh::Mesh(const MeshData& data)
+{
+    Create(data);
+}
+
 bool Mesh::Create(const MeshData& data)
 {
     auto* device = GameEngine::Instance()->GetRenderManager()->GetRenderer()->GetDevice();
