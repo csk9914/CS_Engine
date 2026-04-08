@@ -222,10 +222,16 @@ void EditorUI::DrawHierarchy(Scene* scene)
 		{
 			if (ImGui::MenuItem("Plane"))
 				m_selected = CreatePrimitive(PrimitiveType::Plane);
+
 			if (ImGui::MenuItem("Cube"))
 				m_selected = CreatePrimitive(PrimitiveType::Cube);
+
 			if (ImGui::MenuItem("Sphere"))
 				m_selected = CreatePrimitive(PrimitiveType::Sphere);
+
+			if (ImGui::MenuItem("Capsule"))
+				m_selected = CreatePrimitive(PrimitiveType::Capsule);
+
 			ImGui::EndMenu();
 		}
 
@@ -279,9 +285,12 @@ void EditorUI::DrawInspector()
 			Vector3 rot = tr->GetRotation();
 			Vector3 scl = tr->GetScale();
 			ImGui::Text("Position"); ImGui::SetNextItemWidth(-1.f);
+
 			if (ImGui::DragFloat3("##pos", &pos.x, 0.1f)) tr->SetPosition(pos);
 			ImGui::Text("Rotation"); ImGui::SetNextItemWidth(-1.f);
+
 			if (ImGui::DragFloat3("##rot", &rot.x, 1.f))  tr->SetRotation(rot);
+
 			ImGui::Text("Scale");    ImGui::SetNextItemWidth(-1.f);
 			if (ImGui::DragFloat3("##scl", &scl.x, 0.1f, 0.001f, 1000.f)) tr->SetScale(scl);
 		}

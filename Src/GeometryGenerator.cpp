@@ -143,3 +143,65 @@ MeshData GeometryGenerator::CreateSphereData(float radius, UINT sliceCount, UINT
 
 	return data;
 }
+
+MeshData GeometryGenerator::CreateCapsuleData(float radius, float height, UINT sliceCount, UINT stackCount)
+{
+	MeshData data;
+
+	// 스택(위아래 분할)은 반구 두 개를 합쳐야 하므로 짝수가 좋습니다.
+	float phiStep = XM_PI / stackCount;
+	float thetaStep = 2.0f * XM_PI / sliceCount;
+
+	// 1. 정점(Vertices) 생성
+	for (uint32_t i = 0; i <= stackCount; ++i)
+	{
+		float phi = i * phiStep;
+
+		for (uint32_t j = 0; j <= sliceCount; ++j)
+		{
+			float theta = j * thetaStep;
+
+			Vertex v;
+
+			// 구의 기본 좌표계 계산
+			float x = radius * sinf(phi) * cosf(theta);
+			float y = radius * cosf(phi);
+			float z = radius * sinf(phi) * sinf(theta);
+
+			v.position = XMFLOAT3(x, y, z);
+
+			// 캡슐의 핵심: Y축 오프셋 적용
+			// 상단 반구 구간 (위쪽)
+			if (phi <= XM_PI * 0.5f + 0.001f)
+				v.position.y += height * 0.5f;
+			// 하단 반구 구간 (아래쪽)
+			else
+				v.position.y -= height * 0.5f;
+
+			v.normal = v.position; // 법선 벡터 계산 (오프셋 제거 전 방향 필요시 로직 수정 가능)
+			// 실제 법선은 오프셋을 뺀 순수 구의 형태에서 계산하는 것이 더 정확합니다.
+			XMStoreFloat3(&v.normal, XMVector3Normalize(XMLoadFloat3(&v.normal)));
+
+			v.uv = XMFLOAT2((float)j / sliceCount, (float)i / stackCount);
+
+			data.vertices.push_back(v);
+		}
+	}
+
+	// 2. 인덱스(Indices) 생성 (기본 구/원통 방식과 동일)
+	for (uint32_t i = 0; i < stackCount; ++i)
+	{
+		for (uint32_t j = 0; j < sliceCount; ++j)
+		{
+			data.indices.push_back(i * (sliceCount + 1) + j);
+			data.indices.push_back((i + 1) * (sliceCount + 1) + j);
+			data.indices.push_back((i + 1) * (sliceCount + 1) + (j + 1));
+
+			data.indices.push_back(i * (sliceCount + 1) + j);
+			data.indices.push_back((i + 1) * (sliceCount + 1) + (j + 1));
+			data.indices.push_back(i * (sliceCount + 1) + (j + 1));
+		}
+	}
+
+	return data;
+}

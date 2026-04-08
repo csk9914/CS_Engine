@@ -15,7 +15,7 @@ struct Vector2
 	Vector2 operator*(float s)          const { return { x * s,   y * s }; }
 	Vector2& operator+=(const Vector2& o) { x += o.x; y += o.y; return *this; }
 	Vector2& operator-=(const Vector2& o) { x -= o.x; y -= o.y;return *this; }
-	Vector2& operator*=(const Vector2& o) { x *= o.x; y *= o.y;return *this; }
+	Vector2& operator*=(float s) { x *= s; y *= s;return *this; }
 
 	float Length() const { return std::sqrt(x * x + y * y); }
 	Vector2 Normalized() const

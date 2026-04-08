@@ -6,19 +6,62 @@
 #include "ResourceManager.h"
 #include "MeshFilter.h"
 #include "MeshRenderer.h"
+#include "BoxCollider.h"
+#include "SphereCollider.h"
+#include "CollisionManager.h"
+#include "CapsuleCollider.h"
 
 void MainScene::OnEnter()
 {
-    GameObject* camObj = CreateGameObject("MainCamera");
-    camObj->GetTransform()->SetPosition({ 0.f, 3.f, -8.f });
-    camObj->GetTransform()->SetRotation({ 15.f, 0.f, 0.f });
-    GameEngine::Instance()->SetGameCamera(camObj->AddComponent<Camera>());
+	GameObject* camObj = CreateGameObject("MainCamera");
+	camObj->GetTransform()->SetPosition({ 0.f, 3.f, -8.f });
+	camObj->GetTransform()->SetRotation({ 15.f, 0.f, 0.f });
+	GameEngine::Instance()->SetGameCamera(camObj->AddComponent<Camera>());
 
-    GameObject* plane = CreatePrimitive(PrimitiveType::Plane);
-    GameObject* cube = CreatePrimitive(PrimitiveType::Cube);
-    GameObject* sphere = CreatePrimitive(PrimitiveType::Sphere);
+	CreatePrimitive(PrimitiveType::Plane)
+		->GetTransform()->SetPosition({ 0.f, -1.f, 0.f });
+
+	GameObject* cube = CreatePrimitive(PrimitiveType::Cube);
+	cube->GetTransform()->SetPosition({ -2,0,0 });
+	cube->GetComponent<MeshRenderer>()->SetColor(1, 0.1, 0.1, 1);
+	cube->AddComponent<BoxCollider>()->SetSize({ 1.0f, 1.0f, 1.0f });
+
+
+	GameObject* sphere = CreatePrimitive(PrimitiveType::Sphere);
+	sphere->GetComponent<MeshRenderer>()->SetColor(0.f, 1.f, 0.f, 1.f);
+	sphere->AddComponent<SphereCollider>()->SetRadius(0.5f);
+
+	GameObject* capsule = CreatePrimitive(PrimitiveType::Capsule);
+	capsule->GetTransform()->SetPosition({ 0, 2, 0 });
+	capsule->GetComponent<MeshRenderer>()->SetColor(0.f, 1.f, 0.f, 1.f);
+	auto capCol = capsule->AddComponent<CapsuleCollider>();
+	capCol->SetRadius(0.5f);
+	capCol->SetHeight(1.0f);
+
+	GameObject* cube2 = CreatePrimitive(PrimitiveType::Cube);
+	cube2->SetName(std::string("cube2"));
+	cube2->GetTransform()->SetPosition({ 2,0,0 });
+	cube2->GetComponent<MeshRenderer>()->SetColor(0, 0.3, 1, 1);
+	cube2->AddComponent<BoxCollider>()->SetSize({ 1.0f, 1.0f, 1.0f });
+
+	m_moveObj = cube2;
+}
+
+void MainScene::Update(float deltaTime)
+{
+	if (m_moveObj)
+	{
+		Vector3 pos = m_moveObj->GetTransform()->GetPosition();
+		pos.x -= 1.0f * deltaTime;
+		m_moveObj->GetTransform()->SetPosition(pos);
+	}
+
+	CollisionManager::Instance()->Update();
+
+	Scene::Update(deltaTime);
 }
 
 void MainScene::OnExit()
 {
+
 }

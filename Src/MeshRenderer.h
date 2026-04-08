@@ -39,7 +39,11 @@ public:
     virtual void Render();
 
     // 색상 설정
-    void SetColor(float r, float g, float b, float a = 1.f) { m_color = { r, g, b, a }; }
+    void SetColor(float r, float g, float b, float a = 1.f) 
+    { 
+        m_color = { r, g, b, a }; 
+    }
+
     DirectX::XMFLOAT4 GetColor() const { return m_color; }
 
 private:

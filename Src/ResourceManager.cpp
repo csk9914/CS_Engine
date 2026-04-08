@@ -9,19 +9,18 @@ void ResourceManager::InitDefaultResources()
 
     // 평면
     MeshData planeData = GeometryGenerator::CreatePlaneData(10.0f);
-    Mesh* planeMesh = new Mesh(planeData);
-    AddMesh(m_primitiveNames[PrimitiveType::Plane], planeMesh);
+    AddMesh(m_primitiveNames[PrimitiveType::Plane], new Mesh(planeData));
 
     // 큐브
     MeshData cubeData = GeometryGenerator::CreateCubeData(1.0f);
-    Mesh* cubeMesh = new Mesh(cubeData);
-    AddMesh(m_primitiveNames[PrimitiveType::Cube], cubeMesh);
+    AddMesh(m_primitiveNames[PrimitiveType::Cube], new Mesh(cubeData));
 
     // 구
     MeshData sphereData = GeometryGenerator::CreateSphereData(0.5f, 32, 32);
-    Mesh* sphereMesh = new Mesh(sphereData);
-    AddMesh(m_primitiveNames[PrimitiveType::Sphere], sphereMesh);
+    AddMesh(m_primitiveNames[PrimitiveType::Sphere], new Mesh(sphereData));
 
-
+    // 캡슐
+    MeshData capsuleData = GeometryGenerator::CreateCapsuleData(0.5f, 1.0f, 20, 20);
+    AddMesh(m_primitiveNames[PrimitiveType::Capsule], new Mesh(capsuleData));
 
 }

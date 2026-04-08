@@ -15,4 +15,7 @@ public:
 
 	// 구
 	static MeshData CreateSphereData(float radius, UINT sliceCount, UINT stackCount);
+
+	// 캡슐
+	static MeshData CreateCapsuleData(float radius, float height, UINT sliceCount, UINT stackCount);
 };

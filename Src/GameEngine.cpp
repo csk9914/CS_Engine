@@ -12,6 +12,7 @@
 #include "EditorUI.h"
 #include "SHOOTER.h"
 #include "ResourceManager.h"
+#include "CollisionManager.h"
 
 #include<conio.h>
 
@@ -52,6 +53,9 @@ bool GameEngine::Init(std::unique_ptr<GameApp> gameApp)
 
 	// 리소스 매니저 초기화 ( 기본 도형 메쉬 생성)
 	ResourceManager::Instance()->InitDefaultResources();
+
+	// 충돌 체크 매니저 초기화
+	CollisionManager::Instance()->Init();
 
 	m_isRunning = true;
 	return true;
