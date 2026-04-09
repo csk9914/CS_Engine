@@ -18,4 +18,6 @@ public:
 
 	// EditorUI가 씬 오브젝트 목록에 접근하기 위해 필요
 	virtual Scene* GetCurrentScene() = 0;
+
+	virtual bool IsPlay() const = 0;
 };

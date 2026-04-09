@@ -13,14 +13,16 @@
 
 using namespace DirectX;
 
-MeshRenderer::MeshRenderer(const std::string& name) : Component(name){}
+MeshRenderer::MeshRenderer(const std::string& name) : Component(name)
+{
+    m_initialized = InitShader() && InitCBuffers();
+
+    GameEngine::Instance()->GetRenderManager()->RegisterMesh(this);
+}
 
 MeshRenderer::~MeshRenderer(){}
 
-void MeshRenderer::Awake()
-{
-    m_initialized =  InitShader() && InitCBuffers();
-}
+void MeshRenderer::Awake() {}
 
 void MeshRenderer::OnEnable()
 {

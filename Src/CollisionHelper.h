@@ -6,19 +6,21 @@ class Collider;
 class SphereCollider;
 class BoxCollider;
 class CapsuleCollider;
+struct CollisionInfo;
 
 class CollisionHelper
 {
 public:
-	static bool SphereVsSphere(Collider* a, Collider* b);
-	static bool BoxVsBox(Collider* a, Collider* b);
-	static bool CapsuleVsCapsule(Collider* a, Collider* b);
+	static CollisionInfo SphereVsSphere(Collider* a, Collider* b);
+	static CollisionInfo BoxVsBox(Collider* a, Collider* b);
+	static CollisionInfo CapsuleVsCapsule(Collider* a, Collider* b);
 
 public:
-	static bool SphereVsBox(Collider* a, Collider* b);
-	static bool CapsuleVsSphere(Collider* a, Collider* b);
-	static bool CapsuleVsBox(Collider* a, Collider* b);
-public:
-	static float CalculateClosestPointsDistSq(Vector3 p1, Vector3 p2, Vector3 q1, Vector3 q2);
-	static float CollisionHelper::SqrDistSegmentAABB(Vector3 p1, Vector3 p2, Vector3 bMin, Vector3 bMax);
+	static CollisionInfo SphereVsBox(Collider* a, Collider* b);
+	static CollisionInfo CapsuleVsSphere(Collider* a, Collider* b);
+	static CollisionInfo CapsuleVsBox(Collider* a, Collider* b);
+
+	static float DistSegmentAABB(Vector3 p1, Vector3 p2, Vector3 bMin, Vector3 bMax);
+	static float ClosestPointsBetweenSegments(Vector3 p1, Vector3 p2, Vector3 q1, Vector3 q2, Vector3& outP1, Vector3& outP2);
+
 };

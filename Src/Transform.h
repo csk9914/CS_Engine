@@ -11,6 +11,9 @@ public:
 	virtual ~Transform() {}
 
 public:
+	void AddPosition(Vector3 addPos);
+
+public:
 	const Vector3& GetPosition() const { return m_position; }
 	const Vector3& GetRotation() const { return m_rotation; }
 	const Vector3& GetScale() const { return m_scale; }

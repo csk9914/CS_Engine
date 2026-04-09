@@ -19,12 +19,19 @@ public:
         return &instance;
     }
 
-    // [중요] 기본 도형들을 미리 구워두는 함수
+    void Init();
+
+private:
+    // 기본 도형들을 미리 구워두는 함수
     void InitDefaultResources();
 
 
+
+
+public:
     // 메쉬 추가 ( 미리 등록해서 사용)
-    void AddMesh(const std::string& name, Mesh* mesh) {
+    void AddMesh(const std::string& name, Mesh* mesh)
+    {
         if (m_meshDict.find(name) == m_meshDict.end())
         {
             m_meshDict[name] = std::unique_ptr<Mesh>(mesh);

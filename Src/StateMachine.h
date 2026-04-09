@@ -31,7 +31,9 @@ public:
 	virtual void Update(float deltaTime) override
 	{
 		if (m_curState)
+		{
 			m_curState->Update(deltaTime);
+		}
 	}
 
 public:

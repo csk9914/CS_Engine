@@ -6,6 +6,9 @@ class SphereCollider : public Collider
 public:
     SphereCollider(const std::string& name = "SphereCollider") : Collider(ColliderType::Sphere, name) {}
 
+    virtual void AutoFit() override;
+    virtual void OnEditorGUI() override;
+
     void SetRadius(float radius) { m_radius = radius; }
     float GetRadius() const { return m_radius; }
 

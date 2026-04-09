@@ -77,4 +77,5 @@ private:
 	Camera* m_renderCamera = nullptr; // 현재 렌더링 중인 카메라
 	Camera* m_editorCamera = nullptr; // 소유권은 GameObject에 있음
 	Camera* m_gameCamera = nullptr;
+
 };

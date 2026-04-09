@@ -24,7 +24,6 @@ public:
 	void RegisterMesh(MeshRenderer* mesh);
 	void UnregisterMesh(MeshRenderer* mesh);
 
-	void Update();
 
 	void RenderAll(float deltaTime);
 	void Release();

@@ -6,6 +6,9 @@ class CapsuleCollider : public Collider
 public:
 	CapsuleCollider(const std::string& name = "CapsuleCollider") : Collider(ColliderType::Capsule, name) {}
 
+	virtual void AutoFit() override;
+	virtual void OnEditorGUI() override;
+
 	// 데이터 설정
 	void SetRadius(float radius) { m_radius = radius; }
 	void SetHeight(float height) { m_height = height; }	// 원통 부분의 순수 노ㅠㅍ이

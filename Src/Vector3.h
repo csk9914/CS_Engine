@@ -11,12 +11,21 @@ struct Vector3
 
 	Vector3 operator+(const Vector3& o) const { return { x + o.x, y + o.y, z + o.z }; }
 	Vector3 operator-(const Vector3& o) const { return { x - o.x, y - o.y, z - o.z }; }
-	Vector3 operator*(float s)          const { return { x * s,   y * s,   z * s }; }
+	Vector3 operator*(float s) const { return { x * s,   y * s,   z * s }; }
+	Vector3 operator/(float s) const { 
+
+		// 0으로 나누기 방지 로직과 연산 비용 최적화
+		float invS = 1.0f / s;
+		return { x * invS,   y * invS,   z * invS };
+	}
+
 	Vector3& operator+=(const Vector3& o) { x += o.x; y += o.y; z += o.z; return *this; }
 	Vector3& operator-=(const Vector3& o) { x -= o.x; y -= o.y; z -= o.z; return *this; }
 	Vector3& operator*=(float s) { x *= s;y *= s;z *= s;return *this; }
 
-	float Length() const { return std::sqrt(x * x + y * y + z * z); }
+	float Length() const { return std::sqrt(LengthSqrt()); }
+	float LengthSqrt() const { return (x * x + y * y + z * z); }
+
 	Vector3 Normalized() const
 	{
 		float len = Length();
@@ -39,6 +48,15 @@ struct Vector3
 	{
 		return a.x * b.x + a.y * b.y + a.z * b.z;
 	}
-
-
 };
+
+// 왼쪽 항이 클래스(구조체)가 아닌 기본 자료형(float)일 경우, 멤버 함수가 아닌 전역 함수로 정의
+inline Vector3 operator*(float s, const Vector3& v)
+{
+	return v * s;
+}
+
+inline Vector3 operator/(float s, const Vector3& v)
+{
+	return v / s;
+}

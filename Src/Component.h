@@ -8,7 +8,7 @@ class Component : public Object
 	friend class GameObject;
 
 protected:
-	Component(const std::string& name = "Component", bool useIndexing = false) : Object(name, useIndexing), m_enabled(true), m_started(false), m_gameObject(nullptr) {}
+	Component(const std::string& name = "Component", bool useIndexing = false) : Object(name, useIndexing), m_enabled(true), m_gameObject(nullptr) {}
 
 public:
 	virtual ~Component() {}
@@ -35,6 +35,6 @@ public:
 
 private:
 	bool m_enabled;
-	bool m_started;
+	//bool m_started;
 	GameObject* m_gameObject;
 };

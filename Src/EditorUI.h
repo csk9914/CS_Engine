@@ -7,6 +7,7 @@
 #include "imgui/imgui.h"
 #include "EditorWindow.h"
 
+class GameApp;
 class Scene;
 class GameObject;
 class Gizmo;
@@ -17,11 +18,11 @@ public:
 	EditorUI();
 	~EditorUI();
 
-	bool Init(HWND hWnd, ID3D11Device* device, ID3D11DeviceContext* context);
-	void Update(float dt, class RenderPipeline* pipeline, class DX11Renderer* renderer);
+	bool Init(HWND hWnd, DX11Renderer* renderer);
+	void Update(float dt, class RenderPipeline* pipeline);
 
 	void BeginFrame();
-	void Draw(Scene* scene, ID3D11ShaderResourceView* sceneSRV, ID3D11ShaderResourceView* gameSRV);
+	void Draw(GameApp* game, ID3D11ShaderResourceView* sceneSRV, ID3D11ShaderResourceView* gameSRV);
 	void EndFrame();
 	void Shutdown();
 
@@ -39,7 +40,13 @@ public:
 	void SetSceneViewPos(ImVec2 p) { m_sceneViewPos = p; }
 	void SetSceneViewSize(ImVec2 s) { m_sceneViewSize = s; }
 
+	void RenderTopToolbar(GameApp* game);
+
 	void DrawAddComponentButton();
+
+public:
+	static void EditorUI::LabeledDragFloat(const char* label, float* value, float speed = 0.05f);
+	static void EditorUI::LabeledDragFloat3(const char* label, float* value, float speed = 0.05f);
 
 private:
 	void DrawMainDockSpace();

@@ -17,6 +17,7 @@ Camera::Camera(const std::string& name) : Component(name) {}
 
 void Camera::Update(float deltaTime)
 {
+
 }
 
 void Camera::OnEnable()

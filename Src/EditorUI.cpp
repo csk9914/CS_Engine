@@ -1,4 +1,4 @@
-#include "EditorUI.h"
+﻿#include "EditorUI.h"
 #include "GameObject.h"
 #include "Transform.h"
 #include "Camera.h"
@@ -19,14 +19,18 @@
 #include "BoxCollider.h"
 #include "SphereCollider.h"
 #include "CapsuleCollider.h"
+#include "MeshFilter.h"
+#include "Rigidbody.h"
+#include "GameApp.h"
 
+#include "DX11Renderer.h"
 EditorUI::EditorUI()
 {
 }
 
 EditorUI::~EditorUI() { Shutdown(); }
 
-bool EditorUI::Init(HWND hWnd, ID3D11Device* device, ID3D11DeviceContext* context)
+bool EditorUI::Init(HWND hWnd, DX11Renderer* renderer)
 {
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
@@ -62,15 +66,15 @@ bool EditorUI::Init(HWND hWnd, ID3D11Device* device, ID3D11DeviceContext* contex
 	c[ImGuiCol_Separator] = { 0.30f,0.30f,0.30f,1.f };
 
 	ImGui_ImplWin32_Init(hWnd);
-	ImGui_ImplDX11_Init(device, context);
+	ImGui_ImplDX11_Init(renderer->GetDevice(), renderer->GetContext());
 
 	// Gizmo
 	m_gizmo = std::make_unique<Gizmo>();
 	m_gizmo->Init();
 
 	// EditorWindow 등록 (SceneView가 Gizmo 렌더를 담당)
-	m_windows.push_back(std::make_unique<SceneView>());
-	m_windows.push_back(std::make_unique<GameView>());
+	m_windows.push_back(std::make_unique<SceneView>(this, renderer));
+	m_windows.push_back(std::make_unique<GameView>(this, renderer));
 
 	for (auto& w : m_windows)
 		w->Init();
@@ -88,11 +92,11 @@ void EditorUI::Shutdown()
 	m_initialized = false;
 }
 
-void EditorUI::Update(float dt, RenderPipeline* pipeline, DX11Renderer* renderer)
+void EditorUI::Update(float dt, RenderPipeline* pipeline)
 {
 	// 각 EditorWindow가 RenderPipeline에 렌더 요청을 예약
 	for (auto& w : m_windows)
-		w->Update(dt, pipeline, renderer);
+		w->Update(dt, pipeline);
 }
 
 void EditorUI::BeginFrame()
@@ -103,12 +107,14 @@ void EditorUI::BeginFrame()
 	m_gizmo->BeginFrame();
 }
 
-void EditorUI::Draw(Scene* scene,
+void EditorUI::Draw(GameApp* gameApp,
 	ID3D11ShaderResourceView* sceneSRV,
 	ID3D11ShaderResourceView* gameSRV)
 {
 	DrawMenuBar();
 	if (m_dockingEnabled) DrawMainDockSpace();
+
+	RenderTopToolbar(gameApp);
 
 	// EditorWindow::OnGUI() 호출 (SceneView, GameView)
 	// ※ 중복 호출 제거 — 한 번만 호출
@@ -116,7 +122,7 @@ void EditorUI::Draw(Scene* scene,
 		w->OnGUI();
 
 	// 공용 패널
-	DrawHierarchy(scene);
+	DrawHierarchy(gameApp->GetCurrentScene());
 	DrawInspector();
 }
 
@@ -126,6 +132,41 @@ void EditorUI::EndFrame()
 	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 }
 
+
+void EditorUI::RenderTopToolbar(GameApp* gameApp)
+{
+	// 상단 툴바 레이아웃 설정
+	ImGui::BeginMainMenuBar();
+
+	// 중앙 정렬을 위한 계산 (버튼 크기에 맞춰 조정 가능)
+	float windowWidth = ImGui::GetWindowSize().x;
+	float buttonWidth = 100.0f;
+	ImGui::SetCursorPosX((windowWidth - buttonWidth) * 0.5f);
+
+	bool isPlaying = gameApp->IsPlay();
+
+	// 상태에 따라 버튼 텍스트와 색상 변경
+	const char* label = isPlaying ? "Stop" : "Play";
+	if (isPlaying)
+	{
+		ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.8f, 0.2f, 0.2f, 1.0f)); // 정지 버튼은 빨간색
+	}
+	else
+	{
+		ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.2f, 0.7f, 0.2f, 1.0f)); // 플레이 버튼은 녹색
+	}
+
+	if (ImGui::Button(label, ImVec2(buttonWidth, 0)))
+	{
+		gameApp->SetIsPlay(!isPlaying);
+
+		// [꿀팁] 플레이 버튼을 누를 때 포커스를 씬 뷰로 강제 이동하거나 
+		// 마우스 입력을 게임용으로 전환하는 로직을 여기에 넣을 수 있어요.
+	}
+
+	ImGui::PopStyleColor();
+	ImGui::EndMainMenuBar();
+}
 
 void EditorUI::DrawAddComponentButton()
 {
@@ -145,18 +186,30 @@ void EditorUI::DrawAddComponentButton()
 		ImGui::TextDisabled("Components");
 		ImGui::Separator();
 
-		// [주의] 이미 가지고 있는 컴포넌트는 추가하지 못하게 막거나 체크하는 로직을 넣으면 더 좋습니다.
+		// 이미 가지고 있는 컴포넌트 처리 없음
 
 		if (ImGui::Selectable("Camera"))
 		{
-			if (!m_selected->GetComponent<Camera>()) // 중복 방지 예시
+			if (!m_selected->GetComponent<Camera>())
 				m_selected->AddComponent<Camera>();
+		}
+
+		if (ImGui::Selectable("Mesh Filter"))
+		{
+			if (!m_selected->GetComponent<MeshFilter>())
+				m_selected->AddComponent<MeshFilter>();
 		}
 
 		if (ImGui::Selectable("Mesh Renderer"))
 		{
 			if (!m_selected->GetComponent<MeshRenderer>())
 				m_selected->AddComponent<MeshRenderer>();
+		}
+
+		if (ImGui::Selectable("Rigidbody"))
+		{
+			if (!m_selected->GetComponent<Rigidbody>())
+				m_selected->AddComponent<Rigidbody>();
 		}
 
 		if (ImGui::BeginMenu("Physics")) // 서브 메뉴 구성 가능
@@ -175,7 +228,25 @@ void EditorUI::DrawAddComponentButton()
 	}
 }
 
-// ── DockSpace ─────────────────────────────────────────────────────────
+void EditorUI::LabeledDragFloat(const char* label, float* value, float speed)
+{
+	ImGui::Text(label);
+	ImGui::SameLine(ImGui::GetWindowWidth() * 0.4f); // 창 너비의 40% 지점부터 시작
+	ImGui::SetNextItemWidth(-1);
+	std::string hiddenLabel = "##" + std::string(label);
+	ImGui::DragFloat(hiddenLabel.c_str(), value, speed);
+}
+
+void EditorUI::LabeledDragFloat3(const char* label, float* value, float speed)
+{
+	ImGui::Text(label);
+	ImGui::SameLine(ImGui::GetWindowWidth() * 0.4f); // 창 너비의 40% 지점부터 시작
+	ImGui::SetNextItemWidth(-1);
+	std::string hiddenLabel = "##" + std::string(label);
+	ImGui::DragFloat3(hiddenLabel.c_str(), value, speed);
+}
+
+// ── DockSpace 
 void EditorUI::DrawMainDockSpace()
 {
 	ImGuiViewport* vp = ImGui::GetMainViewport();
@@ -199,7 +270,7 @@ void EditorUI::DrawMainDockSpace()
 	ImGui::End();
 }
 
-// ── 메뉴바 ────────────────────────────────────────────────────────────
+// ── 메뉴바 
 void EditorUI::DrawMenuBar()
 {
 	if (!ImGui::BeginMainMenuBar()) return;
@@ -225,7 +296,7 @@ void EditorUI::DrawMenuBar()
 	ImGui::EndMainMenuBar();
 }
 
-// ── Hierarchy ─────────────────────────────────────────────────────────
+// ── Hierarchy 
 void EditorUI::DrawHierarchy(Scene* scene)
 {
 	ImGui::Begin("Hierarchy");
@@ -254,6 +325,7 @@ void EditorUI::DrawHierarchy(Scene* scene)
 			if (ImGui::MenuItem("Delete Object"))
 			{
 				pendingDelete = obj;
+				pendingDelete->Destroy();
 			}
 			ImGui::EndPopup();
 		}
@@ -294,8 +366,11 @@ void EditorUI::DrawHierarchy(Scene* scene)
 	// 3. 안전한 삭제 (루프 밖)
 	if (pendingDelete)
 	{
-		if (m_selected == pendingDelete) m_selected = nullptr;
-		pendingDelete->Destroy();
+		if (m_selected == pendingDelete)
+			m_selected = nullptr;
+
+		//pendingDelete->OnDestroy();
+		pendingDelete->GetScene()->ProcessDestroy();
 	}
 
 	// 4. 선택 해제 로직 (보호막)

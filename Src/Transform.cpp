@@ -2,6 +2,11 @@
 
 #include "imgui/imgui.h"
 
+void Transform::AddPosition(Vector3 addPos)
+{
+	m_position += addPos;
+}
+
 // 행렬 변환
 DirectX::XMMATRIX Transform::GetWorldMatrix() const
 {

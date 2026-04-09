@@ -16,6 +16,7 @@
 #include "RenderPipeline.h"
 #include "imgui.h"
 #include "imgui/ImGuizmo.h"
+#include "GameApp.h"
 
 using namespace DirectX;
 
@@ -26,17 +27,27 @@ RenderManager::RenderManager(HWND hWnd, int width, int height)
 	m_pipeline = std::make_unique<RenderPipeline>(m_renderer.get());
 
 	m_editorUI = std::make_unique<EditorUI>();
-	m_editorUI->Init(hWnd, m_renderer->GetDevice(), m_renderer->GetContext());
+	m_editorUI->Init(hWnd, m_renderer.get());
 }
 
 RenderManager::~RenderManager() {}
 
 void RenderManager::RegisterSprite(SpriteRenderer* s) { m_sprites.push_back(s); }
+
 void RenderManager::UnregisterSprite(SpriteRenderer* s)
 {
 	m_sprites.erase(std::remove(m_sprites.begin(), m_sprites.end(), s), m_sprites.end());
 }
-void RenderManager::RegisterMesh(MeshRenderer* m) { m_meshes.push_back(m); }
+
+void RenderManager::RegisterMesh(MeshRenderer* mesh)
+{
+	if (std::find(m_meshes.begin(), m_meshes.end(), mesh) == m_meshes.end())
+	{
+
+		m_meshes.push_back(mesh);
+	}
+}
+
 void RenderManager::UnregisterMesh(MeshRenderer* m)
 {
 	m_meshes.erase(std::remove(m_meshes.begin(), m_meshes.end(), m), m_meshes.end());
@@ -47,7 +58,7 @@ void RenderManager::RenderAll(float deltaTime)
 	if (!m_renderer || !m_pipeline) return;
 
 	// 각 뷰가 Pipeline에 렌더 요청 Push 
-	m_editorUI->Update(deltaTime, m_pipeline.get(), m_renderer.get());
+	m_editorUI->Update(deltaTime, m_pipeline.get());
 
 	//  Pipeline 실행 → SceneRTV, GameRTV에 그리기 
 	m_pipeline->Execute(m_meshes);
@@ -63,7 +74,7 @@ void RenderManager::RenderAll(float deltaTime)
 	// ImGui 렌더 (SceneView/GameView RTT를 Image로 출력) 
 	m_editorUI->BeginFrame();
 
-	m_editorUI->Draw(GameEngine::Instance()->GetCurrentScene(), m_renderer->GetSceneSRV(), m_renderer->GetGameSRV());
+	m_editorUI->Draw(GameEngine::Instance()->GetGameApp(), m_renderer->GetSceneSRV(), m_renderer->GetGameSRV());
 
 	m_editorUI->EndFrame();
 
@@ -141,6 +152,6 @@ void RenderManager::Raycast()
 	}
 
 	// picked != nullptr → 선택 변경
-    // picked == nullptr → 선택 해제 (아무것도 없는 곳 클릭)
+	// picked == nullptr → 선택 해제 (아무것도 없는 곳 클릭)
 	m_editorUI->SetSelected(picked); // nullptr이면 선택 해제
 }

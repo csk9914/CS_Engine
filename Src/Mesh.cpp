@@ -3,7 +3,7 @@
 #include "GameEngine.h"
 #include "RenderManager.h"
 
-Mesh::Mesh(const MeshData& data)
+Mesh::Mesh(const MeshData& data, const std::string name) : Mesh(name)
 {
     Create(data);
 }
@@ -36,6 +36,9 @@ bool Mesh::Create(const MeshData& data)
     if (FAILED(device->CreateBuffer(&ibDesc, &isd, &m_iBuffer))) return false;
 
     m_indexCount = (UINT)data.indices.size();
+
+    // 바운딩 정보 저장
+    data.GetBounds(m_min, m_max);
 
     return true;
 }

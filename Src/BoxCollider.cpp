@@ -1,5 +1,37 @@
 #include "BoxCollider.h"
 #include "GameObject.h"
+#include "EditorUI.h"
+
+#include "MeshFilter.h"
+
+BoxCollider::~BoxCollider() {}
+
+void BoxCollider::OnEditorGUI()
+{
+	Collider::OnEditorGUI();
+
+	EditorUI::LabeledDragFloat3("Size", &m_size.x);
+}
+
+void BoxCollider::AutoFit()
+{
+	// 1. 같은 오브젝트의 MeshFilter 찾기
+	auto filter = GetGameObject()->GetComponent<MeshFilter>();
+	if (!filter || !filter->GetMesh()) return;
+
+	// 2. 메쉬에서 바운딩 정보 가져오기
+	DirectX::XMFLOAT3 min, max;
+	filter->GetMesh()->GetBounds(min, max);
+
+	// 3. 크기와 오프셋 계산
+	// Size = max - min
+	m_size = { max.x - min.x, max.y - min.y, max.z - min.z };
+
+	// Center = (max + min) * 0.5
+	m_offset = { (max.x + min.x) * 0.5f, (max.y + min.y) * 0.5f, (max.z + min.z) * 0.5f };
+
+
+}
 
 Vector3 BoxCollider::GetMin()
 {

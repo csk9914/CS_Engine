@@ -8,9 +8,9 @@ class Transform;
 class EditorCameraScript : public MonoBehaviour
 {
 public:
-    GameObject* m_obj;
-    Transform* m_transform;
-    Camera* m_cam;
+    GameObject* m_obj = nullptr;
+    Transform* m_transform = nullptr;
+    Camera* m_cam = nullptr;
 
 public:
     virtual void Start() override;

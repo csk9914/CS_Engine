@@ -35,7 +35,6 @@ bool GameEngine::Init(std::unique_ptr<GameApp> gameApp)
 	if (!gameApp) return false;
 	m_gameApp = std::move(gameApp);
 
-
 	// 윈도우 생성
 	m_window = std::make_unique<CSWindow>();
 
@@ -52,7 +51,7 @@ bool GameEngine::Init(std::unique_ptr<GameApp> gameApp)
 	if (!m_renderManager->GetRenderer()) return false;
 
 	// 리소스 매니저 초기화 ( 기본 도형 메쉬 생성)
-	ResourceManager::Instance()->InitDefaultResources();
+	ResourceManager::Instance()->Init();
 
 	// 충돌 체크 매니저 초기화
 	CollisionManager::Instance()->Init();

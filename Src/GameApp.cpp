@@ -9,12 +9,13 @@ void GameApp::Update(float deltaTime)
 		m_sceneMachine.ChangeState(std::move(m_pendingScene));
 	}
 
-	m_sceneMachine.Update(deltaTime);
+	if (m_isPlay)
+		m_sceneMachine.Update(deltaTime);
 }
 
 void GameApp::End()
 {
-	m_sceneMachine.ChangeState(nullptr); 
+	m_sceneMachine.ChangeState(nullptr);
 }
 
 void GameApp::SetFirstScene(std::unique_ptr<Scene> scene)

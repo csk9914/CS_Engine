@@ -6,13 +6,19 @@ class BoxCollider : public Collider
 {
 public:
     BoxCollider(const std::string& name = "BoxCollider") : Collider(ColliderType::Box, name) {}
+    virtual ~BoxCollider();
+
+    virtual void OnEditorGUI() override;
 
     void SetSize(const Vector3& size) { m_size = size; }
     Vector3 GetSize() const { return m_size; }
 
+    virtual void AutoFit() override;
+
     // AABB를 위한 최소/최대 지점 계산
     Vector3 GetMin();
     Vector3 GetMax();
+
 
 private:
     Vector3 m_size = { 1.0f, 1.0f, 1.0f };
