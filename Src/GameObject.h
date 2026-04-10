@@ -25,6 +25,7 @@ public:
 public:
     void Awake();
     void Start();
+    void FixedUpdate(float deltaTime);
     void Update(float deltaTime);
 
     template<typename T>

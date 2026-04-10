@@ -13,51 +13,63 @@ void Rigidbody::AddForce(Vector3 force)
 
 void Rigidbody::OnEnable()
 {
-	GetGameObject()->GetScene()->RegisterForRigidbody(this);
+	gameObject()->GetScene()->RegisterForRigidbody(this);
 }
 
 void Rigidbody::OnDisable()
 {
-	GetGameObject()->GetScene()->UnRegisterForRigidbody(this);
+	gameObject()->GetScene()->UnRegisterForRigidbody(this);
 }
 
 void Rigidbody::OnDestroy()
 {
-	GetGameObject()->GetScene()->UnRegisterForRigidbody(this);
+	gameObject()->GetScene()->UnRegisterForRigidbody(this);
 }
 
 void Rigidbody::FixedUpdate(float dt)
 {
-	// kinematic 상태라면 물리 연산을 하지 않음
-	if (m_isKinematic)
-	{
-		m_forceSum = {}; return;
-	}
+    if (m_isKinematic)
+    {
+        m_forceSum = {}; m_torqueSum = {}; return;
+    }
 
-	// 중력 적용
-	if (m_useGravity)
-	{
-		// F = mg
-		m_forceSum += m_mass * s_gravity;
-	}
+    // 선형 운동 (기존 로직) 
+    if (m_useGravity) m_forceSum += m_mass * s_gravity;
+    m_acceleration = m_forceSum / m_mass;
+    m_velocity += m_acceleration * dt;
+    m_velocity *= (1.0f - m_drag * dt); // 선형 저항
 
-	// 가속도 계산 (F = ma ->  a= F/m)
-	m_acceleration = m_forceSum / m_mass;
+    if (m_velocity.Length() > 0.001f)
+    {
+        gameObject()->GetTransform()->AddPosition(m_velocity * dt);
+    }
 
-	// 속도 계산
-	m_velocity += m_acceleration * dt;
+    // 회전 운동 
+    // 각가속도 계산 (단순화: 관성 모멘트를 무시하고 질량 비례로 계산하거나 1.0으로 가정)
+    Vector3 angularAcceleration = m_torqueSum / m_mass;
 
-	// 공기 저항 
-	m_velocity *=  (1.0f - m_drag * dt);
+    // 각속도 갱신
+    m_angularVelocity += angularAcceleration * dt;
 
-	// 실제 위치 반영
-	if (m_velocity.Length() > 0.001f)
-	{
-		GetGameObject()->GetTransform()->AddPosition(m_velocity * dt);
-	}
+    // 회전 저항 (Angular Drag) 적용
+    m_angularVelocity *= (1.0f - m_angularDrag * dt);
 
-	// 7. 힘 초기화 (다음 프레임을 위해)
-	m_forceSum = { 0, 0, 0 };
+    // 실제 회전 반영 (Constraints 체크)
+    Vector3 deltaRotation = m_angularVelocity * dt;
+    if (deltaRotation.Length() > 0.001f)
+    {
+        Vector3 currentRot = gameObject()->GetTransform()->GetRotation();
+
+        if (!m_freezeRotationX) currentRot.x += deltaRotation.x;
+        if (!m_freezeRotationY) currentRot.y += deltaRotation.y;
+        if (!m_freezeRotationZ) currentRot.z += deltaRotation.z;
+
+        gameObject()->GetTransform()->SetRotation(currentRot);
+    }
+
+    // 초기화 
+    m_forceSum = { 0, 0, 0 };
+    m_torqueSum = { 0, 0, 0 }; // 토크 초기화
 }
 
 void Rigidbody::OnEditorGUI()

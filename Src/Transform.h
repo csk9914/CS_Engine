@@ -28,6 +28,22 @@ public:
 
 	void SetRotationFromQuaternion(DirectX::XMVECTOR quat);
 
+public:
+	// 유니티 스타일 방향 벡터 (World Space)
+	Vector3 GetForward() const;
+	Vector3 GetRight() const;
+	Vector3 GetUp() const;
+
+	// LookAt: 타겟 지점을 바라보도록 회전값 수정
+	void LookAt(const Vector3& target);
+
+	// 좌표계 변환 (Local <-> World)
+	Vector3 TransformPoint(const Vector3& localPoint);
+	Vector3 InverseTransformPoint(const Vector3& worldPoint);
+
+	// 부모-자식 구조가 있다면 추가될 부분 (현재는 단일 객체 기준)
+	// DirectX::XMMATRIX GetLocalMatrix() const;
+
 	virtual void OnEditorGUI() override;
 
 private:

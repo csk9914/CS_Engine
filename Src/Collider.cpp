@@ -21,7 +21,7 @@ void Collider::OnDestroy()
 
 Vector3 Collider::GetCenter()
 {
-	return GetGameObject()->GetTransform()->GetPosition() + m_offset;
+	return gameObject()->GetTransform()->GetPosition() + m_offset;
 }
 
 void Collider::OnEditorGUI()

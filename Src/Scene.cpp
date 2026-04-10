@@ -7,6 +7,7 @@
 #include "GameEngine.h"
 #include "GameApp.h"
 #include "CollisionManager.h"
+#include "Camera.h"
 
 Scene::~Scene() {}
 
@@ -44,7 +45,7 @@ void Scene::ProcessFixedUpdate(float deltaTime)
 
     CollisionManager::Instance()->Update();
 
-    for (auto* rb : m_rigids)
+    for (auto* rb : m_fixed)
         rb->FixedUpdate(deltaTime);
 }
 
@@ -66,14 +67,20 @@ void Scene::ProcessDestroy()
         m_gameObjects.end());
 }
 
-void Scene::OnEnter() {}
+void Scene::OnEnter() 
+{
+    GameObject* camObj = CreateGameObject("MainCamera");
+    camObj->GetTransform()->SetPosition({ 0.f, 3.f, -8.f });
+    camObj->GetTransform()->SetRotation({ 15.f, 0.f, 0.f });
+    GameEngine::Instance()->SetGameCamera(camObj->AddComponent<Camera>());
+}
 
 void Scene::OnExit()
 {
     m_gameObjects.clear();
     m_awakeQueue.clear();
     m_startQueue.clear();
-    m_rigids.clear();
+    m_fixed.clear();
 }
 
 GameObject* Scene::CreateGameObject(const std::string& name)
@@ -87,15 +94,15 @@ GameObject* Scene::CreateGameObject(const std::string& name)
 
 void Scene::RegisterForRigidbody(Rigidbody* rigid)
 {
-    if (std::find(m_rigids.begin(), m_rigids.end(), rigid) == m_rigids.end())
-        m_rigids.emplace_back(rigid);
+    if (std::find(m_fixed.begin(), m_fixed.end(), rigid) == m_fixed.end())
+        m_fixed.emplace_back(rigid);
 }
 
 void Scene::UnRegisterForRigidbody(Rigidbody* rigid)
 {
-    m_rigids.erase(
-        std::remove(m_rigids.begin(), m_rigids.end(), rigid),
-        m_rigids.end());
+    m_fixed.erase(
+        std::remove(m_fixed.begin(), m_fixed.end(), rigid),
+        m_fixed.end());
 }
 
 bool Scene::IsPlaying() const
@@ -125,12 +132,12 @@ void Scene::OnPlayStart()
     }
 }
 
-// ── 핵심 수정 3: Play 정지 시 물리 상태 초기화 ───────────────────────
+//핵심 수정 3: Play 정지 시 물리 상태 초기화 
 void Scene::OnPlayStop()
 {
     // Rigidbody 속도 초기화
-    for (auto* rb : m_rigids)
-        rb->SetVelocity({ 0, 0, 0 });
+    for (auto* rigid : m_fixed)
+        rigid->SetVelocity({0, 0, 0});
 
-    // TODO: 나중에 씬 직렬화 구현 시 Transform 위치도 원복
+  
 }

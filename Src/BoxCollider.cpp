@@ -18,7 +18,7 @@ void BoxCollider::OnEditorGUI()
 void BoxCollider::AutoFit()
 {
 	// 1. 같은 오브젝트의 MeshFilter 찾기
-	auto filter = GetGameObject()->GetComponent<MeshFilter>();
+	auto filter = gameObject()->GetComponent<MeshFilter>();
 	if (!filter || !filter->GetMesh()) return;
 
 	// 2. 메쉬에서 바운딩 정보 가져오기
@@ -38,7 +38,7 @@ void BoxCollider::AutoFit()
 Vector3 BoxCollider::GetMin()
 {
 	Vector3 center = GetCenter();
-	Vector3 scale = GetGameObject()->GetTransform()->GetScale();
+	Vector3 scale = gameObject()->GetTransform()->GetScale();
 
 	// (중심) - (크기 * 스케일 * 0.5)
 	return center - Vector3(m_size.x * scale.x, m_size.y * scale.y, m_size.z * scale.z) * 0.5f;
@@ -47,7 +47,7 @@ Vector3 BoxCollider::GetMin()
 Vector3 BoxCollider::GetMax()
 {
 	Vector3 center = GetCenter();
-	Vector3 scale = GetGameObject()->GetTransform()->GetScale();
+	Vector3 scale = gameObject()->GetTransform()->GetScale();
 
 	// (중심) + (크기 * 스케일 * 0.5)
 	return center + Vector3(m_size.x * scale.x, m_size.y * scale.y, m_size.z * scale.z) * 0.5f;

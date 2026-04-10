@@ -7,7 +7,7 @@
 
 void CapsuleCollider::AutoFit()
 {
-	auto filter = GetGameObject()->GetComponent<MeshFilter>();
+	auto filter = gameObject()->GetComponent<MeshFilter>();
 	if (!filter || !filter->GetMesh()) return;
 
 	DirectX::XMFLOAT3 min, max;

@@ -90,10 +90,10 @@ void CollisionManager::ResolveCollision(const CollisionInfo& info)
 {
 	if (!info.isColliding) return;
 
-	GameObject* objA = info.mine->GetGameObject();
+	GameObject* objA = info.mine->gameObject();
 	Rigidbody* rbA = objA->GetComponent<Rigidbody>();
 
-	GameObject* objB = info.other->GetGameObject();
+	GameObject* objB = info.other->gameObject();
 	Rigidbody* rbB = objB->GetComponent<Rigidbody>();
 
 	// 두 물체의 이동 가능 여부 판단

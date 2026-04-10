@@ -85,8 +85,8 @@ CollisionInfo CollisionHelper::SphereVsSphere(Collider* a, Collider* b)
 	SphereCollider* colA = static_cast<SphereCollider*>(a);
 	SphereCollider* colB = static_cast<SphereCollider*>(b);
 
-	float rA = colA->GetRadius() * colA->GetGameObject()->GetTransform()->GetScale().MaxElement();
-	float rB = colB->GetRadius() * colB->GetGameObject()->GetTransform()->GetScale().MaxElement();
+	float rA = colA->GetRadius() * colA->gameObject()->GetTransform()->GetScale().MaxElement();
+	float rB = colB->GetRadius() * colB->gameObject()->GetTransform()->GetScale().MaxElement();
 
 	Vector3 posA = colA->GetCenter();
 	Vector3 posB = colB->GetCenter();
@@ -158,7 +158,7 @@ CollisionInfo CollisionHelper::SphereVsBox(Collider* a, Collider* b)
 
 	Vector3 diff = center - closest;// 박스(B) -> 구(A) 방향
 	float distance = diff.Length();
-	float r = sphere->GetRadius() * sphere->GetGameObject()->GetTransform()->GetScale().MaxElement();
+	float r = sphere->GetRadius() * sphere->gameObject()->GetTransform()->GetScale().MaxElement();
 
 	if (distance <= r)
 	{

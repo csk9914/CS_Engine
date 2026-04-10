@@ -13,7 +13,7 @@ using namespace DirectX;
 
 void EditorCameraScript::Start()
 {
-    m_obj = GetGameObject();
+    m_obj = gameObject();
     m_transform = m_obj->GetTransform();
     m_cam = m_obj->GetComponent<Camera>();
 }

@@ -35,7 +35,7 @@ void Camera::OnDisable()
 
 void Camera::UpdateMatrix(float aspect)
 {
-    Transform* tr = GetGameObject()->GetTransform();
+    Transform* tr = gameObject()->GetTransform();
     Vector3 pos = tr->GetPosition();
     Vector3 rot = tr->GetRotation();
 

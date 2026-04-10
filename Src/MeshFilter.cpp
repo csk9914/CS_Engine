@@ -11,7 +11,7 @@ void MeshFilter::SetMesh(Mesh* mesh)
 { 
 	m_mesh = mesh; 
 
-	auto col = GetGameObject()->GetComponent<Collider>();
+	auto col = gameObject()->GetComponent<Collider>();
 	if (col)
 	{
 		col->AutoFit();

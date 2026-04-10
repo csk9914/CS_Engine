@@ -46,7 +46,7 @@ void MeshRenderer::Render()
     if (!m_initialized) return;
 
     // 1. MeshFilter 컴포넌트 가져오기
-    auto* filter = GetGameObject()->GetComponent<MeshFilter>();
+    auto* filter = gameObject()->GetComponent<MeshFilter>();
     if (!filter || !filter->GetMesh()) 
         return; // 그릴 메쉬가 없으면 리턴
     Mesh* mesh = filter->GetMesh();
@@ -64,7 +64,7 @@ void MeshRenderer::Render()
        
     // ── Constant Buffer 업데이트 ────────────────────────────────────
     CBMatrix cbm;
-    cbm.World = XMMatrixTranspose(GetGameObject()->GetTransform()->GetWorldMatrix());
+    cbm.World = XMMatrixTranspose(gameObject()->GetTransform()->GetWorldMatrix());
     cbm.View = XMMatrixTranspose(view);
     cbm.Projection = XMMatrixTranspose(proj);
 

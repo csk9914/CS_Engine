@@ -62,6 +62,18 @@ void GameObject::Start()
 	}
 }
 
+void GameObject::FixedUpdate(float deltaTime)
+{
+	for (auto& comp : m_components)
+	{
+		// 활성화된 컴포넌트만 Update() 호출
+		if (comp->m_enabled)
+		{
+			comp->FixedUpdate(deltaTime);
+		}
+	}
+}
+
 void GameObject::Update(float deltaTime)
 {
 	if (!GetActive()) return;

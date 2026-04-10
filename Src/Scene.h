@@ -51,7 +51,7 @@ public:
 
 private:
     std::vector<std::unique_ptr<GameObject>> m_gameObjects;
-    std::vector<Rigidbody*>                  m_rigids;
+    std::vector<Rigidbody*>                  m_fixed;
 
     CSQueue<Component*>  m_compAwakeQueue;
     CSQueue<GameObject*> m_awakeQueue;

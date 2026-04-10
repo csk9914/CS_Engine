@@ -23,6 +23,13 @@ public:
 	void SetUseGravity(bool use) { m_useGravity = use; }
 	void SetVelocity(const Vector3& vel) { m_velocity = vel; }
 
+	// 회전력 추가 함수
+	void AddTorque(const Vector3& torque) { m_torqueSum += torque; }
+
+	// 각속도 제어
+	void SetAngularVelocity(const Vector3& angVel) { m_angularVelocity = angVel; }
+	Vector3 GetAngularVelocity() const { return m_angularVelocity; }
+
 	bool IsKinematic() const { return m_isKinematic; }
 	Vector3  GetVelocity() const { return m_velocity; }
 
@@ -34,7 +41,7 @@ private:
 
 	// 물리 속성
 	float m_mass = 1.0f;					// 질량 (F=ma)
-	float m_drag = 0.1f;					// 공기 저항 (속도를 줄임)
+	float m_drag = 5.0f;					// 공기 저항 (속도를 줄임)
 	float m_angularDrag = 0.05f;			// 회전 저항 
 
 	// 상태 제어
@@ -44,6 +51,9 @@ private:
 	bool m_freezeRotationY = false;
 	bool m_freezeRotationZ = false;
 
+	// 회전 관련 변수 추가
+	Vector3 m_angularVelocity = {};      // 현재 회전 속도 (도/s 또는 라디안/s)
+	Vector3 m_torqueSum = {};            // 누적된 회전력(Torque)
 
 	static inline Vector3 s_gravity = { 0.0f, -9.8f, 0.0f };
 };

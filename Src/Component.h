@@ -16,6 +16,7 @@ public:
 public:
 	virtual void Awake() {}   // 생성 직후
 	virtual void Start() {}   // 첫 업데이트 전
+	virtual void FixedUpdate(float dt) {}
 	virtual void Update(float dt) {}
 	virtual void LateUpdate(float dt) {}
 	virtual void OnEnable() {}
@@ -31,8 +32,8 @@ public:
 	bool IsEnabled() const { return m_enabled; }
 
 public:
-	GameObject* GetGameObject() { return m_gameObject; }
-	const GameObject* GetGameObject() const { return m_gameObject; }
+	GameObject* gameObject() { return m_gameObject; }
+	const GameObject* gameObject() const { return m_gameObject; }
 
 private:
 	bool m_enabled;

@@ -470,12 +470,12 @@ void ProjectPanel::CreateNewScript(const fs::path& parent, const std::string& na
 		std::string cmd = "cmd.exe /c cd /d \"" + projectRoot.string() + "\" && cmake -S . -B build";
 
 		WinExec(cmd.c_str(), SW_HIDE);
-		std::cout << "루트 폴더에서 setup.bat 실행!: " << projectRoot.string() << std::endl;
+		std::cout << "업데이트다요! " << projectRoot.string() << std::endl;
 	}
 	else
 	{
 		// 만약 못 찾으면 어디를 찔렀는지 출력 (디버깅용)
-		std::cout << "setup.bat 못 찾음. 시도 경로: " << setupBatPath.string() << std::endl;
+		std::cout << "없다요... " << setupBatPath.string() << std::endl;
 	}
 
 
@@ -508,12 +508,12 @@ void ProjectPanel::DeleteAsset(const fs::path& path)
 		std::string cmd = "cmd.exe /c cd /d \"" + projectRoot.string() + "\" && cmake -S . -B build";
 
 		WinExec(cmd.c_str(), SW_HIDE);
-		std::cout << "루트 폴더에서 setup.bat 실행!: " << projectRoot.string() << std::endl;
+		std::cout << "업데이트다요! " << projectRoot.string() << std::endl;
 	}
 	else
 	{
 		// 만약 못 찾으면 어디를 찔렀는지 출력 (디버깅용)
-		std::cout << "setup.bat 못 찾음. 시도 경로: " << setupBatPath.string() << std::endl;
+		std::cout << "업다요 ㅠㅠ" << setupBatPath.string() << std::endl;
 	}
 
 	m_dirty = true;
