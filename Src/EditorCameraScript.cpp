@@ -99,3 +99,4 @@ void EditorCameraScript::Update(float deltaTime)
         cam->UpdateMatrix(aspect);
     }
 }
+

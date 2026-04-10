@@ -2,6 +2,9 @@
 
 #include "imgui/imgui.h"
 
+#include "ComponentRegistry.h"
+#include "GameObject.h"
+
 void Transform::AddPosition(Vector3 addPos)
 {
 	m_position += addPos;
@@ -51,3 +54,5 @@ void Transform::OnEditorGUI()
 	ImGui::DragFloat3("##scl", &m_scale.x, 0.1f, 0.001f, 1000.f);
 
 }
+
+REGISTER_COMPONENT(Transform, "Core")

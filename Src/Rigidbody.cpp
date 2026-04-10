@@ -3,6 +3,8 @@
 #include "GameObject.h"
 #include "Scene.h"
 
+#include "ComponentRegistry.h"
+
 void Rigidbody::AddForce(Vector3 force)
 {
 	// 힘을 누적
@@ -92,3 +94,5 @@ void Rigidbody::OnEditorGUI()
 	}
 
 }
+
+REGISTER_COMPONENT(Rigidbody, "Rigidbody")

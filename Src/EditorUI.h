@@ -1,11 +1,13 @@
 #pragma once
+#define NOMINMAX
+#include <Windows.h>
 #include <vector>
 #include <string>
-#include <Windows.h>
 #include <d3d11.h>
 #include <memory>
 #include "imgui/imgui.h"
 #include "EditorWindow.h"
+
 
 class GameApp;
 class Scene;

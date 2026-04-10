@@ -1,10 +1,11 @@
 #pragma once
 #include "Component.h"
+#include <string>
 
 class MonoBehaviour : public Component
 {
 public:
-    MonoBehaviour() {}
+    MonoBehaviour(std::string name = "MonoBehaviour") : Component(name) {}
     virtual ~MonoBehaviour() {}
 
     virtual void Awake() {}

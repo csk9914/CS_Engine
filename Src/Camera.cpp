@@ -11,6 +11,8 @@
 #include "DX11Renderer.h"
 #include "EditorUI.h"
 
+#include "ComponentRegistry.h"
+
 using namespace DirectX;
 
 Camera::Camera(const std::string& name) : Component(name) {}
@@ -103,3 +105,5 @@ void Camera::OnEditorGUI()
     ImGui::DragFloat("Rot Speed", &m_rotateSpeed, 0.5f, 1.f, 180.f);
     ImGui::DragFloat("Zoom Speed", &m_zoomSpeed, 0.5f, 1.f, 100.f);
 }
+
+REGISTER_COMPONENT(Camera, "Core")

@@ -11,6 +11,8 @@
 
 #include "imgui/imgui.h"
 
+#include "ComponentRegistry.h"
+
 using namespace DirectX;
 
 MeshRenderer::MeshRenderer(const std::string& name) : Component(name)
@@ -145,3 +147,5 @@ void MeshRenderer::OnEditorGUI()
 
     if (ImGui::ColorEdit4("Color", col)) SetColor(col[0], col[1], col[2], col[3]);
 }
+
+REGISTER_COMPONENT(MeshRenderer, "Mesh")

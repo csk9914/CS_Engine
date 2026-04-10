@@ -4,6 +4,8 @@
 
 #include "MeshFilter.h"
 
+#include "ComponentRegistry.h"
+
 BoxCollider::~BoxCollider() {}
 
 void BoxCollider::OnEditorGUI()
@@ -50,3 +52,6 @@ Vector3 BoxCollider::GetMax()
 	// (중심) + (크기 * 스케일 * 0.5)
 	return center + Vector3(m_size.x * scale.x, m_size.y * scale.y, m_size.z * scale.z) * 0.5f;
 }
+
+
+REGISTER_COMPONENT(BoxCollider, "Physics")

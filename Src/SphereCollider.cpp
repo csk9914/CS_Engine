@@ -2,6 +2,9 @@
 #include "EditorUI.h"
 #include "MeshFilter.h"
 #include "GameObject.h"
+
+#include "ComponentRegistry.h"
+
 void SphereCollider::AutoFit()
 {
     auto filter = GetGameObject()->GetComponent<MeshFilter>();
@@ -26,3 +29,5 @@ void SphereCollider::OnEditorGUI()
 
 	EditorUI::LabeledDragFloat("Radius", &m_radius);
 }
+
+REGISTER_COMPONENT(SphereCollider, "Physics")

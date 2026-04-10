@@ -4,6 +4,9 @@
 
 #include "Collider.h"
 #include "GameObject.h"
+
+#include "ComponentRegistry.h"
+
 void MeshFilter::SetMesh(Mesh* mesh) 
 { 
 	m_mesh = mesh; 
@@ -56,3 +59,5 @@ void MeshFilter::OnEditorGUI()
 		SetMesh(nullptr);
 	}
 }
+
+REGISTER_COMPONENT(MeshFilter, "Mesh")

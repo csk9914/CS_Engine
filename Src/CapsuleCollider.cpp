@@ -3,6 +3,8 @@
 #include "MeshFilter.h"
 #include "GameObject.h"
 
+#include "ComponentRegistry.h"
+
 void CapsuleCollider::AutoFit()
 {
 	auto filter = GetGameObject()->GetComponent<MeshFilter>();
@@ -48,4 +50,4 @@ void CapsuleCollider::GetSegment(Vector3& outTop, Vector3& outBottom)
 
 }
 
-
+REGISTER_COMPONENT(CapsuleCollider, "Physics")

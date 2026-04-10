@@ -4,8 +4,10 @@
 #include "Camera.h"
 #include "MeshRenderer.h"
 #include "RenderPipeline.h"
+
 #include "GameView.h"
 #include "SceneView.h"
+#include "ProjectPanel.h"
 #include "Gizmo.h"
 
 #include "Scene.h"
@@ -24,6 +26,10 @@
 #include "GameApp.h"
 
 #include "DX11Renderer.h"
+
+#include "ComponentRegistry.h"
+#include <map>
+
 EditorUI::EditorUI()
 {
 }
@@ -72,9 +78,12 @@ bool EditorUI::Init(HWND hWnd, DX11Renderer* renderer)
 	m_gizmo = std::make_unique<Gizmo>();
 	m_gizmo->Init();
 
+	std::string assetsRoot = "./Assets";
+
 	// EditorWindow 등록 (SceneView가 Gizmo 렌더를 담당)
 	m_windows.push_back(std::make_unique<SceneView>(this, renderer));
 	m_windows.push_back(std::make_unique<GameView>(this, renderer));
+	m_windows.push_back(std::make_unique<ProjectPanel>(this, renderer, assetsRoot));
 
 	for (auto& w : m_windows)
 		w->Init();
@@ -174,56 +183,46 @@ void EditorUI::DrawAddComponentButton()
 	ImGui::Separator();
 	ImGui::Spacing();
 
-	// 버튼을 가로로 꽉 채우기
 	if (ImGui::Button("Add Component", ImVec2(-1.f, 30.f)))
 	{
 		ImGui::OpenPopup("AddComponentPopup");
 	}
 
-	// 버튼 바로 아래에 팝업창 생성
 	if (ImGui::BeginPopup("AddComponentPopup"))
 	{
-		ImGui::TextDisabled("Components");
+		ImGui::TextDisabled("Search Components..."); // 나중에 검색 기능 넣기 좋음
 		ImGui::Separator();
 
-		// 이미 가지고 있는 컴포넌트 처리 없음
+		// 1. 카테고리별로 그룹화 (Map 사용)
+		// key: 카테고리 이름, value: 해당 카테고리에 속한 메타 데이터 포인터들
+		std::map<std::string, std::vector<const ComponentMeta*>> categorized;
 
-		if (ImGui::Selectable("Camera"))
+		auto& allComponents = ComponentRegistry::GetList();
+		for (const auto& meta : allComponents)
 		{
-			if (!m_selected->GetComponent<Camera>())
-				m_selected->AddComponent<Camera>();
+			categorized[meta.category].push_back(&meta);
 		}
 
-		if (ImGui::Selectable("Mesh Filter"))
+		// 2. 맵을 순회하며 메뉴 구성
+		for (auto& pair : categorized)
 		{
-			if (!m_selected->GetComponent<MeshFilter>())
-				m_selected->AddComponent<MeshFilter>();
+			const std::string& categoryName = pair.first;
+			const auto& componentList = pair.second;
+
+			// 카테고리 이름으로 서브 메뉴 생성
+			if (ImGui::BeginMenu(categoryName.c_str()))
+			{
+				for (const auto* meta : componentList)
+				{
+					if (ImGui::Selectable(meta->name.c_str()))
+					{
+						meta->createFunc(m_selected);
+						ImGui::CloseCurrentPopup();
+					}
+				}
+				ImGui::EndMenu();
+			}
 		}
-
-		if (ImGui::Selectable("Mesh Renderer"))
-		{
-			if (!m_selected->GetComponent<MeshRenderer>())
-				m_selected->AddComponent<MeshRenderer>();
-		}
-
-		if (ImGui::Selectable("Rigidbody"))
-		{
-			if (!m_selected->GetComponent<Rigidbody>())
-				m_selected->AddComponent<Rigidbody>();
-		}
-
-		if (ImGui::BeginMenu("Physics")) // 서브 메뉴 구성 가능
-		{
-			if (ImGui::Selectable("Box Collider"))
-				m_selected->AddComponent<BoxCollider>();
-			if (ImGui::Selectable("Sphere Collider"))
-				m_selected->AddComponent<SphereCollider>();
-			if (ImGui::Selectable("Capsule Collider"))
-				m_selected->AddComponent<CapsuleCollider>();
-
-			ImGui::EndMenu();
-		}
-
 		ImGui::EndPopup();
 	}
 }
