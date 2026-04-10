@@ -23,8 +23,8 @@ struct Vector3
 	Vector3& operator-=(const Vector3& o) { x -= o.x; y -= o.y; z -= o.z; return *this; }
 	Vector3& operator*=(float s) { x *= s;y *= s;z *= s;return *this; }
 
-	float Length() const { return std::sqrt(LengthSqrt()); }
-	float LengthSqrt() const { return (x * x + y * y + z * z); }
+	float Length() const { return std::sqrt(LengthSquared()); }
+	float LengthSquared() const { return (x * x + y * y + z * z); }
 
 	Vector3 Normalized() const
 	{

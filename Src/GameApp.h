@@ -28,7 +28,7 @@ public:
 	void SetFirstScene(std::unique_ptr<Scene> scene);
 
 	virtual bool IsPlay() const override { return m_isPlay; }
-	void SetIsPlay(bool play) { m_isPlay = play; }
+	void SetIsPlay(bool play);
 
 protected:
 	AppConfig m_appConfig = {};

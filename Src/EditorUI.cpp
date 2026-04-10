@@ -116,9 +116,7 @@ void EditorUI::BeginFrame()
 	m_gizmo->BeginFrame();
 }
 
-void EditorUI::Draw(GameApp* gameApp,
-	ID3D11ShaderResourceView* sceneSRV,
-	ID3D11ShaderResourceView* gameSRV)
+void EditorUI::Draw(GameApp* gameApp, ID3D11ShaderResourceView* sceneSRV, ID3D11ShaderResourceView* gameSRV)
 {
 	DrawMenuBar();
 	if (m_dockingEnabled) DrawMainDockSpace();

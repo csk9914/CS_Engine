@@ -2,21 +2,6 @@
 #include "Component.h"
 #include "Vector3.h"
 
-
-/*
-IsTrigger 처리: 
-info.isColliding이 true라도, 한쪽이 IsTrigger라면 
-ResolveCollision(밀어내기)을 호출하지 않고 OnTriggerEnter 이벤트만 발생시켜야 합니다.
-
-Slop (여유값): 
-아주 미세하게 겹쳤을 때는 밀어내지 않아야 
-파르르 떨리는 진동(Jittering)이 없습니다. 보통 0.01f 정도의 여유를 둡니다.
-
-Static vs Dynamic: 
-Rigidbody가 없는 콜라이더는 유니티에서 'Static Collider'로 취급됩니다. 
-이들은 절대 밀려나지 않으며, 벽이나 바닥 역할을 합니다.
-*/
-
 enum class ColliderType 
 { 
 	Box, 

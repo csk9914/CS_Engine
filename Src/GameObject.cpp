@@ -120,7 +120,7 @@ GameObject* GameObject::CreatePrimitive(PrimitiveType type)
 	{
 	case PrimitiveType::Plane:
 		obj->AddComponent<BoxCollider>()->AutoFit();
-		obj->GetComponent<BoxCollider>()->SetSize(obj->GetComponent<BoxCollider>()->GetSize() + Vector3{0, 5, 0});
+		obj->GetComponent<BoxCollider>()->SetSize(obj->GetComponent<BoxCollider>()->GetSize() + Vector3{0, 0.1f, 0});
 		break;
 	case PrimitiveType::Cube:
 		obj->AddComponent<BoxCollider>()->AutoFit();

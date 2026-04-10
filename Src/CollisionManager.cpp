@@ -90,38 +90,60 @@ void CollisionManager::ResolveCollision(const CollisionInfo& info)
 {
 	if (!info.isColliding) return;
 
-
-
 	GameObject* objA = info.mine->GetGameObject();
 	Rigidbody* rbA = objA->GetComponent<Rigidbody>();
 
 	GameObject* objB = info.other->GetGameObject();
 	Rigidbody* rbB = objB->GetComponent<Rigidbody>();
 
-	//콘솔창에 이름 출력!
-	std::cout << "BOOM! " << objA->GetName() << " hit " << objB->GetName() << std::endl;
-
-
-	// 둘 다 Rigidbody가 없거나, 둘 다 IsKinematic이면 밀어내지 않음
+	// 두 물체의 이동 가능 여부 판단
 	bool canMoveA = (rbA && !rbA->IsKinematic());
 	bool canMoveB = (rbB && !rbB->IsKinematic());
 
 	if (!canMoveA && !canMoveB) return;
 
-	// 1. 위치 보정 (Position Correction)
-	// 겹친 깊이(penetration)만큼 법선 방향(normal)으로 밀어냄
-	if (canMoveA && !canMoveB) // A만 물리 적용 중
+	// --- 1. 위치 보정 (Position Correction) ---
+	// 겹친 만큼 즉시 밀어내어 충돌 상태를 해소합니다.
+	if (canMoveA && !canMoveB)
 	{
 		CorrectOverlap(objA, info.normal * -info.penetration);
 	}
-	else if (!canMoveA && canMoveB) //B만 물리 적용
+	else if (!canMoveA && canMoveB)
 	{
 		CorrectOverlap(objB, info.normal * info.penetration);
 	}
-	else if (canMoveA && canMoveB)	// 둘 다 적용
+	else if (canMoveA && canMoveB)
 	{
+		// 둘 다 움직일 수 있다면 절반씩 밀어냅니다.
 		CorrectOverlap(objA, info.normal * -info.penetration * 0.5f);
 		CorrectOverlap(objB, info.normal * info.penetration * 0.5f);
+	}
+
+	// --- 2. 속도 보정 (Velocity Resolution) ---
+	// 위치를 옮겨도 속도가 그대로면 다음 프레임에 다시 충돌체 안으로 파고듭니다.
+	// 충돌 법선(Normal) 방향의 속도 성분을 제거해야 합니다.
+
+	if (canMoveA)
+	{
+		Vector3 velA = rbA->GetVelocity();
+		// info.normal이 A에서 B를 향한다고 가정할 때, 
+		// A 입장에서 법선 방향으로 진행 중(Dot > 0)이라면 그 성분만큼 빼줍니다.
+		float dot = Vector3::Dot(velA, info.normal);
+		if (dot > 0.0f)
+		{
+			rbA->SetVelocity(velA - info.normal * dot);
+		}
+	}
+
+	if (canMoveB)
+	{
+		Vector3 velB = rbB->GetVelocity();
+		// B 입장에서는 법선 반대 방향으로 진행 중(Dot < 0)일 때 충돌 중인 것입니다.
+		float dot = Vector3::Dot(velB, info.normal);
+		if (dot < 0.0f)
+		{
+			rbB->SetVelocity(velB - info.normal * dot);
+		}
 	}
 }
 

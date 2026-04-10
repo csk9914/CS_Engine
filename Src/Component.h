@@ -28,6 +28,7 @@ public:
 
 public:
 	void SetEnabled(bool enabled);
+	bool IsEnabled() const { return m_enabled; }
 
 public:
 	GameObject* GetGameObject() { return m_gameObject; }

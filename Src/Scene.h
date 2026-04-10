@@ -16,39 +16,44 @@ class Rigidbody;
 class Scene : public IState
 {
 public:
-	virtual ~Scene();
-	virtual void Update(float deltaTime) override;
+    virtual ~Scene();
+    virtual void Update(float deltaTime) override;
 
-	virtual void OnEnter() override;
-	virtual void OnExit() override;
-	virtual std::string GetStateID() const override { return "GameScene"; }
+    virtual void OnEnter() override;
+    virtual void OnExit()  override;
+    virtual std::string GetStateID() const override { return "Scene"; }
 
-	void ProcessCompAwake();
-	void ProcessAwake();
-	void ProcessStart();
-	void ProcessFixedUpdate(float deltaTime);
-	void ProcessUpdate(float deltaTime);
-	void ProcessDestroy();
+    // 프레임 단계별 처리
+    void ProcessAwake();
+    void ProcessStart();
+    void ProcessFixedUpdate(float deltaTime);   // 물리/충돌 — Play 중에만
+    void ProcessUpdate(float deltaTime);
+    void ProcessDestroy();
 
-	// 씬에 게임오브젝트 추가
-	GameObject* CreateGameObject(const std::string& name = "GameObject");
+    // 오브젝트 생성 
+    GameObject* CreateGameObject(const std::string& name = "GameObject");
 
-	// 오브젝트 접근
-	const std::vector<std::unique_ptr<GameObject>>& GetGameObjects() const { return m_gameObjects; }
+    const std::vector<std::unique_ptr<GameObject>>& GetGameObjects() const
+    {
+        return m_gameObjects;
+    }
 
-	void RegisterForRigidbody(Rigidbody* rigid);
-	void UnRegisterForRigidbody(Rigidbody* rigid);
+    //Rigidbody 등록 
+    void RegisterForRigidbody(Rigidbody* rigid);
+    void UnRegisterForRigidbody(Rigidbody* rigid);
 
+    // Play 상태 
+    bool IsPlaying() const;
 
-	bool IsPlaying() const;
+    // Play 시작/정지 시 Scene이 직접 처리
+    void OnPlayStart();
+    void OnPlayStop();
 
 private:
-	std::vector<std::unique_ptr<GameObject>> m_gameObjects;
-	std::vector<Rigidbody*> m_rigids;
+    std::vector<std::unique_ptr<GameObject>> m_gameObjects;
+    std::vector<Rigidbody*>                  m_rigids;
 
-	CSQueue<Component*> m_compAwakeQueue;
-	CSQueue<GameObject*> m_awakeQueue;
-	CSQueue<GameObject*> m_startQueue;
-
-
+    CSQueue<Component*>  m_compAwakeQueue;
+    CSQueue<GameObject*> m_awakeQueue;
+    CSQueue<GameObject*> m_startQueue;
 };

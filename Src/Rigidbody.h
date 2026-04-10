@@ -24,6 +24,7 @@ public:
 	void SetVelocity(const Vector3& vel) { m_velocity = vel; }
 
 	bool IsKinematic() const { return m_isKinematic; }
+	Vector3  GetVelocity() const { return m_velocity; }
 
 private:
 	// 운동 관련 변수

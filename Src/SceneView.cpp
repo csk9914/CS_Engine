@@ -59,6 +59,10 @@ void SceneView::OnGUI()
 {
     ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0, 0));
     ImGui::Begin("Scene View");
+
+    m_editorUI->SetSceneViewHovered(ImGui::IsWindowHovered(ImGuiHoveredFlags_AllowWhenBlockedByPopup | ImGuiHoveredFlags_RootWindow));
+    m_editorUI->SetSceneViewFocused(ImGui::IsWindowFocused());
+    
     ImGui::PopStyleVar();
 
     ImVec2 pos  = ImGui::GetCursorScreenPos();
@@ -66,6 +70,8 @@ void SceneView::OnGUI()
 
     // SceneView 위치/크기를 EditorUI에 저장 (Ray cast, Gizmo 에임 보정용)
     m_editorUI->SetSceneViewPos(pos);
+
+    //m_sceneSize = size; // 클래스 멤버에 저장하거나 EditorUI에 전달
     m_editorUI->SetSceneViewSize(size);
 
     // RTT 결과물 출력

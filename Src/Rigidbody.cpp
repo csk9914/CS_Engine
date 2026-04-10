@@ -8,7 +8,7 @@
 void Rigidbody::AddForce(Vector3 force)
 {
 	// 힘을 누적
-	m_velocity += force;
+	m_forceSum += force;
 }
 
 void Rigidbody::OnEnable()
@@ -44,14 +44,13 @@ void Rigidbody::FixedUpdate(float dt)
 	// 가속도 계산 (F = ma ->  a= F/m)
 	m_acceleration = m_forceSum / m_mass;
 
+	// 속도 계산
 	m_velocity += m_acceleration * dt;
 
-	// 공기 저항 적용
-	// 속도에 비례하여 감속
-	m_velocity = m_velocity * (1.0f - m_drag * dt);
+	// 공기 저항 
+	m_velocity *=  (1.0f - m_drag * dt);
 
 	// 실제 위치 반영
-	// 속도가 미세하면 움직이지 않게 처리(floating point error 방지)
 	if (m_velocity.Length() > 0.001f)
 	{
 		GetGameObject()->GetTransform()->AddPosition(m_velocity * dt);
